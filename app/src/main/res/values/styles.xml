@@ -6,8 +6,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorToolbar</item>
-        <item name="colorPrimaryDark">@color/colorToolbar</item>
+        <item name="colorPrimaryDark">#c2ff0000</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
 </resources>

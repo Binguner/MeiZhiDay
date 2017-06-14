@@ -3,15 +3,24 @@ package com.example.nenguou.meizhiday;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.nenguou.meizhiday.Bean.MeiZHI;
@@ -34,8 +43,12 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     CollapsingToolbarLayout collapsingToolbarLayout;
+    private DrawerLayout mydrawerlayout;
     private SwipeRefreshLayout my_swipeRefreshLayout;
-    private GridLayoutManager my_staggeredGridLayoutManager;
+    private NavigationView navigationView_test;
+    private Toolbar myToolbar;
+    //private GridLayoutManager my_staggeredGridLayoutManager;
+    private StaggeredGridLayoutManager my_staggeredGridLayoutManager;
     private RecyclerView my_recyclerView;
     private int count = 2;
     private int lastVisibleItem ;
@@ -43,13 +56,14 @@ public class MainActivity extends AppCompatActivity {
     private String content;
     private MeiZhiAdapter meiZhiAdapter;
     private ImageButton imageButtonhaha;
+    private ImageView menu_24;
     //private int FLAGSS = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         initId();
         setToolbar();
         initViews();
@@ -58,39 +72,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
     private void initViews() {
        // my_staggeredGridLayoutManager = new GridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        my_staggeredGridLayoutManager = new GridLayoutManager(MainActivity.this,2,GridLayoutManager.VERTICAL,false);
-        my_recyclerView.setLayoutManager(my_staggeredGridLayoutManager);
+        mydrawerlayout = (DrawerLayout) findViewById(R.id.mydrawerlayout);
+        menu_24 = (ImageView) findViewById(R.id.menu_24);
+        myToolbar = (Toolbar) findViewById(R.id.myToolbar);
+
+        my_staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+
+        //my_staggeredGridLayoutManager.setGapStrategy(2);
         meiZhiAdapter = new MeiZhiAdapter(this,main_meizhis);
         my_recyclerView.setAdapter(meiZhiAdapter);
         //my_recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+
+        //单击 menu 弹出侧滑菜单
+
+
+        //设置 item 间隔
         SpacesItemDecoration spacesItemDecoration = new SpacesItemDecoration(16);
         my_recyclerView.addItemDecoration(spacesItemDecoration);
+
+
+
         my_swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimary,R.color.colorWhite,R.color.colorYello,R.color.colorPrimary);
-        my_recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE
-                        && lastVisibleItem +2>=my_staggeredGridLayoutManager.getItemCount()) {
 
-                    new getData(MainActivity.this,0).execute("http://gank.io/api/data/福利/10/"+count);
-                    count++;
-                }
-            }
+        //处理 item 乱动
+        my_staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        my_recyclerView.setLayoutManager(my_staggeredGridLayoutManager);
+        my_recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(),1));
+        my_recyclerView.setPadding(0,0,0,0);
 
+        //item 点击事件
+       /* meiZhiAdapter.setOnItemClickListener(new MeiZhiAdapter.onItemClickListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-              //  int[] positions= my_staggeredGridLayoutManager.findLastVisibleItemPositions(null);
-              //  lastVisibleItem =Math.max(positions[0],positions[1]);//根据StaggeredGridLayoutManager设置的列数来定
-                lastVisibleItem = my_staggeredGridLayoutManager.findLastVisibleItemPosition();
-            }
-        });
-        meiZhiAdapter.setOnItemClickListener(new MeiZhiAdapter.onItemClickListener() {
-            @Override
-            public void onItemClick(View view, int postion) {
+            public void x(View view, int postion) {
                 Toast.makeText(MainActivity.this,main_meizhis.get(postion).roString(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this,Pics.class);
                 Bundle bundle = new Bundle();
@@ -98,39 +115,102 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
-        });
+        });*/
 
+       //加载数据
+        new getData(MainActivity.this, 0).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1");
     }
 
     private void setToolbar() {
         collapsingToolbarLayout.setTitle("Meizhi");
         collapsingToolbarLayout.setExpandedTitleMarginBottom(40);
         collapsingToolbarLayout.setExpandedTitleMarginStart(80);
-        collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorPink));
-        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorWhite));
+        collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorWhite));
+        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorPink));
+
     }
 
     private void initId() {
+        navigationView_test = (NavigationView) findViewById(R.id.navigationView_test);
         imageButtonhaha = (ImageButton) findViewById(R.id.iv);
         my_recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         my_swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.my_swipe_refresh_layout);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.myCollapsingToolbarLayout);
     }
 
-    private int times = 0;
+
+    //private int times = 0;
     private void setListener() {
         my_swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if(times ==0) {
-                    new getData(MainActivity.this, 0).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1");
-                    times++;
-                }else {
+                //if(times ==0) {
+                   // Log.i("timessss",times+"2");
+                  //  new getData(MainActivity.this, 0).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1");
+                   // times++;
+              //  }else {
+                  //  Log.i("timessss",times+"2");
                     new getData(MainActivity.this, 1).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1");
-                }
+               // }
             }
         });
 
+        my_recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                //my_staggeredGridLayoutManager.invalidateSpanAssignments();
+                super.onScrollStateChanged(recyclerView, newState);
+                Log.i("counttt",count+" ");
+                if (newState == RecyclerView.SCROLL_STATE_IDLE
+                        && lastVisibleItem +2>=my_staggeredGridLayoutManager.getItemCount()&&my_staggeredGridLayoutManager.getItemCount()>2) {
+                    new getData(MainActivity.this,0).execute("http://gank.io/api/data/福利/10/"+(count++));
+
+                }
+
+                my_staggeredGridLayoutManager.invalidateSpanAssignments();
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int[] positions= my_staggeredGridLayoutManager.findLastVisibleItemPositions(null);
+                lastVisibleItem =Math.max(positions[0],positions[1]);//根据StaggeredGridLayoutManager设置的列数来定
+                //lastVisibleItem = my_staggeredGridLayoutManager.findLastVisibleItemPosition();
+            }
+        });
+        //menu 点击事件
+        menu_24.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(MainActivity.this,"shit",Toast.LENGTH_SHORT).show();
+                mydrawerlayout.openDrawer(Gravity.LEFT);
+            }
+        });
+        navigationView_test.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                String msg = "";
+                switch(menuItem.getItemId()){
+                    case R.id.Android:
+                        msg +="Android";
+                        break;
+                    case R.id.IOS:
+                        msg +="IOS";
+                        break;
+                    case R.id.qianduan:
+                        msg +="前端";
+                        break;
+                    default:
+                        break;
+                }
+                if(!"".equals(msg)){
+                    Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                }
+                mydrawerlayout.closeDrawer(Gravity.LEFT);
+
+                return true;
+            }
+        });
     }
 
     private class getData extends AsyncTask<String,Void,List<MeiZHI>>{
@@ -154,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected List<MeiZHI> doInBackground(String... params) {
+
             OkHttpClient okHttpClient = new OkHttpClient();
             Request request = new Request
                     .Builder()
@@ -189,9 +270,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (RuntimeException e) {
                     e.printStackTrace();
                 }
-                //Log.i("haha",meizhis.get(0).toString());
-                //Log.i("haha",jsonData.toString());
-                Log.i("hahaha",meizhis.get(1).url.toString());
+                    Log.i("hahaha",meizhis.get(0).roString());
             }
 
             return meizhis;
@@ -202,16 +281,35 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(meiZHIS);
             switch (Flags){
                 case 0:
-                    main_meizhis.addAll(meiZHIS);
-                    context.meiZhiAdapter.notifyDataSetChanged();
+                    main_meizhis.addAll(meizhis);
+                    //context.meiZhiAdapter.notifyDataSetChanged();
+                    context.meiZhiAdapter.notifyItemInserted(main_meizhis.size());
                     context.my_swipeRefreshLayout.setRefreshing(false);
                     break;
                 case 1:
                   /*  main_meizhis.addAll(meiZHIS);
                     context.meiZhiAdapter.notifyDataSetChanged();*/
                     context.my_swipeRefreshLayout.setRefreshing(false);
+                    Toast.makeText(MainActivity.this,"No more datas",Toast.LENGTH_SHORT).show();
                     break;
             }
+            meiZhiAdapter.setOnItemClickListener(new MeiZhiAdapter.onItemClickListener() {
+                @Override
+                public void onItemClick(View view) {
+                    int postion = my_recyclerView.getChildAdapterPosition(view);
+                    Intent intent = new Intent(MainActivity.this,Pics.class);
+                    Bundle bundle = new Bundle();
+                    Log.i("ueluel",main_meizhis.get(postion).roString());
+                    bundle.putString("url",main_meizhis.get(postion).roString());
+                    intent.putExtras(bundle);
+                    Toast.makeText(MainActivity.this,"第"+postion+"个",Toast.LENGTH_SHORT).show();
+                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view,(int)view.getWidth()/2,(int)view.getHeight()/2,0,0);
+                    ActivityCompat.startActivity(MainActivity.this,intent,compat.toBundle());
+
+                }
+
+
+            });
 
 
    /*         if(FLAGSS == 1){

@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context="com.example.nenguou.meizhiday.Pics">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="保存"
+        android:onClick="DownloadPics"
+        android:background="@drawable/save_button_bg"
+        android:textColor="@color/colorWhite"
+        android:layout_marginBottom="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        />
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:onClick="backToMainAty"
         android:id="@+id/meizhi_Pic"/>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

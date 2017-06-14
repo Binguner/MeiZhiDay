@@ -1,70 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mydrawerlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.nenguou.meizhiday.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
+
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:fitsSystemWindows="true"
-        android:layout_height="226dp">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/myCollapsingToolbarLayout"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="@color/colorToolbar"
-            app:statusBarScrim="@android:color/transparent"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
+            android:layout_height="226dp"
+            android:fitsSystemWindows="true">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/myCollapsingToolbarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/bg1"
-                app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.7" />
+                app:contentScrim="@color/colorToolbar"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:statusBarScrim="@android:color/transparent">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/myToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/bg2"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.7" />
 
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.CollapsingToolbarLayout>
+                <android.support.v7.widget.Toolbar
 
-    </android.support.design.widget.AppBarLayout>
+                    android:id="@+id/myToolbar"
+                    android:layout_width="match_parent"
+                    app:layout_collapseMode="pin"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    android:padding="0dp">
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:id="@+id/my_swipe_refresh_layout"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.RecyclerView
+                        <ImageButton
+                            android:background="#005a675a"
+                            android:id="@+id/menu_24"
+                            android:clickable="true"
+                            android:paddingStart="-30dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_width="50dp"
+                            android:layout_height="40dp"
+                            android:src="@mipmap/menu_24"/>
+
+
+
+                </android.support.v7.widget.Toolbar>
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_marginTop="5dp"
+            android:id="@+id/my_swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:id="@+id/my_recycler_view"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+
+                android:id="@+id/my_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
 
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
-    <!--<android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <TextView
+        <!--<android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复" />
-    </android.support.v4.widget.NestedScrollView>
--->
-</android.support.design.widget.CoordinatorLayout>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复找人大会覅欧萨黑底还是是的覅速滑队覅哦呢斯蒂芬斯蒂芬你是你的福利你是对方四大护法i拉萨好地方i哈士大夫i哈史蒂夫是的回复i士大夫i哈士大夫是的回复i四大护法i士大夫i哈史蒂夫hi说的话fish的覅和上帝会i士大夫i还是地方还i啊师傅i乐山大佛i啥的覅汉顺帝发hi四大护法i士大夫i士大夫i啥地方杀毒防护i啊老是发idh是丢回复i撒旦回复i是的回复" />
+        </android.support.v4.widget.NestedScrollView>
+    -->
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigationView_test"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/colorWhite"
+        app:headerLayout="@layout/header_layout"
+        app:itemIconTint="#FFFFFF"
+        app:menu="@menu/menu_main" />
+
+</android.support.v4.widget.DrawerLayout>

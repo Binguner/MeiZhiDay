@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import com.bumptech.glide.Glide;
 import com.example.nenguou.meizhiday.Bean.MeiZHI;
 import com.example.nenguou.meizhiday.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -23,16 +23,19 @@ public class MeiZhiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private ArrayList<MeiZHI> meiZHIS;
     private onItemClickListener my_onItemClickListener= null;
 
+    public void setOnItemClickListener(onItemClickListener my_onItemClickListener){
+        this.my_onItemClickListener = my_onItemClickListener;
+    }
+
     @Override
     public void onClick(View view) {
         if(my_onItemClickListener != null){
-            //注意这里使用getTag方法获取position
-            my_onItemClickListener.onItemClick(view, (Integer) view.getTag());
+            my_onItemClickListener.onItemClick(view);
         }
     }
 
     public static interface onItemClickListener{
-        void onItemClick(View view,int postion);
+        void onItemClick(View view);
     }
 
 
@@ -44,8 +47,6 @@ public class MeiZhiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-
-
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.grid_layout, viewGroup, false);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         view.setOnClickListener(this);
@@ -53,19 +54,21 @@ public class MeiZhiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return myViewHolder;
     }
 
-    public void setOnItemClickListener(onItemClickListener my_onItemClickListener){
-        this.my_onItemClickListener = my_onItemClickListener;
-    }
+
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        try {
-            Glide.with(context).load(meiZHIS.get(i).url).into(((MyViewHolder)viewHolder).imageButton);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //将position保存在imageButton的Tag中，以便点击时进行获取
-        ((MyViewHolder) viewHolder).imageButton.setTag(i);
+    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int i) {
+
+            /*Glide.with(context).load(meiZHIS.get(i).url)
+                    .centerCrop()
+                    .into(((MyViewHolder)viewHolder).imageButton)
+                    .getSize((width,height)->{
+                        if(!((MyViewHolder) viewHolder).imageButton.isShown()){
+                            ((MyViewHolder) viewHolder).imageButton.setVisibility(View.VISIBLE);
+                        }
+                    });*/
+            Picasso.with(context).load(meiZHIS.get(i).url).placeholder(R.mipmap.placeholder).error(R.mipmap.placeholder).into(((MyViewHolder) viewHolder).imageButton);
+
     }
 
     @Override
