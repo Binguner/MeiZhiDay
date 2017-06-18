@@ -9,16 +9,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.nenguou.meizhiday.Services.DownLoadImageService;
 
 import java.io.File;
 
+import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 public class Pics extends AppCompatActivity {
 
-    private ImageView meizhi_Pic;
+    private PhotoView meizhi_Pic;
     private String url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,14 @@ public class Pics extends AppCompatActivity {
         bundle = this.getIntent().getExtras();
         url = bundle.getString("url");
         Glide.with(this).load(url).into(meizhi_Pic);
+
+        meizhi_Pic.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+            @Override
+            public void onPhotoTap(View view, float v, float v1) {
+                backToMainAty(view);
+            }
+        });
+
     }
 
     Handler handler = new Handler(){
@@ -79,12 +90,11 @@ public class Pics extends AppCompatActivity {
     }
 
     private void initId() {
-        meizhi_Pic = (ImageView) findViewById(R.id.meizhi_Pic);
+        meizhi_Pic = (PhotoView) findViewById(R.id.meizhi_Pic);
     }
 
     public void backToMainAty(View view) {
         onBackPressed();
-
     }
 
     @Override

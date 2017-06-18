@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.example.nenguou.meizhiday.Bean.MeiZHI;
 import com.example.nenguou.meizhiday.R;
@@ -80,10 +80,10 @@ public class MeiZhiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     class MyViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageButton imageButton;
+        private ImageView imageButton;
         public MyViewHolder(View itemView) {
             super(itemView);
-            imageButton = (ImageButton) itemView.findViewById(R.id.iv);
+            imageButton = (ImageView) itemView.findViewById(R.id.iv);
         }
     }
 }

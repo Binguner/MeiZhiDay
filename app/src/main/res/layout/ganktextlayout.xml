@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:onClick="horizontal"
+    >
+
+    <TextView
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*"/>
+    <TextView
+        android:id="@+id/GankTitle"
+        android:layout_marginLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TitleTitleTitleTitleTitelTitelTitleTitleTitleTitleTitelTitel"
+        android:maxWidth="250dp"
+        android:lines="1"/>
+
+    <TextView
+        android:id="@+id/GankAuthor"
+        android:layout_marginLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Who"
+        android:textColor="@color/colorGray"/>
+
+</LinearLayout>

@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.nenguou.meizhiday.Bean.MeiZHI;
 import com.example.nenguou.meizhiday.adapter.MeiZhiAdapter;
+import com.example.nenguou.meizhiday.network.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -65,13 +66,68 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         initId();
+        initViews();    //initViews()在前头，解决了刚进入后 title 位置的问题
         setToolbar();
-        initViews();
-        setListener();
+        setClickListener();
+
+        if (!Utils.isNetworkAvailable(MainActivity.this))
+        {
+            Toast.makeText(MainActivity.this,"请检查网络",Toast.LENGTH_SHORT).show();
+        }else {
+            firstLoad();
+            setRefreshListener();
+        }
+
+
+
+
+
 
     }
 
+    private void setClickListener() {
+        //menu 点击事件
+        menu_24.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(MainActivity.this,"shit",Toast.LENGTH_SHORT).show();
+                mydrawerlayout.openDrawer(Gravity.LEFT);
+            }
+        });
+        navigationView_test.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                String msg = "";
+                switch(menuItem.getItemId()){
+                    case R.id.Android:
+                        msg +="Android";
+                        Intent intent = new Intent(MainActivity.this,GankAty.class);
+                        startActivity(intent);
 
+                        break;
+                    case R.id.IOS:
+                        msg +="IOS";
+                        break;
+                    case R.id.qianduan:
+                        msg +="前端";
+                        break;
+                    default:
+                        break;
+                }
+                if(!"".equals(msg)){
+                    Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                }
+                mydrawerlayout.closeDrawer(Gravity.LEFT);
+
+                return true;
+            }
+        });
+    }
+
+    private void firstLoad() {
+        //加载数据
+        new getData(MainActivity.this, 0).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1");
+    }
 
 
     private void initViews() {
@@ -85,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
         //my_staggeredGridLayoutManager.setGapStrategy(2);
         meiZhiAdapter = new MeiZhiAdapter(this,main_meizhis);
         my_recyclerView.setAdapter(meiZhiAdapter);
+        my_recyclerView.setHasFixedSize(true);
         //my_recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
 
         //单击 menu 弹出侧滑菜单
@@ -117,12 +174,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
-       //加载数据
-        new getData(MainActivity.this, 0).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1");
+
     }
 
     private void setToolbar() {
+        setSupportActionBar(myToolbar);
         collapsingToolbarLayout.setTitle("Meizhi");
+        collapsingToolbarLayout.setCollapsedTitleGravity(Gravity.LEFT);   //收缩后标题的位置
+
+        //collapsingToolbarLayout.setExpandedTitleGravity(Gravity.LEFT);  //设置展开后标题的位置
         collapsingToolbarLayout.setExpandedTitleMarginBottom(40);
         collapsingToolbarLayout.setExpandedTitleMarginStart(80);
         collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorWhite));
@@ -132,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initId() {
         navigationView_test = (NavigationView) findViewById(R.id.navigationView_test);
-        imageButtonhaha = (ImageButton) findViewById(R.id.iv);
+        imageButtonhaha = (ImageButton) findViewById(R.id.menu_24);
         my_recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         my_swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.my_swipe_refresh_layout);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.myCollapsingToolbarLayout);
@@ -140,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //private int times = 0;
-    private void setListener() {
+    private void setRefreshListener() {
         my_swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -178,39 +238,8 @@ public class MainActivity extends AppCompatActivity {
                 //lastVisibleItem = my_staggeredGridLayoutManager.findLastVisibleItemPosition();
             }
         });
-        //menu 点击事件
-        menu_24.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Toast.makeText(MainActivity.this,"shit",Toast.LENGTH_SHORT).show();
-                mydrawerlayout.openDrawer(Gravity.LEFT);
-            }
-        });
-        navigationView_test.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                String msg = "";
-                switch(menuItem.getItemId()){
-                    case R.id.Android:
-                        msg +="Android";
-                        break;
-                    case R.id.IOS:
-                        msg +="IOS";
-                        break;
-                    case R.id.qianduan:
-                        msg +="前端";
-                        break;
-                    default:
-                        break;
-                }
-                if(!"".equals(msg)){
-                    Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
-                }
-                mydrawerlayout.closeDrawer(Gravity.LEFT);
 
-                return true;
-            }
-        });
+
     }
 
     private class getData extends AsyncTask<String,Void,List<MeiZHI>>{
@@ -270,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (RuntimeException e) {
                     e.printStackTrace();
                 }
-                    Log.i("hahaha",meizhis.get(0).roString());
+                  //  Log.i("hahaha",meizhis.get(0).roString());
             }
 
             return meizhis;
