@@ -25,6 +25,7 @@ public class GankAty extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme_main);
         setContentView(R.layout.activity_gank_aty);
         initId();
     }

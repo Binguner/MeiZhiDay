@@ -1,9 +1,12 @@
 package com.example.nenguou.meizhiday.Fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 import com.example.nenguou.meizhiday.Bean.Gank;
 import com.example.nenguou.meizhiday.GetDatas.GankOkhttp;
 import com.example.nenguou.meizhiday.GetDatas.GetGankDatas;
+import com.example.nenguou.meizhiday.GithubPageActivity;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.adapter.GankAppAdapter;
 import com.google.gson.Gson;
@@ -180,8 +184,15 @@ public class appRecommendFragment extends Fragment {
             @Override
             public void onItemClick(View view) {
                 int position = AllRecyclerView.getChildAdapterPosition(view);
-                Log.i("sadasd","第"+position+"个");
+                Intent intent = new Intent(getContext(), GithubPageActivity.class);
+                Bundle bundle = new Bundle();
+                //Log.i("ueueue",main_ganks.get(position).url);
+                bundle.putString("url",main_ganks.get(position).url);
+                bundle.putString("title",main_ganks.get(position).desc);
+                intent.putExtras(bundle);
                 Toast.makeText(getContext(),"第"+position+"个",Toast.LENGTH_SHORT).show();
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view,(int)view.getWidth()/2,(int)view.getHeight()/2,0,0);
+                ActivityCompat.startActivity(getContext(),intent,compat.toBundle());
             }
         });
         }
