@@ -1,9 +1,12 @@
 package com.example.nenguou.meizhiday.Fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.nenguou.meizhiday.Bean.Gank;
 import com.example.nenguou.meizhiday.GetDatas.GankOkhttp;
+import com.example.nenguou.meizhiday.GithubPageActivity;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.adapter.Android_iOS_Adapter;
 import com.google.gson.Gson;
@@ -92,7 +96,7 @@ public class AndroidFragment extends Fragment {
         android_iOS_adapter = new Android_iOS_Adapter(R.layout.card_layout_android_ios,main_ganks,getContext());
         android_ios_recyclerview.setAdapter(android_iOS_adapter);
         android_iOS_adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-        android_iOS_adapter.isFirstOnly(false);
+        android_iOS_adapter.isFirstOnly(true);
     }
 
     private void FirstLoadDatas() {
@@ -174,7 +178,6 @@ public class AndroidFragment extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             return datas;
         }
 
@@ -199,6 +202,20 @@ public class AndroidFragment extends Fragment {
                 Toast.makeText(getContext(),"No more datas",Toast.LENGTH_SHORT).show();
                 android_ios_swipe_refresh_layout.setRefreshing(false);
             }
+            android_iOS_adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                    Toast.makeText(getContext(),"第"+i+"个",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), GithubPageActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("url",main_ganks.get(i).url);
+                    bundle.putString("title",main_ganks.get(i).desc);
+                    intent.putExtras(bundle);
+                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view,(int)view.getWidth()/2,(int)view.getHeight()/2,0,0);
+                    ActivityCompat.startActivity(getContext(),intent,compat.toBundle());
+                }
+            });
+
         }
     }
 }

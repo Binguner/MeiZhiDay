@@ -106,11 +106,8 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
 
                         break;
-                    case R.id.IOS:
-                        msg +="IOS";
-                        break;
-                    case R.id.qianduan:
-                        msg +="前端";
+                    case R.id.About:
+                        msg +="关于";
                         break;
                     default:
                         break;

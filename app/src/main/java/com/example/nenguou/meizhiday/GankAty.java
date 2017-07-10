@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.example.nenguou.meizhiday.Fragments.appRecommendFragment;
 import com.example.nenguou.meizhiday.Fragments.AndroidFragment;
@@ -19,8 +21,9 @@ public class GankAty extends AppCompatActivity {
 
     private SlidingTabLayout gankTab;
     private ArrayList<Fragment> fragments = new ArrayList<>();
-    private String[] Titles ={"Android","IOS","App推荐","休息视频"};
+    private String[] Titles ={"Android","iOS","App推荐","前端"};
     private MyPageAdapter myPageAdapter;
+    private ImageView gank_back;
     private ViewPager view_pager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class GankAty extends AppCompatActivity {
     }
 
     private void initId() {
+        gank_back = (ImageView) findViewById(R.id.gank_back);
         view_pager = (ViewPager) findViewById(R.id.view_pager);
         gankTab = (SlidingTabLayout) findViewById(R.id.gankTab);
         initViews();
@@ -47,6 +51,13 @@ public class GankAty extends AppCompatActivity {
         view_pager.setAdapter(myPageAdapter);
         view_pager.setOffscreenPageLimit(4);
         gankTab.setViewPager(view_pager);
+
+        gank_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
     }
 

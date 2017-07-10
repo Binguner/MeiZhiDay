@@ -26,6 +26,7 @@ public class Pics extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme_main);
         setContentView(R.layout.activity_pics);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         initId();

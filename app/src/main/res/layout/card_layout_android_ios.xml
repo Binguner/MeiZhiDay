@@ -27,7 +27,7 @@
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/stars"
             android:id="@+id/android_ios_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="这是标题这是标题这是标题这是标题这是标题这是标题这是标题"
             android:lines="1"
@@ -42,12 +42,13 @@
             android:layout_height="wrap_content"
             android:text="这是作者"/>
         <TextView
+            android:layout_alignEnd="@+id/android_ios_title"
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:textColor="@color/colorGray"
             android:layout_height="wrap_content"
             android:id="@+id/android_ios_time"
-            android:layout_toRightOf="@+id/android_ios_who"
+
             android:layout_below="@id/android_ios_title"
             android:text="这是日期这是日期这是日期"/>
         <ImageView
