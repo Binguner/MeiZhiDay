@@ -15,11 +15,14 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+
     <style name="AppTheme.github" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimaryDark">#01405b</item>
         <item name="android:windowTranslucentStatus">false</item>
     </style>
+
+
 
 </resources>

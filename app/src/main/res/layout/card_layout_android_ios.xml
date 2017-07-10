@@ -5,7 +5,8 @@
     android:layout_marginRight="10dp"
     android:layout_width="match_parent"
     android:layout_marginTop="10dp"
-    android:background="@color/colorPink"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
     app:elevation="8dp"
     app:cardCornerRadius="5dp"
     android:layout_height="wrap_content">

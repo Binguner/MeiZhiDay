@@ -24,9 +24,6 @@
                 android:layout_height="match_parent"
                 app:contentScrim="@color/colorToolbar"
                 app:expandedTitleMarginEnd="64dp"
-
-
-
                 app:expandedTitleMarginStart="48dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:statusBarScrim="@android:color/transparent">
@@ -42,23 +39,19 @@
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/myToolbar"
                     android:layout_width="match_parent"
-                    app:layout_collapseMode="pin"
                     android:layout_height="?attr/actionBarSize"
-                    app:layout_scrollFlags="scroll|enterAlways"
-                  >
+                    app:layout_collapseMode="pin"
+                    app:layout_scrollFlags="scroll|enterAlways">
 
-
-                        <ImageButton
-                            android:background="#005a675a"
-                            android:id="@+id/menu_24"
-                            android:clickable="true"
-                            android:paddingStart="-30dp"
-                            android:layout_marginLeft="1dp"
-                            android:layout_width="50dp"
-                            android:layout_height="40dp"
-                            android:src="@mipmap/menu_24"/>
-
-
+                    <ImageButton
+                        android:id="@+id/menu_24"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:background="#005a675a"
+                        android:clickable="true"
+                        android:paddingStart="-30dp"
+                        android:src="@mipmap/menu_24" />
 
                 </android.support.v7.widget.Toolbar>
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -67,14 +60,13 @@
 
 
         <android.support.v4.widget.SwipeRefreshLayout
-            android:layout_marginTop="5dp"
             android:id="@+id/my_swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <android.support.v7.widget.RecyclerView
-
                 android:id="@+id/my_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

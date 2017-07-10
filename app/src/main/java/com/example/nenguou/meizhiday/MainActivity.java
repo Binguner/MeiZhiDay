@@ -11,7 +11,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -78,14 +77,9 @@ public class MainActivity extends AppCompatActivity {
             firstLoad();
             setRefreshListener();
         }
-
-
-
-
-
-
     }
 
+    //设置各种点击事件
     private void setClickListener() {
         //menu 点击事件
         menu_24.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
                 mydrawerlayout.openDrawer(Gravity.LEFT);
             }
         });
+
+        //侧边栏的点击事件
         navigationView_test.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -122,12 +118,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //打开应用第一次加载数据
     private void firstLoad() {
-        //加载数据
         new getData(MainActivity.this, 0).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1");
     }
 
-
+    //初始化页面
     private void initViews() {
        // my_staggeredGridLayoutManager = new GridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         mydrawerlayout = (DrawerLayout) findViewById(R.id.mydrawerlayout);
@@ -146,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //设置 item 间隔
-        SpacesItemDecoration spacesItemDecoration = new SpacesItemDecoration(16);
+        SpacesItemDecoration spacesItemDecoration = new SpacesItemDecoration(8);
         my_recyclerView.addItemDecoration(spacesItemDecoration);
 
 
@@ -156,22 +152,8 @@ public class MainActivity extends AppCompatActivity {
         //处理 item 乱动
         my_staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         my_recyclerView.setLayoutManager(my_staggeredGridLayoutManager);
-        my_recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(),1));
-        my_recyclerView.setPadding(0,0,0,0);
-
-        //item 点击事件
-       /* meiZhiAdapter.setOnItemClickListener(new MeiZhiAdapter.onItemClickListener() {
-            @Override
-            public void x(View view, int postion) {
-                Toast.makeText(MainActivity.this,main_meizhis.get(postion).roString(),Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this,Pics.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("url",main_meizhis.get(postion).roString());
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });*/
-
+        //my_recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(),1));
+        //my_recyclerView.setPadding(0,0,0,0);
 
     }
 
@@ -179,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         collapsingToolbarLayout.setTitle("Meizhi");
         collapsingToolbarLayout.setCollapsedTitleGravity(Gravity.LEFT);   //收缩后标题的位置
-
         //collapsingToolbarLayout.setExpandedTitleGravity(Gravity.LEFT);  //设置展开后标题的位置
         collapsingToolbarLayout.setExpandedTitleMarginBottom(40);
         collapsingToolbarLayout.setExpandedTitleMarginStart(80);
