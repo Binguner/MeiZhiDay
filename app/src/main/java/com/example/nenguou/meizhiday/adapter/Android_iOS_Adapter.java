@@ -1,6 +1,7 @@
 package com.example.nenguou.meizhiday.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -43,7 +44,7 @@ public class Android_iOS_Adapter extends BaseQuickAdapter<Gank,Android_iOS_Adapt
      //   }
                // .linkify(R.layout.card_layout_android_ios);超链
       try {
-          Picasso.with(context).load(ganks.get(postion).images[0]).fit().into(myViewHolder.android_ios_piscs);
+          Picasso.with(context).load(ganks.get(postion).images[0]).config(Bitmap.Config.RGB_565).fit().into(myViewHolder.android_ios_piscs);
          // Glide.with(context).load(ganks.get(postion).images[0]).into(myViewHolder.android_ios_piscs);
       }catch (NullPointerException e){
           e.printStackTrace();

@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
     //打开应用第一次加载数据
     private void firstLoad() {
-        new getData(MainActivity.this, 0).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1");
+        new getData(MainActivity.this, 0).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/20/1");
     }
 
     //初始化页面
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("counttt",count+" ");
                 if (newState == RecyclerView.SCROLL_STATE_IDLE
                         && lastVisibleItem +2>=my_staggeredGridLayoutManager.getItemCount()&&my_staggeredGridLayoutManager.getItemCount()>2) {
-                    new getData(MainActivity.this,0).execute("http://gank.io/api/data/福利/10/"+(count++));
+                    new getData(MainActivity.this,0).execute("http://gank.io/api/data/福利/20/"+(count++));
 
                 }
 

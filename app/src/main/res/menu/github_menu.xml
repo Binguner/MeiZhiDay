@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/github_copy_the_link"
+        android:title="复制链接"
+        app:showAsAction="never"/>
+    <item android:id="@+id/github_open_in_brosher"
+        android:title="从浏览器中打开"
+        app:showAsAction="never"/>
+</menu>

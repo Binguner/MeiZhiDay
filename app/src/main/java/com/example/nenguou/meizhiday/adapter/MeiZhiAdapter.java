@@ -50,7 +50,6 @@ public class MeiZhiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.grid_layout, viewGroup, false);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         view.setOnClickListener(this);
-
         return myViewHolder;
     }
 
@@ -68,15 +67,12 @@ public class MeiZhiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                     });*/
             Picasso.with(context).load(meiZHIS.get(i).url).placeholder(R.mipmap.placeholder).error(R.mipmap.placeholder).into(((MyViewHolder) viewHolder).imageButton);
-
     }
 
     @Override
     public int getItemCount() {
         return meiZHIS.size();
     }
-
-
 
     class MyViewHolder extends RecyclerView.ViewHolder{
 
