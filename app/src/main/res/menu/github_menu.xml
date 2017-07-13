@@ -7,4 +7,7 @@
     <item android:id="@+id/github_open_in_brosher"
         android:title="从浏览器中打开"
         app:showAsAction="never"/>
+    <item android:id="@+id/github_share"
+        android:title="分享"
+        app:showAsAction="never"/>
 </menu>

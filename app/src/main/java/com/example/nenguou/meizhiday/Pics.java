@@ -90,6 +90,11 @@ public class Pics extends AppCompatActivity {
         new Thread(service).start();
     }
 
+    public void SharePics(View view){
+        Toast.makeText(Pics.this,"Share",Toast.LENGTH_SHORT).show();
+        //String path
+    }
+
     private void initId() {
         meizhi_Pic = (PhotoView) findViewById(R.id.meizhi_Pic);
     }

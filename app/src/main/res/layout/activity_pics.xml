@@ -4,10 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#80000000"
+    android:background="#000000"
     tools:context="com.example.nenguou.meizhiday.Pics">
 
+
     <Button
+        android:id="@+id/pics_share"
+        android:layout_toLeftOf="@+id/pics_download"
+        android:layout_marginRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="分享"
+        android:onClick="SharePics"
+        android:background="@drawable/save_button_bg"
+        android:textColor="@color/colorWhite"
+        android:layout_marginBottom="25dp"
+        android:layout_alignParentBottom="true"
+        />
+    <Button
+        android:id="@+id/pics_download"
+        android:layout_marginRight="20dp"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:text="保存"
@@ -18,6 +34,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         />
+
+
+
     <uk.co.senab.photoview.PhotoView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

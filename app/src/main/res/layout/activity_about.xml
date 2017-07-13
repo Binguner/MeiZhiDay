@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.nenguou.meizhiday.About">
+    <ImageView
+        android:id="@+id/dog1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/yhm"/>
+    <ImageView
+        android:id="@+id/dog2"
+        app:layout_constraintRight_toRightOf="@id/dog1"
+        android:layout_marginLeft="0dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/doggy"/>
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/doggy"/>
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/doggy"/>
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/doggy"/>
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/doggy"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -104,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.About:
                         msg +="关于";
+                        Intent intent1 = new Intent(MainActivity.this,About.class);
+                        startActivity(intent1);
                         break;
                     default:
                         break;
@@ -178,6 +180,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void Go_top(View view){
+     //    Toast.makeText(this,"ff",Toast.LENGTH_SHORT).show();
+        /*new Thread(new Runnable() {
+            @Override
+            public void run() {
+                my_recyclerView.smoothScrollToPosition(0);
+            }
+        }).start();*/
+    }
     //private int times = 0;
     private void setRefreshListener() {
         my_swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

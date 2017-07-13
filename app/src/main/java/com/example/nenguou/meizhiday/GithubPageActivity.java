@@ -1,5 +1,10 @@
 package com.example.nenguou.meizhiday;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -34,20 +39,35 @@ public class GithubPageActivity extends AppCompatActivity {
         setListener();
     }
 
+    //创建三个点的菜单
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.github_menu,menu);
         return true;
     }
 
+    //设置 menu 中的点击事件
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.github_copy_the_link:
-                Toast.makeText(GithubPageActivity.this,"link",Toast.LENGTH_SHORT).show();
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboardManager.setPrimaryClip(ClipData.newPlainText("github_url",url));
+                Toast.makeText(GithubPageActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.github_open_in_brosher:
-                Toast.makeText(GithubPageActivity.this,"brosher",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri uri = Uri.parse(url);
+                intent.setData(uri);
+                startActivity(intent);
+                break;
+            case R.id.github_share:
+                Intent intent1 = new Intent(Intent.ACTION_SEND);
+                intent1.setType("text/plain");
+                intent1.putExtra(Intent.EXTRA_TEXT,title+" "+url+" from 「啊」https://fir.im/aGank");
+                startActivity(Intent.createChooser(intent1,"分享"));
+                Toast.makeText(GithubPageActivity.this,"Share",Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -60,26 +80,9 @@ public class GithubPageActivity extends AppCompatActivity {
                 finish();
             }
         });
-        /*github_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(GithubPageActivity.this,"hh",Toast.LENGTH_SHORT).show();
-                openOptionsMenu();
-   *//*             new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(GithubPageActivity.this,"h",Toast.LENGTH_SHORT).show();
-                        Instrumentation instrumentation = new Instrumentation();
-                        instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
-                    }
-                }).start();*//*
-
-            }
-        });*/
     }
 
     private void initView() {
-      //  github_title.setMovementMethod(new ScrollingMovementMethod());
         github_title.setText(title);
     }
 
@@ -97,13 +100,14 @@ public class GithubPageActivity extends AppCompatActivity {
     }
 
     private void initId() {
-       // github_menu = (ImageView) findViewById(R.id.github_menu);
         gankgithubToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.gankgithubToolbar);
-      //  setActionBar(gankgithubToolbar);
+        //没这句TM不显示 menu 菜单啊啊啊啊啊啊啊啊啊啊啊
+        setSupportActionBar(gankgithubToolbar);
         github_title = (TextView) findViewById(R.id.github_title);
         app_recommend_webview = (WebView) findViewById(R.id.app_recommend_webview);
     }
 
+    //处理按下 back 的事物，优先返回 前一页，最后结束该 activity
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK && app_recommend_webview.canGoBack()){

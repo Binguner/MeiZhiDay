@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textSize="25dp"
+            android:onClick="Gank_go_top"
             android:text="干货"/>
     </Toolbar>
 

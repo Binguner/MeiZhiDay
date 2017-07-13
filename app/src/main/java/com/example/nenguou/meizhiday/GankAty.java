@@ -61,6 +61,10 @@ public class GankAty extends AppCompatActivity {
 
     }
 
+    public void Gank_go_top(View view){
+
+    }
+
     private class MyPageAdapter extends FragmentPagerAdapter{
 
         public MyPageAdapter(FragmentManager fm) {
