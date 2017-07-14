@@ -21,13 +21,15 @@ import java.util.concurrent.ExecutionException;
 public class DownLoadImageService implements Runnable {
 
     private String url;
+    private String title;
     private Context context;
     private ImageDownLoadCallBack imageDownLoadCallBack;
     private File currentFile;
 
-    public DownLoadImageService(Context context, String url, ImageDownLoadCallBack imageDownLoadCallBack) {
+    public DownLoadImageService(Context context, String url, String title,ImageDownLoadCallBack imageDownLoadCallBack) {
         this.context = context;
         this.url = url;
+        this.title = title;
         this.imageDownLoadCallBack = imageDownLoadCallBack;
     }
 
@@ -61,20 +63,18 @@ public class DownLoadImageService implements Runnable {
         //首先保存图片
         File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsoluteFile();
         String FileName = "MeiZhiPics";
-
         File appDir = new File(file,FileName);
         if(!appDir.exists()){
             appDir.mkdirs();
         }
-        String fileName = System.currentTimeMillis()+".jpg";
+        //String fileName = System.currentTimeMillis()+".jpg";
+        String fileName = title+"meizi.jpeg";
         currentFile = new File(appDir,fileName);
-
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(currentFile);
             bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos);
             fos.flush();
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }catch (IOException e) {
@@ -88,11 +88,8 @@ public class DownLoadImageService implements Runnable {
                 e.printStackTrace();
             }
         }
-
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(currentFile.getPath()))));
-
     }
-
 
     public interface ImageDownLoadCallBack {
         void onDownLoadSuccess(File file);

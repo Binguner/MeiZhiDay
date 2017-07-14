@@ -7,9 +7,9 @@ package com.example.nenguou.meizhiday.Bean;
 public class MeiZHI {
 
    /* public String _id;
-    public String createdAt;
+    public String createdAt;*/
     public String desc;
-    public String publishedAt;
+   /* public String publishedAt;
     public String source;
     public String type;
     public String used;

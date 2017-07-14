@@ -12,7 +12,7 @@
         android:id="@+id/pics_share"
         android:layout_toLeftOf="@+id/pics_download"
         android:layout_marginRight="20dp"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="35dp"
         android:text="分享"
         android:onClick="SharePics"
@@ -24,7 +24,7 @@
     <Button
         android:id="@+id/pics_download"
         android:layout_marginRight="20dp"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="35dp"
         android:text="保存"
         android:onClick="DownloadPics"

@@ -320,8 +320,10 @@ public class MainActivity extends AppCompatActivity {
                     Bundle bundle = new Bundle();
                     Log.i("ueluel",main_meizhis.get(postion).roString());
                     bundle.putString("url",main_meizhis.get(postion).roString());
+                    Log.i("fds",main_meizhis.get(postion).desc);
+                    bundle.putString("title",main_meizhis.get(postion).desc);
                     intent.putExtras(bundle);
-                    Toast.makeText(MainActivity.this,"第"+postion+"个",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this,"第"+postion+"个",Toast.LENGTH_SHORT).show();
                     ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view,(int)view.getWidth()/2,(int)view.getHeight()/2,0,0);
                     ActivityCompat.startActivity(MainActivity.this,intent,compat.toBundle());
 
