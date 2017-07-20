@@ -4,31 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/AppTheme.github"
     tools:context="com.example.nenguou.meizhiday.GankAty">
-    <Toolbar
+    <android.support.v7.widget.Toolbar
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="?attr/actionBarSize"
         android:id="@+id/gankToolbar"
-        android:background="@color/colorToolbar"
+        android:theme="@style/toolbar_style"
+        app:navigationIcon="@mipmap/back_24_white"
+        app:contentInsetStartWithNavigation="0dp"
+        android:background="?attr/colorPrimary"
         >
-        <ImageView
-            android:paddingRight="40dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/gank_back"
-            android:src="@mipmap/back_24_white"/>
+
         <TextView
+            android:id="@+id/gank_title"
             android:textColor="@color/colorWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:visibility="visible"
             android:textSize="25dp"
             android:onClick="Gank_go_top"
             android:text="干货"/>
-    </Toolbar>
+
+        <EditText
+            android:hint="搜索干货"
+            android:maxLines="1"
+
+            android:textColor="@color/colorGray"
+            android:lines="1"
+            android:id="@+id/gank_search_edittext"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/colorWhite"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </android.support.v7.widget.Toolbar>
+
 
     <com.flyco.tablayout.SlidingTabLayout
+
         android:id="@+id/gankTab"
         app:layout_constraintTop_toBottomOf="@+id/gankToolbar"
         android:fitsSystemWindows="true"

@@ -67,7 +67,7 @@ public class DownLoadImageService implements Runnable {
         if(!appDir.exists()){
             appDir.mkdirs();
         }
-        //String fileName = System.currentTimeMillis()+".jpg";
+        //String fileName = System.currentTimeMil3lis()+".jpg";
         String fileName = title+"meizi.jpeg";
         currentFile = new File(appDir,fileName);
         FileOutputStream fos = null;

@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme_main);
         setContentView(R.layout.activity_main);
+        askPermission();
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         initId();
         initViews();    //initViews()在前头，解决了刚进入后 title 位置的问题
@@ -78,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
             setRefreshListener();
         }
     }
+
+    private void askPermission() {
+        //PermissionUtils.requestPermission(this,PermissionUtils.CODE_READ_EXTERNAL_STORAGE,);
+    }
+    //private
 
     //设置各种点击事件
     private void setClickListener() {
@@ -122,7 +128,12 @@ public class MainActivity extends AppCompatActivity {
 
     //打开应用第一次加载数据
     private void firstLoad() {
-        new getData(MainActivity.this, 0).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/20/1");
+        try{
+            new getData(MainActivity.this, 0).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/20/1");
+        }catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(this,"请检查网络",Toast.LENGTH_SHORT).show();
+        }
     }
 
     //初始化页面
@@ -200,7 +211,12 @@ public class MainActivity extends AppCompatActivity {
                    // times++;
               //  }else {
                   //  Log.i("timessss",times+"2");
+                try {
                     new getData(MainActivity.this, 1).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1");
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this,"请检查网络",Toast.LENGTH_SHORT).show();
+                }
                // }
             }
         });
@@ -213,8 +229,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("counttt",count+" ");
                 if (newState == RecyclerView.SCROLL_STATE_IDLE
                         && lastVisibleItem +2>=my_staggeredGridLayoutManager.getItemCount()&&my_staggeredGridLayoutManager.getItemCount()>2) {
-                    new getData(MainActivity.this,0).execute("http://gank.io/api/data/福利/20/"+(count++));
-
+                    try {
+                        new getData(MainActivity.this,0).execute("http://gank.io/api/data/福利/20/"+(count++));
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        Toast.makeText(MainActivity.this,"请检查网络",Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 my_staggeredGridLayoutManager.invalidateSpanAssignments();
@@ -326,12 +346,8 @@ public class MainActivity extends AppCompatActivity {
                     //Toast.makeText(MainActivity.this,"第"+postion+"个",Toast.LENGTH_SHORT).show();
                     ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view,(int)view.getWidth()/2,(int)view.getHeight()/2,0,0);
                     ActivityCompat.startActivity(MainActivity.this,intent,compat.toBundle());
-
                 }
-
-
             });
-
 
    /*         if(FLAGSS == 1){
                 context.my_swipeRefreshLayout.setRefreshing(false);

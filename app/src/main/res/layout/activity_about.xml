@@ -9,7 +9,7 @@
         android:id="@+id/dog1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/yhm"/>
+        android:src="@mipmap/doggy"/>
     <ImageView
         android:id="@+id/dog2"
         app:layout_constraintRight_toRightOf="@id/dog1"
