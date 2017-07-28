@@ -6,52 +6,50 @@
     android:layout_height="match_parent"
     android:theme="@style/AppTheme.github"
     tools:context="com.example.nenguou.meizhiday.GankAty">
+
     <android.support.v7.widget.Toolbar
-        android:fitsSystemWindows="true"
+        android:id="@+id/gankToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:id="@+id/gankToolbar"
-        android:theme="@style/toolbar_style"
-        app:navigationIcon="@mipmap/back_24_white"
-        app:contentInsetStartWithNavigation="0dp"
         android:background="?attr/colorPrimary"
-        >
+        android:fitsSystemWindows="true"
+        android:theme="@style/toolbar_style"
+        app:contentInsetStartWithNavigation="0dp"
+        app:navigationIcon="@mipmap/back_24_white">
 
         <TextView
             android:id="@+id/gank_title"
-            android:textColor="@color/colorWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:visibility="visible"
-            android:textSize="25dp"
             android:onClick="Gank_go_top"
-            android:text="干货"/>
+            android:text="干货"
+            android:textColor="@color/colorWhite"
+            android:textSize="25dp"
+            android:visibility="visible" />
 
         <EditText
-            android:hint="搜索干货"
-            android:maxLines="1"
-
-            android:textColor="@color/colorGray"
-            android:lines="1"
             android:id="@+id/gank_search_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@color/colorWhite"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
+            android:hint="搜索干货"
+            android:imeOptions="actionSend"
+            android:lines="1"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/colorGray"
+            android:visibility="gone" />
     </android.support.v7.widget.Toolbar>
 
-
     <com.flyco.tablayout.SlidingTabLayout
-
         android:id="@+id/gankTab"
-        app:layout_constraintTop_toBottomOf="@+id/gankToolbar"
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/colorWhite"
+        android:fitsSystemWindows="true"
+        app:layout_constraintTop_toBottomOf="@+id/gankToolbar"
         app:tl_divider_color="@color/colorToolbar"
         app:tl_divider_padding="13dp"
         app:tl_divider_width="1dp"
@@ -64,17 +62,78 @@
         app:tl_textSelectColor="@color/colorToolbar"
         app:tl_textUnselectColor="#66000000"
         app:tl_underline_color="@color/colorToolbar"
-        app:tl_underline_height="1dp"
-        >
+        app:tl_underline_height="1dp">
 
     </com.flyco.tablayout.SlidingTabLayout>
+
     <android.support.v4.view.ViewPager
-        app:layout_constraintTop_toBottomOf="@+id/gankTab"
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorYello"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/gankTab" />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_margin="6dp"
+        android:id="@+id/chooseTypeLinnearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/gankToolbar">
+
+        <Button
+            android:id="@+id/search_all"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_choose_type_btn_bg"
+            android:text="所有" />
+
+        <Button
+            android:id="@+id/search_android"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_choose_type_btn_bg"
+            android:text="Android"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/search_iOS"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_choose_type_btn_bg"
+            android:text="iOS"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/search_front"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_choose_type_btn_bg"
+            android:text="前端" />
+
+        <Button
+            android:id="@+id/search_app"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/chooseTypeLinnearLayout"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_choose_type_btn_bg"
+            android:text="App 推荐"
+            android:textAllCaps="false" />
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>

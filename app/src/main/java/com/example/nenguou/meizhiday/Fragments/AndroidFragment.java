@@ -152,7 +152,7 @@ public class AndroidFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private class GetAndroidDates extends AsyncTask<String,Void,String>{
+    public class GetAndroidDates extends AsyncTask<String,Void,String>{
 
         private List<Gank> ganks;
         private String url;

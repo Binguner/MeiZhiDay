@@ -9,6 +9,10 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorTablayout">#ffee00</color>
     <color name="colorGray">#929292</color>
+    <color name="colorGrayLight">#cfc9c9</color>
     <color name="item_pressed">#c6000000</color>
+    <color name="colorBlack">#c6000000</color>
+    <color name="colorRed">#ff0808</color>
+    <color name="colorTransparent">#00ffffff</color>
 
 </resources>
