@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -29,10 +30,15 @@ import com.example.nenguou.meizhiday.Fragments.AndroidFragment;
 import com.example.nenguou.meizhiday.Fragments.IOSFragment;
 import com.example.nenguou.meizhiday.Fragments.VideoFragment;
 import com.example.nenguou.meizhiday.Fragments.appRecommendFragment;
+import com.example.nenguou.meizhiday.GetDatas.GankOkhttp;
+import com.example.nenguou.meizhiday.Utils.RxUtils;
 import com.flyco.tablayout.SlidingTabLayout;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.nenguou.meizhiday.Utils.RxUtils.getSetDatas;
 
 public class GankAty extends AppCompatActivity {
 
@@ -157,9 +163,12 @@ public class GankAty extends AppCompatActivity {
         return true;
     }
 
-    @Override
+    //搜索按钮功能
+ @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //1 是关闭
+        int BtnId = 0;
+        Button button = null;
         if (flag == 1) {
             chooseBtn(search_all);
             chooseTypeLinnearLayout.setVisibility(View.VISIBLE);
@@ -168,14 +177,59 @@ public class GankAty extends AppCompatActivity {
             gank_title.setVisibility(View.GONE);
             gank_search_edittext.setVisibility(View.VISIBLE);
             flag = 0;
-        }/*else {
-            gankTab.setVisibility(View.VISIBLE);
-            view_pager.setVisibility(View.VISIBLE);
-            gank_title.setVisibility(View.VISIBLE);
-            gank_search_edittext.setVisibility(View.GONE);
-            flag = 1;
-        }*/
-        return super.onOptionsItemSelected(item);
+        }
+     try {
+         Search();
+     } catch (IOException e) {
+         e.printStackTrace();
+     }
+     return super.onOptionsItemSelected(item);
+    }
+
+    private void Search() throws IOException {
+        if(search_all.isSelected()==true){
+            Toast.makeText(this,"all", Toast.LENGTH_SHORT).show();
+        }
+        if(search_android.isSelected() == true){
+            Toast.makeText(this,"Android", Toast.LENGTH_SHORT).show();
+           // RxUtils.getSetDatas("Android");
+            //String dadada = GankOkhttp.getDatas("http://gank.io/api/search/query/listview/category/Android/count/10/page/1");
+           // Log.d("shit",dadada);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String dadada = GankOkhttp.getDatas("http://gank.io/api/search/query/and/category/Android/count/10/page/1");
+                        //String dadada = GankOkhttp.getDatas("http://gank.io/api/data/Android/10/1");
+                        Log.d("shit",dadada);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
+               /*     thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String dadada = null;
+                    try {
+                        dadada = GankOkhttp.getDatas("http://gank.io/api/search/query/listview/category/Android/count/10/page/1");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.d("shit",dadada);
+                }
+            }).start();*/
+        }
+        if(search_iOS.isSelected()==true){
+            Toast.makeText(this,"iOS", Toast.LENGTH_SHORT).show();
+        }
+        if(search_front.isSelected()==true){
+            Toast.makeText(this,"front", Toast.LENGTH_SHORT).show();
+        }
+        if(search_app.isSelected()==true){
+            Toast.makeText(this,"app", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initViews() {
