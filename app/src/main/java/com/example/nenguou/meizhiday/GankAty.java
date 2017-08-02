@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nenguou.meizhiday.Bean.Gank;
+import com.example.nenguou.meizhiday.Bean.SearchBean;
 import com.example.nenguou.meizhiday.Fragments.AndroidFragment;
 import com.example.nenguou.meizhiday.Fragments.IOSFragment;
 import com.example.nenguou.meizhiday.Fragments.VideoFragment;
@@ -53,7 +54,7 @@ public class GankAty extends AppCompatActivity {
     private Button search_all, search_android, search_iOS, search_front, search_app;
     private LinearLayout chooseTypeLinnearLayout;
     private static int flag = 1;
-    private GetSearchUtils getSearchUtils;
+    private GetSearchUtils getSearchUtils = new GetSearchUtils(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,6 +192,8 @@ public class GankAty extends AppCompatActivity {
         if(search_all.isSelected()==true){
             Toast.makeText(this,"all", Toast.LENGTH_SHORT).show();
             getSearchUtils.GetSearchReasults();
+            //Log.d("caonima",searchBeans.get(0).getWho());
+            //Log.d("caonima",searchBeans.get(9).getWho());
         }
         if(search_android.isSelected() == true){
             Toast.makeText(this,"Android", Toast.LENGTH_SHORT).show();

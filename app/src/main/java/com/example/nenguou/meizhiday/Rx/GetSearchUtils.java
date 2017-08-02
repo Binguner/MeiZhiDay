@@ -1,5 +1,6 @@
 package com.example.nenguou.meizhiday.Rx;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.nenguou.meizhiday.Bean.SearchBean;
@@ -23,8 +24,11 @@ import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.internal.schedulers.SchedulerWhen;
 import rx.schedulers.Schedulers;
 
 /**
@@ -33,8 +37,14 @@ import rx.schedulers.Schedulers;
 
 public class GetSearchUtils {
 
+    private Context context;
+
     private static List<SearchBean> searchBeans = new ArrayList<>();
     private static Type type = new TypeToken<ArrayList<SearchBean>>(){}.getType();
+
+    public GetSearchUtils(Context context){
+        this.context = context;
+    }
 
     static Gson gson = new GsonBuilder()
             .create();
@@ -42,9 +52,9 @@ public class GetSearchUtils {
 
     static Retrofit retrofit = new Retrofit
             .Builder()
+            .baseUrl("http://gank.io/api/search/query/")
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl("http://gank.io/api/search/query/")
             .build();
 
     static SearchService searchService = retrofit.create(SearchService.class);
@@ -52,7 +62,7 @@ public class GetSearchUtils {
     public static void GetSearchReasults(){
         searchService.getAimType("listview", "Android")
                 .subscribeOn(Schedulers.io())
-                //.observeOn(mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ResponseBody>() {
                     @Override
                     public void onCompleted() {
@@ -74,6 +84,9 @@ public class GetSearchUtils {
                             searchBeans = gson.fromJson(jsonDatas, type);
                             Log.d("shit", searchBeans.get(0).getWho());
                             Log.d("shit", searchBeans.get(9).getWho());
+                            Log.d("shit", Thread.currentThread().getName().toString());
+
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
