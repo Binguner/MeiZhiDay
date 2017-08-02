@@ -5,16 +5,7 @@ import android.util.Log;
 
 import com.example.nenguou.meizhiday.GetDatas.GankOkhttp;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 import java.util.Observable;
 
@@ -23,7 +14,7 @@ import java.util.Observable;
  */
 
 public class RxUtils {
-    private Context context;
+    /*private Context context;
     private static String type = "Android";
     private static String datas = null;
     private static String url = "http://gank.io/api/search/query/listview/category/"+type+"/count/10/page/1";
@@ -58,5 +49,5 @@ public class RxUtils {
             }
         });
 
-    }
+    }*/
 }

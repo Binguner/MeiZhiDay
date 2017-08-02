@@ -31,6 +31,7 @@ import com.example.nenguou.meizhiday.Fragments.IOSFragment;
 import com.example.nenguou.meizhiday.Fragments.VideoFragment;
 import com.example.nenguou.meizhiday.Fragments.appRecommendFragment;
 import com.example.nenguou.meizhiday.GetDatas.GankOkhttp;
+import com.example.nenguou.meizhiday.Rx.GetSearchUtils;
 import com.example.nenguou.meizhiday.Utils.RxUtils;
 import com.flyco.tablayout.SlidingTabLayout;
 
@@ -38,7 +39,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.nenguou.meizhiday.Utils.RxUtils.getSetDatas;
 
 public class GankAty extends AppCompatActivity {
 
@@ -53,6 +53,7 @@ public class GankAty extends AppCompatActivity {
     private Button search_all, search_android, search_iOS, search_front, search_app;
     private LinearLayout chooseTypeLinnearLayout;
     private static int flag = 1;
+    private GetSearchUtils getSearchUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,7 +165,7 @@ public class GankAty extends AppCompatActivity {
     }
 
     //搜索按钮功能
- @Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //1 是关闭
         int BtnId = 0;
@@ -189,37 +190,10 @@ public class GankAty extends AppCompatActivity {
     private void Search() throws IOException {
         if(search_all.isSelected()==true){
             Toast.makeText(this,"all", Toast.LENGTH_SHORT).show();
+            getSearchUtils.GetSearchReasults();
         }
         if(search_android.isSelected() == true){
             Toast.makeText(this,"Android", Toast.LENGTH_SHORT).show();
-           // RxUtils.getSetDatas("Android");
-            //String dadada = GankOkhttp.getDatas("http://gank.io/api/search/query/listview/category/Android/count/10/page/1");
-           // Log.d("shit",dadada);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        String dadada = GankOkhttp.getDatas("http://gank.io/api/search/query/and/category/Android/count/10/page/1");
-                        //String dadada = GankOkhttp.getDatas("http://gank.io/api/data/Android/10/1");
-                        Log.d("shit",dadada);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-
-               /*     thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    String dadada = null;
-                    try {
-                        dadada = GankOkhttp.getDatas("http://gank.io/api/search/query/listview/category/Android/count/10/page/1");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Log.d("shit",dadada);
-                }
-            }).start();*/
         }
         if(search_iOS.isSelected()==true){
             Toast.makeText(this,"iOS", Toast.LENGTH_SHORT).show();
