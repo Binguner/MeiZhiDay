@@ -1,14 +1,20 @@
 package com.example.nenguou.meizhiday;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextPaint;
@@ -25,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.nenguou.meizhiday.Bean.Gank;
 import com.example.nenguou.meizhiday.Bean.SearchBean;
 import com.example.nenguou.meizhiday.Fragments.AndroidFragment;
@@ -34,6 +41,7 @@ import com.example.nenguou.meizhiday.Fragments.appRecommendFragment;
 import com.example.nenguou.meizhiday.GetDatas.GankOkhttp;
 import com.example.nenguou.meizhiday.Rx.GetSearchUtils;
 import com.example.nenguou.meizhiday.Utils.RxUtils;
+import com.example.nenguou.meizhiday.adapter.Search_results_Adapter;
 import com.flyco.tablayout.SlidingTabLayout;
 
 import java.io.IOException;
@@ -54,7 +62,18 @@ public class GankAty extends AppCompatActivity {
     private Button search_all, search_android, search_iOS, search_front, search_app;
     private LinearLayout chooseTypeLinnearLayout;
     private static int flag = 1;
-    private GetSearchUtils getSearchUtils = new GetSearchUtils(this);
+    private SwipeRefreshLayout search_swipeRefreshlayout;
+    private RecyclerView search_recyclerview;
+    private LinearLayoutManager linearLayoutManager;
+    public Search_results_Adapter search_results_adapter;
+    private int lastViewItem;
+
+    public List<SearchBean> mainSearchBeans = new ArrayList<>();
+
+    private String searchingwhat = null;
+
+    private GetSearchUtils getSearchUtils = null/*new GetSearchUtils(this,search_results_adapter)*/;
+    private int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +81,77 @@ public class GankAty extends AppCompatActivity {
         setTheme(R.style.AppTheme_github);
         setContentView(R.layout.activity_gank_aty);
         initId();
+        setRecyclerView();
         setListener();
         setButtonClick();
     }
 
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what == 1){
+                search_swipeRefreshlayout.setRefreshing(true);
+            }if(msg.what == 0){
+                Log.d("thresdas",Thread.currentThread().getName());
+                search_results_adapter.DeleteAllBeans();
+                search_results_adapter.no
+            }
+        }
+    };
+
+    @SuppressLint("ResourceAsColor")
+    private void setRecyclerView() {
+        linearLayoutManager = new LinearLayoutManager(this);
+        search_recyclerview.setLayoutManager(linearLayoutManager);
+        search_recyclerview.hasFixedSize();
+        search_swipeRefreshlayout.setColorSchemeColors(R.color.colorPrimary, R.color.colorYello, R.color.colorAccent, R.color.colorTablayout);
+
+        //search_results_adapter = getSearchUtils.getAdapter();
+        search_results_adapter = new Search_results_Adapter(R.layout.card_layout_android_ios,mainSearchBeans);
+
+        search_recyclerview.setAdapter(search_results_adapter);
+        search_results_adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        search_results_adapter.isFirstOnly(true);
+       // getSearchUtils = new GetSearchUtils(this,search_results_adapter,mainSearchBeans,search_swipeRefreshlayout,searchingwhat);
+
+
+
+        search_results_adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Log.d("dianjile","dianjile"+" "+position);
+            }
+        });
+
+
+        search_recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(newState == RecyclerView.SCROLL_STATE_IDLE && lastViewItem +3 >= linearLayoutManager.getItemCount()){
+
+                    getSearchUtils.GetSearchReasults(++page);
+                    Log.d("pagege","第"+page+"个");
+                    Message message = new Message();
+                    message.what = 1;
+                    handler.sendMessage(message);
+                }
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastViewItem = linearLayoutManager.findLastVisibleItemPosition();
+            }
+        });
+    }
+
+
     private void initId() {
+        search_swipeRefreshlayout = (SwipeRefreshLayout) findViewById(R.id.search_swipeRefreshlayout);
+        search_recyclerview = (RecyclerView) findViewById(R.id.search_recyclerview);
         search_app = (Button) findViewById(R.id.search_app);
         search_front = (Button) findViewById(R.id.search_front);
         search_iOS = (Button) findViewById(R.id.search_iOS);
@@ -92,10 +177,12 @@ public class GankAty extends AppCompatActivity {
                 // search_all.setBackground(drawable);
             }
         });
-
         search_android.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Message message1 = new Message();
+                message1.what = 0;
+                handler.sendMessage(message1);
                 chooseBtn(search_android);
             }
         });
@@ -178,22 +265,37 @@ public class GankAty extends AppCompatActivity {
             view_pager.setVisibility(View.GONE);
             gank_title.setVisibility(View.GONE);
             gank_search_edittext.setVisibility(View.VISIBLE);
+            search_swipeRefreshlayout.setVisibility(View.VISIBLE);
+            search_recyclerview.setVisibility(View.VISIBLE);
+            mainSearchBeans.clear();
+
+
             flag = 0;
         }
-     try {
-         Search();
-     } catch (IOException e) {
-         e.printStackTrace();
-     }
-     return super.onOptionsItemSelected(item);
+        try {
+             Search();
+        } catch (IOException e) {
+             e.printStackTrace();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void Search() throws IOException {
+
+
         if(search_all.isSelected()==true){
-            Toast.makeText(this,"all", Toast.LENGTH_SHORT).show();
-            getSearchUtils.GetSearchReasults();
-            //Log.d("caonima",searchBeans.get(0).getWho());
-            //Log.d("caonima",searchBeans.get(9).getWho());
+
+
+
+
+            getSearchUtils = new GetSearchUtils(this,search_results_adapter,mainSearchBeans,search_swipeRefreshlayout,searchingwhat);
+
+            Message message = Message.obtain();
+            message.what = 1;
+            handler.sendMessage(message);
+
+            getSearchUtils.GetSearchReasults(page);
+
         }
         if(search_android.isSelected() == true){
             Toast.makeText(this,"Android", Toast.LENGTH_SHORT).show();
@@ -228,6 +330,7 @@ public class GankAty extends AppCompatActivity {
                     view_pager.setVisibility(View.VISIBLE);
                     gank_title.setVisibility(View.VISIBLE);
                     gank_search_edittext.setVisibility(View.GONE);
+                    search_swipeRefreshlayout.setVisibility(View.GONE);
                     flag = 1;
                 } else {
                     finish();
@@ -249,6 +352,8 @@ public class GankAty extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 //Toast.makeText(GankAty.this,"回d车",Toast.LENGTH_SHORT).show();
+                searchingwhat = editable.toString();
+                //Toast.makeText(GankAty.this,searchingwhat,Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -338,6 +443,7 @@ public class GankAty extends AppCompatActivity {
             view_pager.setVisibility(View.VISIBLE);
             gank_title.setVisibility(View.VISIBLE);
             gank_search_edittext.setVisibility(View.GONE);
+            search_swipeRefreshlayout.setVisibility(View.GONE);
             flag = 1;
         } else {
             finish();

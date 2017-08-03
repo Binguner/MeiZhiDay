@@ -1,10 +1,15 @@
 package com.example.nenguou.meizhiday.Rx;
 
 import android.content.Context;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
+import com.example.nenguou.meizhiday.Bean.Gank;
 import com.example.nenguou.meizhiday.Bean.SearchBean;
+import com.example.nenguou.meizhiday.GankAty;
+import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.Services.SearchService;
+import com.example.nenguou.meizhiday.adapter.Search_results_Adapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -37,13 +42,25 @@ import rx.schedulers.Schedulers;
 
 public class GetSearchUtils {
 
+    private GankAty gankAty;
     private Context context;
+//    private Search_results_Adapter search_results_adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
-    private static List<SearchBean> searchBeans = new ArrayList<>();
-    private static Type type = new TypeToken<ArrayList<SearchBean>>(){}.getType();
+    private String searchingwhat;
+    //private int page;
 
-    public GetSearchUtils(Context context){
-        this.context = context;
+    private  List<SearchBean> searchBeans = new ArrayList<>();
+    private Search_results_Adapter search_results_adapter /*= new Search_results_Adapter(R.layout.card_layout_android_ios,searchBeans)*/;
+
+    private  Type type = new TypeToken<ArrayList<SearchBean>>(){}.getType();
+
+    public GetSearchUtils(GankAty context, Search_results_Adapter search_results_adapter, List<SearchBean> searchBeans, SwipeRefreshLayout swipeRefreshLayout,String searchingwhat){
+        this.gankAty = context;
+        this.search_results_adapter = search_results_adapter;
+        //this.searchBeans = searchBeans;
+        this.swipeRefreshLayout = swipeRefreshLayout;
+        this.searchingwhat = searchingwhat;
     }
 
     static Gson gson = new GsonBuilder()
@@ -59,19 +76,24 @@ public class GetSearchUtils {
 
     static SearchService searchService = retrofit.create(SearchService.class);
 
-    public static void GetSearchReasults(){
-        searchService.getAimType("listview", "Android")
+    public  void GetSearchReasults(int page){
+
+
+
+        searchService.getAimType(searchingwhat, "all",page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ResponseBody>() {
                     @Override
                     public void onCompleted() {
-
+                        Log.d("onCmocc:","onCompleted");
+                        swipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d("shitt", "onError: "+ e);
+                        swipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
@@ -85,14 +107,21 @@ public class GetSearchUtils {
                             Log.d("shit", searchBeans.get(0).getWho());
                             Log.d("shit", searchBeans.get(9).getWho());
                             Log.d("shit", Thread.currentThread().getName().toString());
-
-
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
+                        search_results_adapter.setBeans(searchBeans);
+                        Log.d("yunxn","yunxingle");
+                        gankAty.mainSearchBeans.addAll(searchBeans);
+                        search_results_adapter.notifyItemInserted(gankAty.mainSearchBeans.size());
+                        Log.d("dcdsce",Thread.currentThread().getName()+"");
+                        Log.d("dsdsdsd",searchBeans.size()+"");
                     }
                 });
 
+    }
+
+    public Search_results_Adapter getAdapter(){
+        return search_results_adapter;
     }
 }

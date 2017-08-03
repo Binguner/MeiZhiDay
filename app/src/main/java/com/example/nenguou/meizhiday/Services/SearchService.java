@@ -12,6 +12,6 @@ import retrofit2.http.Path;
 //http://gank.io/api/search/query/listview/category/Android/count/10/page/1
     //listview/category/Android/count/10/page/1
 public interface SearchService {
-    @GET("{SearhingAim}/category/{TYPE}/count/10/page/1")
-    Observable<ResponseBody> getAimType(@Path("SearhingAim") String aim, @Path("TYPE") String type);
+    @GET("{SearhingAim}/category/{TYPE}/count/10/page/{page}")
+    Observable<ResponseBody> getAimType(@Path("SearhingAim") String aim, @Path("TYPE") String type,@Path("page") int page);
 }

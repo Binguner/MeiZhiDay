@@ -91,7 +91,11 @@ public class IOSFragment extends Fragment {
         ios_recyclerview.setLayoutManager(linearLayoutManager);
         ios_recyclerview.hasFixedSize();
         ios_swipe_refresh_layout.setColorSchemeResources(R.color.colorPrimary, R.color.colorYello, R.color.colorAccent, R.color.colorTablayout);
+
+
         android_iOS_adapter = new Android_iOS_Adapter(R.layout.card_layout_android_ios,main_ganks,getContext());
+
+
         ios_recyclerview.setAdapter(android_iOS_adapter);
         android_iOS_adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         android_iOS_adapter.isFirstOnly(true);
@@ -150,9 +154,10 @@ public class IOSFragment extends Fragment {
                 Type type = new TypeToken<ArrayList<Gank>>(){}.getType();
                 ganks = gson.fromJson(JSONDatas,type);
                 //int i =
-                Log.i("shishishis",ganks.get(0).desc);
+                //Log.i("shishishis",ganks.get(0).desc);
                 main_ganks.addAll(ganks);
                 android_iOS_adapter.notifyItemInserted(main_ganks.size());
+                //Log.d("dndnndndndnd",main_ganks.size()+"");
                 ios_swipe_refresh_layout.setRefreshing(false);
             }else if(falg == 1){
                 Toast.makeText(getContext(),"No more datas",Toast.LENGTH_SHORT).show();
