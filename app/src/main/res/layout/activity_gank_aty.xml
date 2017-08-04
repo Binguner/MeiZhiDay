@@ -37,6 +37,8 @@
             android:hint="搜索干货"
             android:imeOptions="actionSend"
             android:lines="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:maxLines="1"
             android:singleLine="true"
             android:textColor="@color/colorGray"

@@ -155,7 +155,15 @@ public class GankAty extends AppCompatActivity {
         });
 
 
+        search_swipeRefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                search_swipeRefreshlayout.setRefreshing(false);
+            }
+        });
+
         search_recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -276,12 +284,14 @@ public class GankAty extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 chooseBtn(search_front);
+                clearAndSearch();
             }
         });
         search_app.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chooseBtn(search_app);
+                clearAndSearch();
             }
         });
     }
@@ -328,6 +338,9 @@ public class GankAty extends AppCompatActivity {
     private void clearAndSearch(){
         page = 0;
         Message message1 = new Message();
+
+        gank_search_edittext.setFocusable(false);
+        //gank_search_edittext.clearFocus();
         message1.what = 0;
 
         handler.sendMessage(message1);
@@ -337,6 +350,7 @@ public class GankAty extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        inputMethodManager.hideSoftInputFromInputMethod(gankToolbar.getWindowToken(),0);
     }
 
     //创建搜索按钮
@@ -389,13 +403,13 @@ public class GankAty extends AppCompatActivity {
             if (search_all.isSelected() == true) {
 
                 getSearchUtils = new GetSearchUtils(this, search_results_adapter, mainSearchBeans, search_swipeRefreshlayout, searchingwhat, "all");
-                Log.d("IMRUNning","真在搜索All");
+                //Log.d("IMRUNning","真在搜索All");
                 Message message = Message.obtain();
                 message.what = 1;
                 handler.sendMessage(message);
 
                 getSearchUtils.GetSearchReasults(++page);
-                Log.d("informatioinn", "第" + page + "页，" + "搜索" + searchingwhat);
+                //Log.d("informatioinn", "第" + page + "页，" + "搜索" + searchingwhat);
 
             }
             if (search_android.isSelected() == true) {
@@ -430,7 +444,7 @@ public class GankAty extends AppCompatActivity {
 
             }
             if (search_app.isSelected() == true) {
-                Toast.makeText(this, "app", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "app", Toast.LENGTH_SHORT).show();
                 getSearchUtils = new GetSearchUtils(this, search_results_adapter, mainSearchBeans, search_swipeRefreshlayout, searchingwhat, "App");
 
                 Message message = Message.obtain();
@@ -445,7 +459,8 @@ public class GankAty extends AppCompatActivity {
 
         //隐藏键盘
         //InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
+        //inputMethodManager.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
+        inputMethodManager.hideSoftInputFromInputMethod(gankToolbar.getWindowToken(),0);
     }
 
     private void initViews() {
@@ -487,6 +502,18 @@ public class GankAty extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     public void setListener() {
+
+        gank_search_edittext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gank_search_edittext.setFocusable(true);
+                gank_search_edittext.setFocusableInTouchMode(true);
+                gank_search_edittext.requestFocus();
+                gank_search_edittext.findFocus();
+                inputMethodManager.showSoftInput(gank_search_edittext,InputMethodManager.SHOW_FORCED);
+            }
+        });
+
         gank_search_edittext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
