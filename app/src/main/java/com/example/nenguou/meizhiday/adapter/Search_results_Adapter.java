@@ -36,7 +36,7 @@ public class Search_results_Adapter extends BaseQuickAdapter<SearchBean,Search_r
 
     public void setBeans(List<SearchBean> searchBeans){
         this.searchBeans.addAll(searchBeans);
-        Log.d("yunxffrfn","" + this.searchBeans.get(0).getWho());
+        //Log.d("yunxffrfn","" + this.searchBeans.get(0).getWho());
     }
 
     @SuppressLint("ResourceType")
@@ -63,7 +63,7 @@ public class Search_results_Adapter extends BaseQuickAdapter<SearchBean,Search_r
         //@SuppressLint("LongLogTag")
         public searchViewHolder(View view) {
             super(view);
-            Log.d("hfhfhew","YUfsnmfd");
+            //Log.d("hfhfhew","YUfsnmfd");
             android_ios_title = (TextView) view.findViewById(R.id.android_ios_title);
             android_ios_who = (TextView) view.findViewById(R.id.android_ios_who);
             android_ios_time = (TextView) view.findViewById(R.id.android_ios_time);

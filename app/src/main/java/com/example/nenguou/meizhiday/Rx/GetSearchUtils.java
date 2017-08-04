@@ -48,6 +48,7 @@ public class GetSearchUtils {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private String searchingwhat;
+    private String searchingType;
     //private int page;
 
     private  List<SearchBean> searchBeans = new ArrayList<>();
@@ -55,12 +56,13 @@ public class GetSearchUtils {
 
     private  Type type = new TypeToken<ArrayList<SearchBean>>(){}.getType();
 
-    public GetSearchUtils(GankAty context, Search_results_Adapter search_results_adapter, List<SearchBean> searchBeans, SwipeRefreshLayout swipeRefreshLayout,String searchingwhat){
+    public GetSearchUtils(GankAty context, Search_results_Adapter search_results_adapter, List<SearchBean> searchBeans, SwipeRefreshLayout swipeRefreshLayout,String searchingwhat,String searchingType){
         this.gankAty = context;
         this.search_results_adapter = search_results_adapter;
         //this.searchBeans = searchBeans;
         this.swipeRefreshLayout = swipeRefreshLayout;
         this.searchingwhat = searchingwhat;
+        this.searchingType = searchingType;
     }
 
     static Gson gson = new GsonBuilder()
@@ -80,7 +82,7 @@ public class GetSearchUtils {
 
 
 
-        searchService.getAimType(searchingwhat, "all",page)
+        searchService.getAimType(searchingwhat, searchingType,page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ResponseBody>() {
@@ -104,8 +106,16 @@ public class GetSearchUtils {
                             JsonObject jsonObject = jsonParser.parse(response).getAsJsonObject();
                             String jsonDatas = jsonObject.get("results").toString();
                             searchBeans = gson.fromJson(jsonDatas, type);
-                            Log.d("shit", searchBeans.get(0).getWho());
-                            Log.d("shit", searchBeans.get(9).getWho());
+                            Log.d("shit", searchBeans.get(0).getType());
+                            Log.d("shit", searchBeans.get(1).getType());
+                            Log.d("shit", searchBeans.get(2).getType());
+                            Log.d("shit", searchBeans.get(3).getType());
+                            Log.d("shit", searchBeans.get(4).getType());
+                            Log.d("shit", searchBeans.get(5).getType());
+                            Log.d("shit", searchBeans.get(6).getType());
+                            Log.d("shit", searchBeans.get(7).getType());
+                            Log.d("shit", searchBeans.get(8).getType());
+                            Log.d("shit", searchBeans.get(9).getType());
                             Log.d("shit", Thread.currentThread().getName().toString());
                         } catch (IOException e) {
                             e.printStackTrace();

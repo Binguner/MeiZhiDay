@@ -64,14 +64,14 @@ public class GankAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Picasso.with(context).load(ganks.get(i).images[0]).placeholder(R.mipmap.placeholder).error(R.mipmap.placeholder)
                     .into(((RecommendAppViewHolder) viewHolder).AppPics);
         }catch (NullPointerException e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         ((RecommendAppViewHolder)viewHolder).AppDesc.setText(ganks.get(i).desc.toString());
 
         try {
             ((RecommendAppViewHolder)viewHolder).AppWho.setText(ganks.get(i).who.toString());
         }catch (NullPointerException e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         ((RecommendAppViewHolder) viewHolder).AppPics.setFocusable(true);
     }

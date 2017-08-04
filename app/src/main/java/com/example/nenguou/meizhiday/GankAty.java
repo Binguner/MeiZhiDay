@@ -91,6 +91,7 @@ public class GankAty extends AppCompatActivity {
         setButtonClick();
     }
 
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -109,20 +110,22 @@ public class GankAty extends AppCompatActivity {
                 //search_recyclerview.removeAllViews();
                 try {
                     int size = mainSearchBeans.size();
-                    for (int i = size; i >= 0; i--) {
+                    for (int i = size-1 ; i >= 0; i--) {
                         Log.d("sisisisis", mainSearchBeans.size() + "");
-                        mainSearchBeans.remove(i - 1);
-                        search_results_adapter.notifyItemRemoved(i - 1);
+                        mainSearchBeans.remove(i );
+                        search_results_adapter.notifyItemRemoved(i);
 
                         search_results_adapter.notifyItemRangeChanged(0, mainSearchBeans.size());
                     }
                     search_results_adapter.DeleteAllBeans();
                     //search_results_adapter.notifyDataSetChanged();
                 }catch (Exception e){
-                    e.printStackTrace();
+                    Log.d("ArrayBugs",e.toString());
                 }
 
                 search_results_adapter.DeleteAllBeans();
+            }if(msg.what == 2){
+                gank_search_edittext.setText("");
             }
         }
     };
@@ -157,10 +160,11 @@ public class GankAty extends AppCompatActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if(newState == RecyclerView.SCROLL_STATE_IDLE && lastViewItem +3 >= linearLayoutManager.getItemCount()){
-
+                    inputMethodManager.hideSoftInputFromWindow(gank_title.getWindowToken(),0);
                     //getSearchUtils.GetSearchReasults(++page);
                     try {
                         Search();
+                        inputMethodManager.hideSoftInputFromWindow(gank_title.getWindowToken(),0);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -168,7 +172,8 @@ public class GankAty extends AppCompatActivity {
                     Message message = new Message();
                     message.what = 1;
                     handler.sendMessage(message);
-                    inputMethodManager.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
+
+                    inputMethodManager.hideSoftInputFromWindow(gank_title.getWindowToken(),0);
 
                 }
 
@@ -200,31 +205,71 @@ public class GankAty extends AppCompatActivity {
         view_pager = (ViewPager) findViewById(R.id.view_pager);
         gankTab = (SlidingTabLayout) findViewById(R.id.gankTab);
         initViews();
+        gank_search_edittext.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //Toast.makeText(GankAty.this,charSequence,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //Toast.makeText(GankAty.this,"回d车",Toast.LENGTH_SHORT).show();
+                searchingwhat = editable.toString();
+                //Toast.makeText(GankAty.this,searchingwhat,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setButtonClick() {
         search_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //search_all.setPressed(true);
                 chooseBtn(search_all);
-                //Drawable drawable = getResources().getDrawable(R.drawable.save_button_bg);
-                // search_all.setBackground(drawable);
+                clearAndSearch();
+                /*page = 0;
+                Message message1 = new Message();
+                message1.what = 0;
+
+                handler.sendMessage(message1);
+
+                try {
+                    Search();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+
             }
         });
         search_android.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                chooseBtn(search_android);
+
+
+                /*page = 0;
                 Message message1 = new Message();
                 message1.what = 0;
                 handler.sendMessage(message1);
-                chooseBtn(search_android);
+                try {
+                    Search();
+                } catch (IOException e) {
+                    Log.d("ButtonFailed",e.toString());
+                }*/
+                clearAndSearch();
+
+
             }
         });
         search_iOS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chooseBtn(search_iOS);
+                clearAndSearch();
             }
         });
         search_front.setOnClickListener(new View.OnClickListener() {
@@ -280,6 +325,20 @@ public class GankAty extends AppCompatActivity {
         }
     }
 
+    private void clearAndSearch(){
+        page = 0;
+        Message message1 = new Message();
+        message1.what = 0;
+
+        handler.sendMessage(message1);
+
+        try {
+            Search();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     //创建搜索按钮
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -294,7 +353,8 @@ public class GankAty extends AppCompatActivity {
         int BtnId = 0;
         Button button = null;
         if (flag == 1) {
-            chooseBtn(search_all);
+            page = 0;
+            //chooseBtn(search_all);
             chooseTypeLinnearLayout.setVisibility(View.VISIBLE);
             gankTab.setVisibility(View.GONE);
             view_pager.setVisibility(View.GONE);
@@ -302,12 +362,16 @@ public class GankAty extends AppCompatActivity {
             gank_search_edittext.setVisibility(View.VISIBLE);
             search_swipeRefreshlayout.setVisibility(View.VISIBLE);
             search_recyclerview.setVisibility(View.VISIBLE);
-            mainSearchBeans.clear();
+            //mainSearchBeans.clear();
             //if(search_swipeRefreshlayout.isRefreshing() == true){
 
            // }
+            Message message4 = new Message();
+            message4.what = 0;
+            handler.sendMessage(message4);
 
-            flag = 0;
+
+            flag = 1;
         }
         try {
              Search();
@@ -321,29 +385,62 @@ public class GankAty extends AppCompatActivity {
     //搜索功能
     private void Search() throws IOException {
 
+        if( searchingwhat != null) {
+            if (search_all.isSelected() == true) {
 
-        if(search_all.isSelected()==true){
+                getSearchUtils = new GetSearchUtils(this, search_results_adapter, mainSearchBeans, search_swipeRefreshlayout, searchingwhat, "all");
+                Log.d("IMRUNning","真在搜索All");
+                Message message = Message.obtain();
+                message.what = 1;
+                handler.sendMessage(message);
 
-            getSearchUtils = new GetSearchUtils(this,search_results_adapter,mainSearchBeans,search_swipeRefreshlayout,searchingwhat);
+                getSearchUtils.GetSearchReasults(++page);
+                Log.d("informatioinn", "第" + page + "页，" + "搜索" + searchingwhat);
 
-            Message message = Message.obtain();
-            message.what = 1;
-            handler.sendMessage(message);
+            }
+            if (search_android.isSelected() == true) {
+                getSearchUtils = new GetSearchUtils(this, search_results_adapter, mainSearchBeans, search_swipeRefreshlayout, searchingwhat, "Android");
 
-            getSearchUtils.GetSearchReasults(++page);
+                Message message = Message.obtain();
+                message.what = 1;
+                handler.sendMessage(message);
 
-        }
-        if(search_android.isSelected() == true){
-            Toast.makeText(this,"Android", Toast.LENGTH_SHORT).show();
-        }
-        if(search_iOS.isSelected()==true){
-            Toast.makeText(this,"iOS", Toast.LENGTH_SHORT).show();
-        }
-        if(search_front.isSelected()==true){
-            Toast.makeText(this,"front", Toast.LENGTH_SHORT).show();
-        }
-        if(search_app.isSelected()==true){
-            Toast.makeText(this,"app", Toast.LENGTH_SHORT).show();
+                getSearchUtils.GetSearchReasults(++page);
+                //Toast.makeText(this, "Android", Toast.LENGTH_SHORT).show();
+            }
+            if (search_iOS.isSelected() == true) {
+                //Toast.makeText(this, "iOS", Toast.LENGTH_SHORT).show();
+                getSearchUtils = new GetSearchUtils(this, search_results_adapter, mainSearchBeans, search_swipeRefreshlayout, searchingwhat, "iOS");
+                Message message = Message.obtain();
+                message.what = 1;
+                handler.sendMessage(message);
+
+                getSearchUtils.GetSearchReasults(++page);
+            }
+            if (search_front.isSelected() == true) {
+                //Toast.makeText(this, "front", Toast.LENGTH_SHORT).show();
+                getSearchUtils = new GetSearchUtils(this, search_results_adapter, mainSearchBeans, search_swipeRefreshlayout, searchingwhat, "前端");
+
+                Message message = Message.obtain();
+                message.what = 1;
+                handler.sendMessage(message);
+
+                getSearchUtils.GetSearchReasults(++page);
+
+
+            }
+            if (search_app.isSelected() == true) {
+                Toast.makeText(this, "app", Toast.LENGTH_SHORT).show();
+                getSearchUtils = new GetSearchUtils(this, search_results_adapter, mainSearchBeans, search_swipeRefreshlayout, searchingwhat, "App");
+
+                Message message = Message.obtain();
+                message.what = 1;
+                handler.sendMessage(message);
+
+                getSearchUtils.GetSearchReasults(++page);
+
+
+            }
         }
 
         //隐藏键盘
@@ -371,6 +468,9 @@ public class GankAty extends AppCompatActivity {
                     gank_title.setVisibility(View.VISIBLE);
                     gank_search_edittext.setVisibility(View.GONE);
                     search_swipeRefreshlayout.setVisibility(View.GONE);
+                    Message message3 = new Message();
+                    message3.what = 2;
+                    handler.sendMessage(message3);
                     //隐藏键盘
                     inputMethodManager.hideSoftInputFromWindow(gank_title.getWindowToken(),0);
                     flag = 1;
@@ -380,24 +480,7 @@ public class GankAty extends AppCompatActivity {
             }
         });
 
-        gank_search_edittext.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                //Toast.makeText(GankAty.this,charSequence,Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                //Toast.makeText(GankAty.this,"回d车",Toast.LENGTH_SHORT).show();
-                searchingwhat = editable.toString();
-                //Toast.makeText(GankAty.this,searchingwhat,Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
     }
@@ -494,6 +577,13 @@ public class GankAty extends AppCompatActivity {
             gank_title.setVisibility(View.VISIBLE);
             gank_search_edittext.setVisibility(View.GONE);
             search_swipeRefreshlayout.setVisibility(View.GONE);
+            Message message3 = new Message();
+            message3.what = 2;
+            handler.sendMessage(message3);
+            searchingwhat = null;
+            Message message2 = new Message();
+            message2.what = 0;
+            handler.sendMessage(message2);
             flag = 1;
         } else {
             finish();
