@@ -2,6 +2,7 @@ package com.example.nenguou.meizhiday;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ import com.example.nenguou.meizhiday.adapter.Search_results_Adapter;
 import com.flyco.tablayout.SlidingTabLayout;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +93,11 @@ public class GankAty extends AppCompatActivity {
         setButtonClick();
     }
 
+    /*
+    * msg.what == 0：清空 RecyclerView 界面
+    * msg.what == 1：刷新图标停止旋转
+    * msg.what == 2：清空 editText 中内容
+    * */
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler(){
         @Override
@@ -100,25 +107,15 @@ public class GankAty extends AppCompatActivity {
                 search_swipeRefreshlayout.setRefreshing(true);
             }if(msg.what == 0){
                 Log.d("thresdas",Thread.currentThread().getName());
-
-                /*try{
-                    viewGroup.removeView(search_recyclerview);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }*/
-
-                //search_recyclerview.removeAllViews();
                 try {
                     int size = mainSearchBeans.size();
                     for (int i = size-1 ; i >= 0; i--) {
                         Log.d("sisisisis", mainSearchBeans.size() + "");
                         mainSearchBeans.remove(i );
                         search_results_adapter.notifyItemRemoved(i);
-
                         search_results_adapter.notifyItemRangeChanged(0, mainSearchBeans.size());
                     }
                     search_results_adapter.DeleteAllBeans();
-                    //search_results_adapter.notifyDataSetChanged();
                 }catch (Exception e){
                     Log.d("ArrayBugs",e.toString());
                 }
@@ -147,14 +144,20 @@ public class GankAty extends AppCompatActivity {
 
 
 
+        //item 点击事件
         search_results_adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                Log.d("dianjile","dianjile"+" "+position);
+                Intent intent = new Intent(GankAty.this,GithubPageActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("title",mainSearchBeans.get(position).getDesc());
+                bundle.putString("url",mainSearchBeans.get(position).getUrl());
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 
-
+        //下拉操作
         search_swipeRefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -162,6 +165,7 @@ public class GankAty extends AppCompatActivity {
             }
         });
 
+        //上拉操作
         search_recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
@@ -213,6 +217,8 @@ public class GankAty extends AppCompatActivity {
         view_pager = (ViewPager) findViewById(R.id.view_pager);
         gankTab = (SlidingTabLayout) findViewById(R.id.gankTab);
         initViews();
+
+        //获取 eduttext 中的文本
         gank_search_edittext.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -239,35 +245,12 @@ public class GankAty extends AppCompatActivity {
             public void onClick(View view) {
                 chooseBtn(search_all);
                 clearAndSearch();
-                /*page = 0;
-                Message message1 = new Message();
-                message1.what = 0;
-
-                handler.sendMessage(message1);
-
-                try {
-                    Search();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
-
             }
         });
         search_android.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chooseBtn(search_android);
-
-
-                /*page = 0;
-                Message message1 = new Message();
-                message1.what = 0;
-                handler.sendMessage(message1);
-                try {
-                    Search();
-                } catch (IOException e) {
-                    Log.d("ButtonFailed",e.toString());
-                }*/
                 clearAndSearch();
 
 
@@ -500,6 +483,7 @@ public class GankAty extends AppCompatActivity {
 
     }
 
+    //设置 editText
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     public void setListener() {
 
@@ -527,11 +511,6 @@ public class GankAty extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-
-                    //Toast.makeText(GankAty.this, "回车", Toast.LENGTH_SHORT).show();
-
-                    //new GetSearchDatas("http://gank.io/api/search/query/listview/category/Android/count/10/page/1", 0).execute();
-
                     return true;
                 }
                 return false;
@@ -539,7 +518,7 @@ public class GankAty extends AppCompatActivity {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+    /*@RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     private class GetSearchDatas extends AsyncTask<String, Void, String> {
         private List<Gank> ganks;
         private String url;
@@ -566,7 +545,7 @@ public class GankAty extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
         }
-    }
+    }*/
 
 
     public void Gank_go_top(View view) {
