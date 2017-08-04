@@ -1,6 +1,7 @@
 package com.example.nenguou.meizhiday;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,7 +25,9 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -63,7 +66,7 @@ public class GankAty extends AppCompatActivity {
     private LinearLayout chooseTypeLinnearLayout;
     private static int flag = 1;
     private SwipeRefreshLayout search_swipeRefreshlayout;
-    private RecyclerView search_recyclerview;
+    private RecyclerView search_recyclerview = null;
     private LinearLayoutManager linearLayoutManager;
     public Search_results_Adapter search_results_adapter;
     private int lastViewItem;
@@ -73,7 +76,9 @@ public class GankAty extends AppCompatActivity {
     private String searchingwhat = null;
 
     private GetSearchUtils getSearchUtils = null/*new GetSearchUtils(this,search_results_adapter)*/;
-    private int page = 1;
+    private int page = 0;
+    private InputMethodManager inputMethodManager = null; /*(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)*/;
+    private ViewGroup viewGroup = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +99,30 @@ public class GankAty extends AppCompatActivity {
                 search_swipeRefreshlayout.setRefreshing(true);
             }if(msg.what == 0){
                 Log.d("thresdas",Thread.currentThread().getName());
+
+                /*try{
+                    viewGroup.removeView(search_recyclerview);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }*/
+
+                //search_recyclerview.removeAllViews();
+                try {
+                    int size = mainSearchBeans.size();
+                    for (int i = size; i >= 0; i--) {
+                        Log.d("sisisisis", mainSearchBeans.size() + "");
+                        mainSearchBeans.remove(i - 1);
+                        search_results_adapter.notifyItemRemoved(i - 1);
+
+                        search_results_adapter.notifyItemRangeChanged(0, mainSearchBeans.size());
+                    }
+                    search_results_adapter.DeleteAllBeans();
+                    //search_results_adapter.notifyDataSetChanged();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 search_results_adapter.DeleteAllBeans();
-                search_results_adapter.no
             }
         }
     };
@@ -131,11 +158,18 @@ public class GankAty extends AppCompatActivity {
                 super.onScrollStateChanged(recyclerView, newState);
                 if(newState == RecyclerView.SCROLL_STATE_IDLE && lastViewItem +3 >= linearLayoutManager.getItemCount()){
 
-                    getSearchUtils.GetSearchReasults(++page);
+                    //getSearchUtils.GetSearchReasults(++page);
+                    try {
+                        Search();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     Log.d("pagege","第"+page+"个");
                     Message message = new Message();
                     message.what = 1;
                     handler.sendMessage(message);
+                    inputMethodManager.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
+
                 }
 
             }
@@ -150,6 +184,7 @@ public class GankAty extends AppCompatActivity {
 
 
     private void initId() {
+        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         search_swipeRefreshlayout = (SwipeRefreshLayout) findViewById(R.id.search_swipeRefreshlayout);
         search_recyclerview = (RecyclerView) findViewById(R.id.search_recyclerview);
         search_app = (Button) findViewById(R.id.search_app);
@@ -268,7 +303,9 @@ public class GankAty extends AppCompatActivity {
             search_swipeRefreshlayout.setVisibility(View.VISIBLE);
             search_recyclerview.setVisibility(View.VISIBLE);
             mainSearchBeans.clear();
+            //if(search_swipeRefreshlayout.isRefreshing() == true){
 
+           // }
 
             flag = 0;
         }
@@ -277,16 +314,15 @@ public class GankAty extends AppCompatActivity {
         } catch (IOException e) {
              e.printStackTrace();
         }
+        search_swipeRefreshlayout.setRefreshing(false);
         return super.onOptionsItemSelected(item);
     }
 
+    //搜索功能
     private void Search() throws IOException {
 
 
         if(search_all.isSelected()==true){
-
-
-
 
             getSearchUtils = new GetSearchUtils(this,search_results_adapter,mainSearchBeans,search_swipeRefreshlayout,searchingwhat);
 
@@ -294,7 +330,7 @@ public class GankAty extends AppCompatActivity {
             message.what = 1;
             handler.sendMessage(message);
 
-            getSearchUtils.GetSearchReasults(page);
+            getSearchUtils.GetSearchReasults(++page);
 
         }
         if(search_android.isSelected() == true){
@@ -309,6 +345,10 @@ public class GankAty extends AppCompatActivity {
         if(search_app.isSelected()==true){
             Toast.makeText(this,"app", Toast.LENGTH_SHORT).show();
         }
+
+        //隐藏键盘
+        //InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     private void initViews() {
@@ -331,6 +371,8 @@ public class GankAty extends AppCompatActivity {
                     gank_title.setVisibility(View.VISIBLE);
                     gank_search_edittext.setVisibility(View.GONE);
                     search_swipeRefreshlayout.setVisibility(View.GONE);
+                    //隐藏键盘
+                    inputMethodManager.hideSoftInputFromWindow(gank_title.getWindowToken(),0);
                     flag = 1;
                 } else {
                     finish();
@@ -367,10 +409,18 @@ public class GankAty extends AppCompatActivity {
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (((i == EditorInfo.IME_ACTION_SEND) || (i == EditorInfo.IME_ACTION_DONE)
                         || (keyEvent != null && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) && (keyEvent.getAction() == KeyEvent.ACTION_DOWN))) {
-                    Log.i("T2AG", "idid");
-                    Toast.makeText(GankAty.this, "回车", Toast.LENGTH_SHORT).show();
 
-                    new GetSearchDatas("http://gank.io/api/search/query/listview/category/Android/count/10/page/1", 0).execute();
+
+                    try {
+                        Search();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    //Toast.makeText(GankAty.this, "回车", Toast.LENGTH_SHORT).show();
+
+                    //new GetSearchDatas("http://gank.io/api/search/query/listview/category/Android/count/10/page/1", 0).execute();
 
                     return true;
                 }

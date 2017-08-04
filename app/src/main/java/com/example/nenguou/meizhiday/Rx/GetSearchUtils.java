@@ -92,7 +92,7 @@ public class GetSearchUtils {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("shitt", "onError: "+ e);
+                        //Log.d("shitt", "onError: "+ e);
                         swipeRefreshLayout.setRefreshing(false);
                     }
 
@@ -123,5 +123,9 @@ public class GetSearchUtils {
 
     public Search_results_Adapter getAdapter(){
         return search_results_adapter;
+    }
+
+    public void stopCall(){
+
     }
 }
