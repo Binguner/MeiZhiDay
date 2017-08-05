@@ -128,13 +128,14 @@ public class GetGitInfoUtils {
                     public void onNext(ResponseBody responseBody) {
 
                         try {
-                            Log.d("GitToken","Token:"+responseBody.string());
+                            Log.d("GitToken",responseBody.string());
                             Log.d("GitToken",url);
 
                             JsonObject jsonObject = jsonParser.parse(responseBody.string()).getAsJsonObject();
+                            String jsonDatas = jsonObject.get("Token").toString();
 
                             Log.d("jsonObjectshowUp",jsonObject.toString());
-                            tokenBean = gson.fromJson(jsonObject,TokenBean.class);
+                            tokenBean = gson.fromJson(jsonDatas,TokenBean.class);
                             Log.d("TokenBean",tokenBean.getAccess_token());
 
                             //Log.d("GitToken","code:"+code);
