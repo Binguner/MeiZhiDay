@@ -20,11 +20,21 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="niube"/>
+
+            </intent-filter>
         </activity>
         <activity android:name=".Pics" />
         <activity android:name=".GankAty" />
-        <activity android:name=".GithubPageActivity" />
-        <activity android:name=".About"></activity>
+        <activity android:name=".UI.GithubPageActivity" />
+        <activity android:name=".UI.About" />
+        <activity android:name=".UI.gittest"></activity>
     </application>
 
 </manifest>

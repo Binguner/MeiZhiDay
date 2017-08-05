@@ -1,4 +1,4 @@
-package com.example.nenguou.meizhiday;
+package com.example.nenguou.meizhiday.UI;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -7,16 +7,22 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.nenguou.meizhiday.R;
 
 public class GithubPageActivity extends AppCompatActivity {
 
@@ -65,7 +71,7 @@ public class GithubPageActivity extends AppCompatActivity {
             case R.id.github_share:
                 Intent intent1 = new Intent(Intent.ACTION_SEND);
                 intent1.setType("text/plain");
-                intent1.putExtra(Intent.EXTRA_TEXT,title+" "+url+" from 「啊」https://fir.im/aGank");
+                intent1.putExtra(Intent.EXTRA_TEXT,title+" "+url+" from「啊」https://fir.im/aGank");
                 startActivity(Intent.createChooser(intent1,"分享"));
                 Toast.makeText(GithubPageActivity.this,"Share",Toast.LENGTH_SHORT).show();
                 break;
@@ -84,19 +90,35 @@ public class GithubPageActivity extends AppCompatActivity {
 
     private void initView() {
         github_title.setText(title);
+        //app_recommend_webview.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        //app_recommend_webview.getSettings().setDomStorageEnabled(false);
+
+        //CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(this);
+        //CookieManager cookieManager = CookieManager.getInstance();
+       // cookieManager.removeAllCookie();
+
+
+
     }
 
     private void setWebView() {
         app_recommend_webview.getSettings().setJavaScriptEnabled(true);
+        app_recommend_webview.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        app_recommend_webview.getSettings().setLoadWithOverviewMode(true);
+        app_recommend_webview.getSettings().setUseWideViewPort(true);
         app_recommend_webview.loadUrl(url);
         app_recommend_webview.setWebViewClient(new WebViewClient());
     }
 
     private void getBundle() {
-        Bundle bundle = new Bundle();
-        bundle = this.getIntent().getExtras();
-        url = bundle.getString("url");
-        title = bundle.getString("title");
+        try {
+            Bundle bundle = new Bundle();
+            bundle = this.getIntent().getExtras();
+            url = bundle.getString("url");
+            title = bundle.getString("title");
+        }catch (Exception e){
+            Log.d("ErrorInfo",e+"");
+        }
     }
 
     private void initId() {

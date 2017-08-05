@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.nenguou.meizhiday.UI.gittest">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/getgithubinfo"
+        android:text="GetCode"
+        android:textAllCaps="false"/>
+    <TextView
+        app:layout_constraintTop_toBottomOf="@+id/getgithubinfo"
+        android:id="@+id/github_code"
+        android:text="code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        app:layout_constraintTop_toBottomOf="@+id/github_code"
+        android:id="@+id/GetCode"
+        android:textAllCaps="false"
+        android:text="GetToken"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Token"
+        android:id="@+id/github_token"
+        app:layout_constraintTop_toBottomOf="@+id/GetCode"/>
+
+</android.support.constraint.ConstraintLayout>

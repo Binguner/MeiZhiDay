@@ -1,6 +1,9 @@
 package com.example.nenguou.meizhiday;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.nenguou.meizhiday.Bean.MeiZHI;
+import com.example.nenguou.meizhiday.UI.About;
+import com.example.nenguou.meizhiday.UI.gittest;
 import com.example.nenguou.meizhiday.adapter.MeiZhiAdapter;
 import com.example.nenguou.meizhiday.network.Utils;
 import com.google.gson.Gson;
@@ -64,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme_main);
         setContentView(R.layout.activity_main);
+        getGitInfo();
         askPermission();
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         initId();
@@ -77,6 +83,30 @@ public class MainActivity extends AppCompatActivity {
         }else {
             firstLoad();
             setRefreshListener();
+        }
+    }
+
+    private void getGitInfo() {
+
+        try{
+        Intent i_getValue = getIntent();
+        String codeUrl = i_getValue.getAction();
+
+        if(Intent.ACTION_VIEW.equals(codeUrl)){
+            Uri uri = i_getValue.getData();
+            if(uri != null){
+                String code = uri.getQueryParameter("code");
+                Log.d("getGitInfoFaild",code+"");
+                SharedPreferences sharedPreferences = getSharedPreferences("gitCode", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("code",code);
+                editor.commit();
+
+
+            }
+        }
+        }catch (Exception e){
+            Log.d("getGitInfoFaild","onError: "+e);
         }
     }
 
@@ -103,15 +133,20 @@ public class MainActivity extends AppCompatActivity {
                 String msg = "";
                 switch(menuItem.getItemId()){
                     case R.id.Android:
-                        msg +="Android";
+                        //msg +="Android";
                         Intent intent = new Intent(MainActivity.this,GankAty.class);
                         startActivity(intent);
 
                         break;
                     case R.id.About:
-                        msg +="关于";
+                        //msg +="关于";
                         Intent intent1 = new Intent(MainActivity.this,About.class);
                         startActivity(intent1);
+                        break;
+
+                    case R.id.Github_menu:
+                        Intent intent2 = new Intent(MainActivity.this,gittest.class);
+                        startActivity(intent2);
                         break;
                     default:
                         break;

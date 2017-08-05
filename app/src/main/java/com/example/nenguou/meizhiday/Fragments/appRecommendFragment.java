@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.example.nenguou.meizhiday.Bean.Gank;
 import com.example.nenguou.meizhiday.GetDatas.GankOkhttp;
 import com.example.nenguou.meizhiday.GetDatas.GetGankDatas;
-import com.example.nenguou.meizhiday.GithubPageActivity;
+import com.example.nenguou.meizhiday.UI.GithubPageActivity;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.adapter.GankAppAdapter;
 import com.google.gson.Gson;

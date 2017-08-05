@@ -1,8 +1,10 @@
-package com.example.nenguou.meizhiday;
+package com.example.nenguou.meizhiday.UI;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+
+import com.example.nenguou.meizhiday.R;
 
 public class About extends AppCompatActivity {
 

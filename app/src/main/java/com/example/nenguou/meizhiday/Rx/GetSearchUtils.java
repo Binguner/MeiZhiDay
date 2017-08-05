@@ -65,22 +65,20 @@ public class GetSearchUtils {
         this.searchingType = searchingType;
     }
 
-    static Gson gson = new GsonBuilder()
+     Gson gson = new GsonBuilder()
             .create();
-    static JsonParser jsonParser = new JsonParser();
+     JsonParser jsonParser = new JsonParser();
 
-    static Retrofit retrofit = new Retrofit
+     Retrofit retrofit = new Retrofit
             .Builder()
             .baseUrl("http://gank.io/api/search/query/")
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
 
-    static SearchService searchService = retrofit.create(SearchService.class);
+    SearchService searchService = retrofit.create(SearchService.class);
 
     public  void GetSearchReasults(int page){
-
-
 
         searchService.getAimType(searchingwhat, searchingType,page)
                 .subscribeOn(Schedulers.io())
@@ -106,7 +104,7 @@ public class GetSearchUtils {
                             JsonObject jsonObject = jsonParser.parse(response).getAsJsonObject();
                             String jsonDatas = jsonObject.get("results").toString();
                             searchBeans = gson.fromJson(jsonDatas, type);
-                            Log.d("shit", searchBeans.get(0).getType());
+                            /*Log.d("shit", searchBeans.get(0).getType());
                             Log.d("shit", searchBeans.get(1).getType());
                             Log.d("shit", searchBeans.get(2).getType());
                             Log.d("shit", searchBeans.get(3).getType());
@@ -116,7 +114,7 @@ public class GetSearchUtils {
                             Log.d("shit", searchBeans.get(7).getType());
                             Log.d("shit", searchBeans.get(8).getType());
                             Log.d("shit", searchBeans.get(9).getType());
-                            Log.d("shit", Thread.currentThread().getName().toString());
+                            Log.d("shit", Thread.currentThread().getName().toString());*/
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
