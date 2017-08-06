@@ -31,5 +31,18 @@
         android:text="Token"
         android:id="@+id/github_token"
         app:layout_constraintTop_toBottomOf="@+id/GetCode"/>
+    <Button
+        android:id="@+id/GetGitInfoBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GetGitUser"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@+id/github_token"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UserInfo"
+        android:id="@+id/GitUserInfo"
+        app:layout_constraintTop_toBottomOf="@+id/GetGitInfoBtn"/>
 
 </android.support.constraint.ConstraintLayout>

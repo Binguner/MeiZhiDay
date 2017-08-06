@@ -1,5 +1,7 @@
 package com.example.nenguou.meizhiday.Services;
 
+import com.example.nenguou.meizhiday.Bean.GitUserBean;
+
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -22,13 +24,14 @@ public interface GithubService {
     @GET("oauth/authorize/?client_id="+client_id+"?scope="+scope)
     Observable<ResponseBody> getCode();
 
-    //https://github.com/login/")
-    //https://github.com/login/oauth/access_token/?client_id=3d000218efdbb17b4a75&client_secret=3dfe3b88974c6c0bd6bc72fb53d08aaaef441c17&code=7b8d9c46ba13a3862bb3
-    //@POST("oauth/access_token/?client_id="+client_id+"&client_secret="+client_secret+"&code={code}")
-    //https://github.com/login/oauth/access_token/?client_id=3d000218efdbb17b4a75&client_secret=3dfe3b88974c6c0bd6bc72fb53d08aaaef441c17&code=79134e039d3159800cd7
+    //获取 Token
     @Headers("Accept: application/json")
     @POST("oauth/access_token/?client_id=3d000218efdbb17b4a75&client_secret=3dfe3b88974c6c0bd6bc72fb53d08aaaef441c17&code=")
     Observable<ResponseBody> getToken(@Query("code") String code);
+
+    //获取用户信息    //https://api.github.com/user?access_token=
+    @GET("https://api.github.com/user?access_token=")
+    Observable<GitUserBean> getUser(@Query("access_token") String token);
 
 
 }

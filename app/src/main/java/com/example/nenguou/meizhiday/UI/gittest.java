@@ -14,13 +14,14 @@ import android.widget.Toast;
 
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.Rx.GetGitInfoUtils;
+import com.example.nenguou.meizhiday.Utils.CallTokenBack;
 
 public class gittest extends AppCompatActivity {
 
-    private Button getgithubinfo,GetCode;
+    private Button getgithubinfo,GetCode,GetGitInfoBtn;
     private GetGitInfoUtils getGitInfoUtils = null;
-    private TextView github_code;
-    private String code;
+    private TextView github_code,github_token,GitUserInfo;
+    public String code,mytoken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +30,10 @@ public class gittest extends AppCompatActivity {
         setContentView(R.layout.activity_gittest);
         initId();
         setListener();
-        getGitCode();
+        showGitCode();
+
     }
+
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -38,50 +41,62 @@ public class gittest extends AppCompatActivity {
             switch (msg.what){
                 case 0:
                     github_code.setText("code:"+code);
+                    break;
+                case 1:
+                    github_token.setText("token:"+mytoken);
             }
         }
     };
 
 
-    private void getGitCode() {
+    private void showGitCode() {
         SharedPreferences sharedPreferences = getSharedPreferences("gitCode", Context.MODE_PRIVATE);
         code = sharedPreferences.getString("code",null);
         Message message = new Message();
         message.what = 0;
         handler.sendMessage(message);
-
     }
 
     private void initId() {
+        GitUserInfo = (TextView) findViewById(R.id.GitUserInfo);
+        GetGitInfoBtn = (Button) findViewById(R.id.GetGitInfoBtn);
+        github_token = (TextView) findViewById(R.id.github_token);
         github_code = (TextView) findViewById(R.id.github_code);
         getgithubinfo = (Button) findViewById(R.id.getgithubinfo);
         GetCode = (Button) findViewById(R.id.GetCode);
     }
 
     private void setListener(){
-        getgithubinfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getGitInfoUtils = new GetGitInfoUtils(gittest.this);
-                getGitInfoUtils.getGitInfo();
-            }
+        getgithubinfo.setOnClickListener(view -> {
+            getGitInfoUtils = new GetGitInfoUtils(gittest.this);
+            getGitInfoUtils.getGitInfo();
         });
 
-        GetCode.setOnClickListener(new View.OnClickListener() {
+        GetCode.setOnClickListener(view -> {
+            getGitInfoUtils = new GetGitInfoUtils(gittest.this,code);
+            Log.d("showCodedede",getGitInfoUtils.showCode().toString());
+            try {
+                getGitInfoUtils.getGitToken();
+            }catch (Exception e){
+                Log.d("GetTokenError","ErrorOnToken: " + e);
+            }
+
+            getGitInfoUtils.setCallBack(token -> {
+                mytoken = token;
+                Log.d("hahahahahahhaffha",mytoken);
+                Message message = new Message();
+                message.what = 1;
+                handler.sendMessage(message);
+            });
+        });
+
+        GetGitInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getGitInfoUtils = new GetGitInfoUtils(code);
-                Log.d("showCodedede",getGitInfoUtils.showCode().toString());
-                try {
-                    getGitInfoUtils.getGitToken();
-                }catch (Exception e){
-                    Log.d("GetTokenError","ErrorOnToken: " + e);
-                }
+                getGitInfoUtils = new GetGitInfoUtils(gittest.this,code);
+                getGitInfoUtils.getGitUser();
             }
         });
     }
 
-    public String getCodeBack(){
-        return code;
-    }
 }

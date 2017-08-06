@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.nenguou.meizhiday.Bean.MeiZHI;
 import com.example.nenguou.meizhiday.UI.About;
+import com.example.nenguou.meizhiday.UI.GithubUI.GithubUserPage;
 import com.example.nenguou.meizhiday.UI.gittest;
 import com.example.nenguou.meizhiday.adapter.MeiZhiAdapter;
 import com.example.nenguou.meizhiday.network.Utils;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private String content;
     private MeiZhiAdapter meiZhiAdapter;
     private ImageButton imageButtonhaha;
-    private ImageView menu_24;
+    private ImageView menu_24,gitcat;
     //private int FLAGSS = 0;
 
     @Override
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             Uri uri = i_getValue.getData();
             if(uri != null){
                 String code = uri.getQueryParameter("code");
-                Log.d("getGitInfoFaild",code+"");
+                //Log.d("getGitInfoFaild",code+"");
                 SharedPreferences sharedPreferences = getSharedPreferences("gitCode", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("code",code);
@@ -117,6 +118,16 @@ public class MainActivity extends AppCompatActivity {
 
     //设置各种点击事件
     private void setClickListener() {
+
+        //GitCat 点击事件
+        gitcat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, GithubUserPage.class);
+                startActivity(intent);
+            }
+        });
+
         //menu 点击事件
         menu_24.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initId() {
+        gitcat = (ImageView) findViewById(heR.id.gitcat);
         navigationView_test = (NavigationView) findViewById(R.id.navigationView_test);
         imageButtonhaha = (ImageButton) findViewById(R.id.menu_24);
         my_recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
