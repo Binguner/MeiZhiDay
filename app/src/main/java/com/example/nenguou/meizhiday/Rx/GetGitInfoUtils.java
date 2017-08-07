@@ -12,11 +12,20 @@ import com.example.nenguou.meizhiday.Bean.TokenBean;
 import com.example.nenguou.meizhiday.Services.GithubService;
 import com.example.nenguou.meizhiday.UI.gittest;
 import com.example.nenguou.meizhiday.Utils.CallTokenBack;
+import com.example.nenguou.meizhiday.Utils.CallUserBack;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import org.reactivestreams.Subscription;
+
 import java.io.IOException;
+
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import okhttp3.ResponseBody;
@@ -35,11 +44,17 @@ public class GetGitInfoUtils {
     private String url;
     private String code;
     private TokenBean tokenBean = new TokenBean();
+    private GitUserBean mgitUserBean = new GitUserBean();
     private CallTokenBack callTokenBack;
+    private CallUserBack callUserBack;
     private String testToken = "06bcd841454480acbd71b3c48e147aa58fd6f255";
+    private String User_avater_url;
 
     public void setCallBack(CallTokenBack callTokenBack){
         this.callTokenBack = callTokenBack;
+    }
+    public void setCallBackUser(CallUserBack callUserBack){
+        this.callUserBack = callUserBack;
     }
 
     public GetGitInfoUtils(Context context){
@@ -127,14 +142,15 @@ public class GetGitInfoUtils {
                         Log.d("yunxingle","运行了");
                         Log.d("TokenBean",tokenBean.getAccess_token());
                         callTokenBack.callBackToken(tokenBean.getAccess_token());
+                        testToken = tokenBean.getAccess_token();
 
                     }
                 });
 
     }
 
-    public void getGitUser(){
-        service.getUser(testToken)
+    public void getGitUser(String token){
+        service.getUser(token)
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<GitUserBean>() {
                     @Override
@@ -149,15 +165,47 @@ public class GetGitInfoUtils {
 
                     @Override
                     public void onNext(GitUserBean gitUserBean) {
-
+                        Log.d("Token is :",testToken);
                         Log.d("GitUserInfo",gitUserBean.getBio());
                         Log.d("GitUserInfo",gitUserBean.getBlog());
+                        callUserBack.callBackUserBean(gitUserBean);
+                        User_avater_url = gitUserBean.getAvatar_url();
+                        mgitUserBean = gitUserBean;
                     }
                 });
     }
 
     public String showCode(){
         return code;
+    }
+
+    public void SetGitUser(){
+        Flowable.create(new FlowableOnSubscribe<GitUserBean>() {
+            @Override
+            public void subscribe(FlowableEmitter<GitUserBean> e) throws Exception {
+                e.onNext(mgitUserBean);
+            }
+        }, BackpressureStrategy.BUFFER).subscribe(new org.reactivestreams.Subscriber<GitUserBean>() {
+            @Override
+            public void onSubscribe(Subscription s) {
+                Log.d("GitUserinformathinz","onSubscribe");
+            }
+
+            @Override
+            public void onNext(GitUserBean gitUserBean) {
+                Log.d("Susssss",gitUserBean.getBlog());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Log.d("GitUserinformathinz",t.toString());
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d("GitUserinformathinz","Completed");
+            }
+        });
     }
 
 }

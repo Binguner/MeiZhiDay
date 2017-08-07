@@ -3,7 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/gitPageLayout"
     android:layout_height="match_parent"
+    android:background="@mipmap/gitpagebg1"
     tools:context="com.example.nenguou.meizhiday.UI.GithubUI.GithubUserPage">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/gitPage_portrait"
+        app:layout_constraintVertical_bias="0.437"
+        app:layout_constraintTop_toTopOf="@+id/gitPageLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/gitPageLayout"
+        app:layout_constraintStart_toStartOf="@id/gitPageLayout"
+        app:layout_constraintEnd_toEndOf="@id/gitPageLayout"
+        android:layout_width="143dp"
+        android:layout_height="143dp"
+        android:src="@mipmap/bg3"
+        />
 
 </android.support.constraint.ConstraintLayout>

@@ -18,7 +18,7 @@ import com.example.nenguou.meizhiday.Utils.CallTokenBack;
 
 public class gittest extends AppCompatActivity {
 
-    private Button getgithubinfo,GetCode,GetGitInfoBtn;
+    private Button getgithubinfo,GetCode,GetGitInfoBtn,SetGitUser;
     private GetGitInfoUtils getGitInfoUtils = null;
     private TextView github_code,github_token,GitUserInfo;
     public String code,mytoken;
@@ -58,6 +58,7 @@ public class gittest extends AppCompatActivity {
     }
 
     private void initId() {
+        SetGitUser = (Button) findViewById(R.id.SetGitUser);
         GitUserInfo = (TextView) findViewById(R.id.GitUserInfo);
         GetGitInfoBtn = (Button) findViewById(R.id.GetGitInfoBtn);
         github_token = (TextView) findViewById(R.id.github_token);
@@ -83,7 +84,7 @@ public class gittest extends AppCompatActivity {
 
             getGitInfoUtils.setCallBack(token -> {
                 mytoken = token;
-                Log.d("hahahahahahhaffha",mytoken);
+                //Log.d("hahahahahahhaffha",mytoken);
                 Message message = new Message();
                 message.what = 1;
                 handler.sendMessage(message);
@@ -94,7 +95,17 @@ public class gittest extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 getGitInfoUtils = new GetGitInfoUtils(gittest.this,code);
-                getGitInfoUtils.getGitUser();
+                getGitInfoUtils.getGitUser(mytoken);
+            }
+        });
+
+
+        SetGitUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getGitInfoUtils = new GetGitInfoUtils(gittest.this,code);
+               //getGitInfoUtils.setCallBackUser();
+                getGitInfoUtils.SetGitUser();
             }
         });
     }

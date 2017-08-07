@@ -44,5 +44,12 @@
         android:text="UserInfo"
         android:id="@+id/GitUserInfo"
         app:layout_constraintTop_toBottomOf="@+id/GetGitInfoBtn"/>
+    <Button
+        app:layout_constraintTop_toBottomOf="@+id/GitUserInfo"
+        android:id="@+id/SetGitUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SetGitUser"
+        android:textAllCaps="false"/>
 
 </android.support.constraint.ConstraintLayout>

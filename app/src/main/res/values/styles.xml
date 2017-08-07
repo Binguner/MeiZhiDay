@@ -23,6 +23,16 @@
         <item name="colorPrimaryDark">#01405b</item>
         <item name="android:windowTranslucentStatus">false</item>
     </style>
+    <style name="AppTheme.github.page" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="titleTextColor">#00ffffff</item>
+        <item name="colorPrimaryDark">#01405b</item>
+        <item name="android:windowTranslucentStatus">true</item>
+
+
+
+    </style>
 
     <style name="toolbar_style" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="android:actionMenuTextColor">@color/colorWhite</item>

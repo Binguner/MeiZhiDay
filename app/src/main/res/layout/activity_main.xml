@@ -96,7 +96,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/colorWhite"
-        app:headerLayout="@layout/header_layout"
+        
         app:itemIconTint="#FFFFFF"
         app:menu="@menu/menu_main" />
 

@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
     private String content;
     private MeiZhiAdapter meiZhiAdapter;
     private ImageButton imageButtonhaha;
-    private ImageView menu_24;
-    private ImageButton gitcat;
+    private ImageView menu_24, gitcat;
+
     //private int FLAGSS = 0;
 
     @Override
@@ -116,31 +116,23 @@ public class MainActivity extends AppCompatActivity {
     private void askPermission() {
         //PermissionUtils.requestPermission(this,PermissionUtils.CODE_READ_EXTERNAL_STORAGE,);
     }
-    //private
 
     //设置各种点击事件
     private void setClickListener() {
-
-        //GitCat 点击事件
-        /*try{
-            gitcat.setOnClickListener(new View.OnClickListener() {
+        //gitcat点击事件，进入个人主页
+        gitcat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("GitCatClick","ButtonClicked");
-                Intent intent = new Intent(MainActivity.this, GithubUserPage.class);
+                Intent intent = new Intent(MainActivity.this,GithubUserPage.class);
                 startActivity(intent);
             }
-        });}catch (Exception e){
-            Log.d("GitCatClick",e.toString());
-            e.printStackTrace();
-        }*/
+        });
 
 
-        //menu 点击事件
+        //menu 点击事件 --打开侧滑菜单
         menu_24.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(MainActivity.this,"shit",Toast.LENGTH_SHORT).show();
                 mydrawerlayout.openDrawer(Gravity.LEFT);
             }
         });
@@ -166,6 +158,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.Github_menu:
                         Intent intent2 = new Intent(MainActivity.this,gittest.class);
                         startActivity(intent2);
+                        break;
+
+                    case R.id.gitcat:
+                        Log.d("doahfiluhnasofna;s","osdmsdno");
                         break;
                     default:
                         break;
@@ -194,6 +190,11 @@ public class MainActivity extends AppCompatActivity {
     private void initViews() {
        // my_staggeredGridLayoutManager = new GridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         mydrawerlayout = (DrawerLayout) findViewById(R.id.mydrawerlayout);
+        View LeftView = getLayoutInflater().inflate(R.layout.header_layout,null);
+        navigationView_test.addHeaderView(LeftView);
+        View headerView = navigationView_test.getHeaderView(0);
+        gitcat = (ImageView) headerView.findViewById(R.id.gitcat);
+
         menu_24 = (ImageView) findViewById(R.id.menu_24);
         myToolbar = (Toolbar) findViewById(R.id.myToolbar);
 
@@ -204,9 +205,6 @@ public class MainActivity extends AppCompatActivity {
         my_recyclerView.setAdapter(meiZhiAdapter);
         my_recyclerView.setHasFixedSize(true);
         //my_recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-
-        //单击 menu 弹出侧滑菜单
-
 
         //设置 item 间隔
         SpacesItemDecoration spacesItemDecoration = new SpacesItemDecoration(8);
@@ -237,23 +235,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initId() {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.header_layout,null);
-        gitcat = (ImageButton) view.findViewById(R.id.gitcat);
-        Log.d("GitCatClick","BeforeClick");
-        gitcat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("GitCatClick","Clcickc");
-            }
-        });
-        Log.d("GitCatClick","AfterClick");
-
-        /*try{
-            gitcat = (ImageButton) findViewById(R.id.gitcat);
-        }catch (Exception e){
-            Log.d("GitCatClicrk",e.toString());
-        }*/
         navigationView_test = (NavigationView) findViewById(R.id.navigationView_test);
         imageButtonhaha = (ImageButton) findViewById(R.id.menu_24);
         my_recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -263,13 +244,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void Go_top(View view){
-     //    Toast.makeText(this,"ff",Toast.LENGTH_SHORT).show();
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                my_recyclerView.smoothScrollToPosition(0);
-            }
-        }).start();*/
+
     }
     //private int times = 0;
     private void setRefreshListener() {
