@@ -19,6 +19,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -62,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
     private String content;
     private MeiZhiAdapter meiZhiAdapter;
     private ImageButton imageButtonhaha;
-    private ImageView menu_24,gitcat;
+    private ImageView menu_24;
+    private ImageButton gitcat;
     //private int FLAGSS = 0;
 
     @Override
@@ -120,13 +122,19 @@ public class MainActivity extends AppCompatActivity {
     private void setClickListener() {
 
         //GitCat 点击事件
-        gitcat.setOnClickListener(new View.OnClickListener() {
+        /*try{
+            gitcat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("GitCatClick","ButtonClicked");
                 Intent intent = new Intent(MainActivity.this, GithubUserPage.class);
                 startActivity(intent);
             }
-        });
+        });}catch (Exception e){
+            Log.d("GitCatClick",e.toString());
+            e.printStackTrace();
+        }*/
+
 
         //menu 点击事件
         menu_24.setOnClickListener(new View.OnClickListener() {
@@ -229,7 +237,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initId() {
-        gitcat = (ImageView) findViewById(heR.id.gitcat);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.header_layout,null);
+        gitcat = (ImageButton) view.findViewById(R.id.gitcat);
+        Log.d("GitCatClick","BeforeClick");
+        gitcat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("GitCatClick","Clcickc");
+            }
+        });
+        Log.d("GitCatClick","AfterClick");
+
+        /*try{
+            gitcat = (ImageButton) findViewById(R.id.gitcat);
+        }catch (Exception e){
+            Log.d("GitCatClicrk",e.toString());
+        }*/
         navigationView_test = (NavigationView) findViewById(R.id.navigationView_test);
         imageButtonhaha = (ImageButton) findViewById(R.id.menu_24);
         my_recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);

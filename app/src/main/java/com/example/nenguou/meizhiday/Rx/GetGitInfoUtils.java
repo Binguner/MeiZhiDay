@@ -36,7 +36,7 @@ public class GetGitInfoUtils {
     private String code;
     private TokenBean tokenBean = new TokenBean();
     private CallTokenBack callTokenBack;
-    private String testToken = "54b007189eb1381915c9a79ce50d96bd35786468";
+    private String testToken = "06bcd841454480acbd71b3c48e147aa58fd6f255";
 
     public void setCallBack(CallTokenBack callTokenBack){
         this.callTokenBack = callTokenBack;
@@ -139,16 +139,17 @@ public class GetGitInfoUtils {
                 .subscribe(new Subscriber<GitUserBean>() {
                     @Override
                     public void onCompleted() {
-
+                        Log.d("GitUserInfo","Completed: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d("GitUserInfo","Erroe: "+ e);
                     }
 
                     @Override
                     public void onNext(GitUserBean gitUserBean) {
+
                         Log.d("GitUserInfo",gitUserBean.getBio());
                         Log.d("GitUserInfo",gitUserBean.getBlog());
                     }
