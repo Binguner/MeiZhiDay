@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 Uri uri = i_getValue.getData();
                 if(uri != null){
                     String code = uri.getQueryParameter("code");
-                    //Log.d("getGitInfoFaild",code+"");
+
                     SharedPreferences sharedPreferences = getSharedPreferences("gitCode", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("code",code);

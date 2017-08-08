@@ -20,4 +20,14 @@
         android:src="@mipmap/bg3"
         />
 
+    <ImageView
+        android:id="@+id/circleImage1"
+        app:layout_constraintTop_toTopOf="@+id/gitPageLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/gitPageLayout"
+        app:layout_constraintVertical_bias="0.437"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/circle"/>
+
+
 </android.support.constraint.ConstraintLayout>

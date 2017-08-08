@@ -51,6 +51,7 @@ public class gittest extends AppCompatActivity {
     };
 
 
+    //利用 sharedPreferences 获取 code
     private void showGitCode() {
         SharedPreferences sharedPreferences = getSharedPreferences("gitCode", Context.MODE_PRIVATE);
         code = sharedPreferences.getString("code",null);
@@ -123,8 +124,10 @@ public class gittest extends AppCompatActivity {
                     @Override
                     public void callUserBeanBack(GitUserBean gitUserBean) {
                         gittest.this.gitUserBean = gitUserBean;
-                        SharedPreferences sharedPreferences = getSharedPreferences("UseerBean",gitUserBean);
+                        SharedPreferences sharedPreferences = getSharedPreferences("UseerBean",Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("userBean_avatar_url",gitUserBean.getAvatar_url());
+
                         editor.commit();
                         //Log.d("ggggg",gittest.this.gitUserBean.getEmail());
                     }
