@@ -9,6 +9,6 @@ import com.example.nenguou.meizhiday.Bean.TokenBean;
 
 public interface CallTokenBack {
     public void callBackToken(String token);
-    //void callUserBeanBack(GitUserBean gitUserBean);
+    public void callUserBeanBack(GitUserBean gitUserBean);
 
 }

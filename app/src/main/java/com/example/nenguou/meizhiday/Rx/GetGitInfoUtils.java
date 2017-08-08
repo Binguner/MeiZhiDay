@@ -26,6 +26,7 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.annotations.Nullable;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import okhttp3.ResponseBody;
@@ -46,16 +47,16 @@ public class GetGitInfoUtils {
     private TokenBean tokenBean = new TokenBean();
     private GitUserBean mgitUserBean = new GitUserBean();
     private CallTokenBack callTokenBack;
-    private CallUserBack callUserBack;
+    //private CallUserBack callUserBack;
     private String testToken = "06bcd841454480acbd71b3c48e147aa58fd6f255";
     private String User_avater_url;
 
-    public void setCallBack(CallTokenBack callTokenBack){
+    public void setCallBack(@Nullable CallTokenBack callTokenBack){
         this.callTokenBack = callTokenBack;
     }
-    public void setCallBackUser(CallUserBack callUserBack){
-        this.callUserBack = callUserBack;
-    }
+    //public void setCallBackUser(CallUserBack callUserBack){
+     //   this.callUserBack = callUserBack;
+    //}
 
     public GetGitInfoUtils(Context context){
         this.context = context;
@@ -139,7 +140,6 @@ public class GetGitInfoUtils {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        Log.d("yunxingle","运行了");
                         Log.d("TokenBean",tokenBean.getAccess_token());
                         callTokenBack.callBackToken(tokenBean.getAccess_token());
                         testToken = tokenBean.getAccess_token();
@@ -168,7 +168,8 @@ public class GetGitInfoUtils {
                         Log.d("Token is :",testToken);
                         Log.d("GitUserInfo",gitUserBean.getBio());
                         Log.d("GitUserInfo",gitUserBean.getBlog());
-                        callUserBack.callBackUserBean(gitUserBean);
+                        //callUserBack.callBackUserBean(gitUserBean);
+                        callTokenBack.callUserBeanBack(gitUserBean);
                         User_avater_url = gitUserBean.getAvatar_url();
                         mgitUserBean = gitUserBean;
                     }

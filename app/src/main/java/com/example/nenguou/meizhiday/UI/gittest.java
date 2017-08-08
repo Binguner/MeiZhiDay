@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nenguou.meizhiday.Bean.GitUserBean;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.Rx.GetGitInfoUtils;
 import com.example.nenguou.meizhiday.Utils.CallTokenBack;
@@ -22,6 +23,7 @@ public class gittest extends AppCompatActivity {
     private GetGitInfoUtils getGitInfoUtils = null;
     private TextView github_code,github_token,GitUserInfo;
     public String code,mytoken;
+    private GitUserBean gitUserBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,19 +77,35 @@ public class gittest extends AppCompatActivity {
 
         GetCode.setOnClickListener(view -> {
             getGitInfoUtils = new GetGitInfoUtils(gittest.this,code);
-            Log.d("showCodedede",getGitInfoUtils.showCode().toString());
+            Log.d("showCode",getGitInfoUtils.showCode().toString());
             try {
                 getGitInfoUtils.getGitToken();
             }catch (Exception e){
                 Log.d("GetTokenError","ErrorOnToken: " + e);
             }
 
-            getGitInfoUtils.setCallBack(token -> {
+            /*getGitInfoUtils.setCallBack(token -> {
                 mytoken = token;
                 //Log.d("hahahahahahhaffha",mytoken);
                 Message message = new Message();
                 message.what = 1;
                 handler.sendMessage(message);
+            });*/
+
+            getGitInfoUtils.setCallBack(new CallTokenBack() {
+                @Override
+                public void callBackToken(String token) {
+                    mytoken = token;
+                    Message message = new Message();
+                    message.what = 1;
+                    handler.sendMessage(message);
+
+                }
+
+                @Override
+                public void callUserBeanBack(GitUserBean gitUserBean) {
+
+                }
             });
         });
 
@@ -96,6 +114,21 @@ public class gittest extends AppCompatActivity {
             public void onClick(View view) {
                 getGitInfoUtils = new GetGitInfoUtils(gittest.this,code);
                 getGitInfoUtils.getGitUser(mytoken);
+                getGitInfoUtils.setCallBack(new CallTokenBack() {
+                    @Override
+                    public void callBackToken(String token) {
+
+                    }
+
+                    @Override
+                    public void callUserBeanBack(GitUserBean gitUserBean) {
+                        gittest.this.gitUserBean = gitUserBean;
+                        SharedPreferences sharedPreferences = getSharedPreferences("UseerBean",gitUserBean);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.commit();
+                        //Log.d("ggggg",gittest.this.gitUserBean.getEmail());
+                    }
+                });
             }
         });
 

@@ -92,24 +92,27 @@ public class MainActivity extends AppCompatActivity {
     private void getGitInfo() {
 
         try{
-        Intent i_getValue = getIntent();
-        String codeUrl = i_getValue.getAction();
-
-        if(Intent.ACTION_VIEW.equals(codeUrl)){
-            Uri uri = i_getValue.getData();
-            if(uri != null){
-                String code = uri.getQueryParameter("code");
-                //Log.d("getGitInfoFaild",code+"");
-                SharedPreferences sharedPreferences = getSharedPreferences("gitCode", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("code",code);
-                editor.commit();
-
-
+            Intent i_getValue = getIntent();
+            String codeUrl = i_getValue.getAction();
+            if(Intent.ACTION_VIEW.equals(codeUrl)){
+                Uri uri = i_getValue.getData();
+                if(uri != null){
+                    String code = uri.getQueryParameter("code");
+                    //Log.d("getGitInfoFaild",code+"");
+                    SharedPreferences sharedPreferences = getSharedPreferences("gitCode", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("code",code);
+                    editor.commit();
             }
         }
         }catch (Exception e){
             Log.d("getGitInfoFaild","onError: "+e);
+        }
+
+        try{
+
+        }catch (Exception e){
+
         }
     }
 
