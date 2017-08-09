@@ -5,9 +5,8 @@
     android:layout_width="match_parent"
     android:id="@+id/gitPageLayout"
     android:layout_height="match_parent"
-    android:background="@mipmap/gitpagebg1"
     tools:context="com.example.nenguou.meizhiday.UI.GithubUI.GithubUserPage">
-
+<!--
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/gitPage_portrait"
         app:layout_constraintVertical_bias="0.437"
@@ -27,7 +26,107 @@
         app:layout_constraintVertical_bias="0.437"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/circle"/>
+        android:src="@mipmap/circle"/>-->
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="226dp"
+            app:contentScrim="@color/colorToolbar"
+
+            android:fitsSystemWindows="true">
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/githubt_page_collaspingToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/gituserbg1"
+                    android:scaleType="centerCrop"/>
+                <android.support.v7.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    >
+                    <RelativeLayout
+                        app:contentInsetStartWithNavigation="0dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/menu_24"/>
+
+                        <ImageView
+                            android:layout_marginRight="10dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/white_person_24"/>
+                    </RelativeLayout>
+
+
+                </android.support.v7.widget.Toolbar>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_marginTop="70dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/bg2"/>
+
+                <TextView
+                    android:layout_marginBottom="50dp"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:textColor="@color/colorWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="I can't go on,I will go on"
+                    android:singleLine="true"
+                    android:textSize="15dp"/>
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/github_tablelayout1"
+                    android:layout_gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabTextColor="@color/colorWhite"
+                    app:tabIndicatorColor="@color/colorWhite">
+                    <android.support.design.widget.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="WatchEvents"
+                        />
+                    <android.support.design.widget.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="MyEvents"/>
+                    <android.support.design.widget.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Repos"/>
+
+                </android.support.design.widget.TabLayout>
+
+
+
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/githubSwiperefreshlayout"
+            android:layout_width="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_height="match_parent">
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
 
 
 </android.support.constraint.ConstraintLayout>
