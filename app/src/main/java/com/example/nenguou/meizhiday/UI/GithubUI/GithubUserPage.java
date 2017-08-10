@@ -4,19 +4,23 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TableLayout;
+import android.widget.TextView;
 
 import com.example.nenguou.meizhiday.Bean.GitUserBean;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.Rx.GetGitInfoUtils;
 import com.example.nenguou.meizhiday.Rx.SetUserUtils;
+import com.example.nenguou.meizhiday.Utils.AppBarStateChangeListener;
 import com.example.nenguou.meizhiday.Utils.CallTokenBack;
 import com.example.nenguou.meizhiday.Utils.ImageLoader;
 
@@ -32,6 +36,10 @@ public class GithubUserPage extends AppCompatActivity {
     private ImageView circleImage1,circleImage2;
 
     private TabLayout github_tablelayout1;
+    private AppBarLayout github_page_appbarlayout1;
+    private CircleImageView github_circleImageView1;
+    private TextView github_desc;
+    private int circleIVFlag = 1;//0 不可见 ，1 可见
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +49,38 @@ public class GithubUserPage extends AppCompatActivity {
         setContentView(R.layout.activity_github_user_page);
         initId();
         initViews();
+        setListener();
     }
+
+    private void setListener() {
+
+        github_page_appbarlayout1.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, AppBarStateChangeListener.State state) {
+                Log.d("AppBarState",state.name().toString());
+                if(state == State.EXPANDED){
+                    //展开状态
+                    github_circleImageView1.setVisibility(View.VISIBLE);
+                    circleIVFlag = 1;
+                }else if(state == State.COLLAPSED){
+                    //折叠状态
+                    github_circleImageView1.setVisibility(View.INVISIBLE);
+                    circleIVFlag = 0;
+                }else {
+                    //中间状态
+                    if(circleIVFlag == 1) {
+                        Animation animation = AnimationUtils.loadAnimation(GithubUserPage.this, R.anim.small_animation);
+                        github_circleImageView1.startAnimation(animation);
+                        github_circleImageView1.setVisibility(View.INVISIBLE);
+                    }else{
+                        Animation animation = AnimationUtils.loadAnimation(GithubUserPage.this,R.anim.bigger_animation);
+                        github_circleImageView1.startAnimation(animation);
+                    }
+                }
+            }
+        });
+    }
+
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -90,6 +129,9 @@ public class GithubUserPage extends AppCompatActivity {
     }
 
     private void initId() {
+        github_desc = (TextView) findViewById(R.id.github_desc);
+        github_circleImageView1 = (CircleImageView) findViewById(R.id.github_circleImageView1);
+        github_page_appbarlayout1 = (AppBarLayout) findViewById(R.id.github_page_appbarlayout1);
         github_tablelayout1 = (TabLayout) findViewById(R.id.github_tablelayout1);
        /* circleImage1 = (ImageView) findViewById(R.id.circleImage1);
         //circleImage2 = (ImageView) findViewById(R.id.circleImage2);

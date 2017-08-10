@@ -15,6 +15,7 @@
         android:repeatCount="infinite"
         android:pivotY="50%"
         android:repeatMode="restart"
+
         />
 
 </set>

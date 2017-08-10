@@ -47,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:layout_scrollFlags="scroll|enterAlways">
+                    >
 
                     <ImageButton
                         android:id="@+id/menu_24"

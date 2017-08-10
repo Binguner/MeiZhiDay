@@ -31,30 +31,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.design.widget.AppBarLayout
+            android:id="@+id/github_page_appbarlayout1"
             android:layout_width="match_parent"
             android:layout_height="226dp"
-            app:contentScrim="@color/colorToolbar"
-
             android:fitsSystemWindows="true">
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/githubt_page_collaspingToolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                app:contentScrim="@color/colorToolbar"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
                 <ImageView
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.7"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@mipmap/gituserbg1"
                     android:scaleType="centerCrop"/>
                 <android.support.v7.widget.Toolbar
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    android:gravity="top"
+                    android:layout_height="96dp"
                     >
                     <RelativeLayout
+                        android:gravity="top"
                         app:contentInsetStartWithNavigation="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                         <ImageView
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@mipmap/menu_24"/>
@@ -73,14 +81,21 @@
                     android:layout_marginTop="70dp"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
+                    android:id="@+id/github_circleImageView1"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.7"
                     android:layout_gravity="center_horizontal"
                     android:src="@mipmap/bg2"/>
 
+
                 <TextView
+                    android:id="@+id/github_desc"
                     android:layout_marginBottom="50dp"
                     android:layout_gravity="center_horizontal|bottom"
                     android:textColor="@color/colorWhite"
                     android:layout_width="wrap_content"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.7"
                     android:layout_height="wrap_content"
                     android:text="I can't go on,I will go on"
                     android:singleLine="true"
@@ -116,13 +131,30 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/githubSwiperefreshlayout"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="dmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmzdmwdmpdmpqdmz"/>
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+       <!-- <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/githubSwiperefreshlayout"
+            android:layout_width="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_height="match_parent">'
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+        </android.support.v4.widget.SwipeRefreshLayout>-->
 
 
     </android.support.design.widget.CoordinatorLayout>
