@@ -1,6 +1,9 @@
 package com.example.nenguou.meizhiday.Services;
 
 import com.example.nenguou.meizhiday.Bean.GitUserBean;
+import com.example.nenguou.meizhiday.Bean.WatchEventBean;
+
+import java.util.List;
 
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -33,5 +36,7 @@ public interface GithubService {
     @GET("https://api.github.com/user?access_token=")
     Observable<GitUserBean> getUser(@Query("access_token") String token);
 
-
+    //https://api.github.com/users/Nenguou/received_events
+    @GET("https://api.github.com/users/{name}/received_events")
+    Observable<List<WatchEventBean>> getWatchEvent(@Path("name") String name);
 }

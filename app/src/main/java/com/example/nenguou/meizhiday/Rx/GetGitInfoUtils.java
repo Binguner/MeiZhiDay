@@ -2,17 +2,15 @@ package com.example.nenguou.meizhiday.Rx;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.example.nenguou.meizhiday.Bean.GitUserBean;
 import com.example.nenguou.meizhiday.Bean.TokenBean;
+import com.example.nenguou.meizhiday.Bean.WatchEventBean;
 import com.example.nenguou.meizhiday.Services.GithubService;
-import com.example.nenguou.meizhiday.UI.gittest;
 import com.example.nenguou.meizhiday.Utils.CallTokenBack;
-import com.example.nenguou.meizhiday.Utils.CallUserBack;
+import com.example.nenguou.meizhiday.Utils.CallWatchEventsBack;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -21,6 +19,7 @@ import com.google.gson.JsonParser;
 import org.reactivestreams.Subscription;
 
 import java.io.IOException;
+import java.util.List;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -32,7 +31,6 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import okhttp3.ResponseBody;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -48,16 +46,18 @@ public class GetGitInfoUtils {
     private GitUserBean mgitUserBean = new GitUserBean();
     private CallTokenBack callTokenBack;
     //private CallUserBack callUserBack;
+    private CallWatchEventsBack callWatchEventsBack;
     private String testToken = "06bcd841454480acbd71b3c48e147aa58fd6f255";
     private String User_avater_url;
 
-    public void setCallBack(@Nullable CallTokenBack callTokenBack){
+    public void setCallBack(@Nullable CallTokenBack callTokenBack,@Nullable CallWatchEventsBack callWatchEventsBack){
         this.callTokenBack = callTokenBack;
+        this.callWatchEventsBack = callWatchEventsBack;
     }
     //public void setCallBackUser(CallUserBack callUserBack){
      //   this.callUserBack = callUserBack;
     //}
-
+    public GetGitInfoUtils(){}
     public GetGitInfoUtils(Context context){
         this.context = context;
     }
@@ -209,4 +209,33 @@ public class GetGitInfoUtils {
         });
     }
 
+    public void getGitWatchEvent(String name){
+        service.getWatchEvent(name)
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<List<WatchEventBean>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("WatchEventsTag","Completed");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("WatchEventsTag",e.toString());
+                    }
+
+                    @Override
+                    public void onNext(List<WatchEventBean> watchEvents) {
+                        Log.d("WatchEventsTag",watchEvents.get(0).getType());
+                        Log.d("WatchEventsTag",watchEvents.get(1).getType());
+                        Log.d("WatchEventsTag", String.valueOf(watchEvents.get(1).getActor().getId()));
+                        try {
+                            Log.d("WatchEventsTag", String.valueOf(watchEvents.get(0).getPayload().getForkee().getOwner().getId()));
+                        } catch (Exception e){
+                            Log.d("WatchEventsTag",e.toString());
+                        }
+                        callWatchEventsBack.callBackWatchEvents(watchEvents);
+
+                    }
+                });
+    }
 }

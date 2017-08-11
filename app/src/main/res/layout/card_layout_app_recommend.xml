@@ -17,6 +17,7 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:foreground="?attr/selectableItemBackground"
         android:background="@color/colorToolbar"
         android:id="@+id/app_recommend_cardview">
 

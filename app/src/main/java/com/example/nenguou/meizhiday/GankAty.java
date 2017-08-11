@@ -39,7 +39,7 @@ import com.example.nenguou.meizhiday.Fragments.IOSFragment;
 import com.example.nenguou.meizhiday.Fragments.VideoFragment;
 import com.example.nenguou.meizhiday.Fragments.appRecommendFragment;
 import com.example.nenguou.meizhiday.Rx.GetSearchUtils;
-import com.example.nenguou.meizhiday.UI.GithubPageActivity;
+import com.example.nenguou.meizhiday.UI.others.GithubPageActivity;
 import com.example.nenguou.meizhiday.adapter.Search_results_Adapter;
 import com.flyco.tablayout.SlidingTabLayout;
 
@@ -138,7 +138,7 @@ public class GankAty extends AppCompatActivity {
 
 
 
-        //item 点击事件
+        //搜索结果 item 点击事件
         search_results_adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {

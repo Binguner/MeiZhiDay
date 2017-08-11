@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.nenguou.meizhiday.Bean.Gank;
 import com.example.nenguou.meizhiday.GetDatas.GankOkhttp;
-import com.example.nenguou.meizhiday.UI.GithubPageActivity;
+import com.example.nenguou.meizhiday.UI.others.GithubPageActivity;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.adapter.Android_iOS_Adapter;
 import com.google.gson.Gson;

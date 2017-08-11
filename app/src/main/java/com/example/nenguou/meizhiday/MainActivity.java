@@ -19,7 +19,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -27,9 +26,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.nenguou.meizhiday.Bean.MeiZHI;
-import com.example.nenguou.meizhiday.UI.About;
+import com.example.nenguou.meizhiday.UI.others.About;
 import com.example.nenguou.meizhiday.UI.GithubUI.GithubUserPage;
-import com.example.nenguou.meizhiday.UI.gittest;
+import com.example.nenguou.meizhiday.UI.others.gittest;
 import com.example.nenguou.meizhiday.adapter.MeiZhiAdapter;
 import com.example.nenguou.meizhiday.network.Utils;
 import com.google.gson.Gson;
@@ -70,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //FreelineCore.init(MainActivity.this);
         setTheme(R.style.AppTheme_main);
         setContentView(R.layout.activity_main);
         getGitInfo();

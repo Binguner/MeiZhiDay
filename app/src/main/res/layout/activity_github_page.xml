@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/AppTheme.github"
-    tools:context="com.example.nenguou.meizhiday.UI.GithubPageActivity">
+    tools:context="com.example.nenguou.meizhiday.UI.others.GithubPageActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"

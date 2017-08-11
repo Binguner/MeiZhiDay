@@ -6,6 +6,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +21,9 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.example.nenguou.meizhiday.Bean.GitUserBean;
+import com.example.nenguou.meizhiday.Fragments.MyEventsFragment;
+import com.example.nenguou.meizhiday.Fragments.ReposFragment;
+import com.example.nenguou.meizhiday.Fragments.WatchEventsFragment;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.Rx.GetGitInfoUtils;
 import com.example.nenguou.meizhiday.Rx.SetUserUtils;
@@ -24,7 +31,10 @@ import com.example.nenguou.meizhiday.Utils.AppBarStateChangeListener;
 import com.example.nenguou.meizhiday.Utils.CallTokenBack;
 import com.example.nenguou.meizhiday.Utils.ImageLoader;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 
 public class GithubUserPage extends AppCompatActivity {
@@ -40,6 +50,10 @@ public class GithubUserPage extends AppCompatActivity {
     private CircleImageView github_circleImageView1;
     private TextView github_desc;
     private int circleIVFlag = 1;//0 不可见 ，1 可见
+    private ViewPager github_viewpager1;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
+    private MyPagetAdapter myPagetAdapter;
+    private String[] titles = {"WatchEventBean","MyEvents","Repos"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,17 +100,23 @@ public class GithubUserPage extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what){
-                case 0:
+                /*case 0:
                     try{
                         ImageLoader.with(GithubUserPage.this,userBean_avatar_url,gitPage_portrait);
                     }catch (Exception e){
                         e.printStackTrace();
-                    }
+                    }*/
             }
         }
     };
 
     private void initViews() {
+        fragments.add(WatchEventsFragment.newInstance());
+        fragments.add(MyEventsFragment.newInstance());
+        fragments.add(ReposFragment.newInstance());
+        myPagetAdapter = new MyPagetAdapter(getSupportFragmentManager());
+        github_viewpager1.setAdapter(myPagetAdapter);
+        github_tablelayout1.setupWithViewPager(github_viewpager1);
         //获取回调的userbean
         Log.d("Textd","运行类");
         getGitInfoUtils = new GetGitInfoUtils(this);
@@ -111,14 +131,14 @@ public class GithubUserPage extends AppCompatActivity {
                 GithubUserPage.this.gitUserBean = gitUserBean;
                 Log.d("Textd",gitUserBean.getAvatar_url());
             }
-        });
+        },null);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("UseerBean", Context.MODE_PRIVATE);
+        /*SharedPreferences sharedPreferences = getSharedPreferences("UseerBean", Context.MODE_PRIVATE);
         userBean_avatar_url = sharedPreferences.getString("userBean_avatar_url",null);
         //Log.d("itsatest",userBean_avatar_url);
         Message message = Message.obtain();
         message.what = 0;
-        handler.sendMessage(message);
+        handler.sendMessage(message);*/
 
         //修改UI界面
         //设置 Tablayout
@@ -129,10 +149,13 @@ public class GithubUserPage extends AppCompatActivity {
     }
 
     private void initId() {
+        github_viewpager1 = (ViewPager) findViewById(R.id.github_viewpager1);
         github_desc = (TextView) findViewById(R.id.github_desc);
         github_circleImageView1 = (CircleImageView) findViewById(R.id.github_circleImageView1);
         github_page_appbarlayout1 = (AppBarLayout) findViewById(R.id.github_page_appbarlayout1);
         github_tablelayout1 = (TabLayout) findViewById(R.id.github_tablelayout1);
+
+
        /* circleImage1 = (ImageView) findViewById(R.id.circleImage1);
         //circleImage2 = (ImageView) findViewById(R.id.circleImage2);
         Animation animation = AnimationUtils.loadAnimation(this,R.anim.circle_animation);
@@ -140,5 +163,27 @@ public class GithubUserPage extends AppCompatActivity {
         //circleImage2.startAnimation(animation);
         gitPage_portrait = (CircleImageView) findViewById(R.id.gitPage_portrait);*/
 
+    }
+
+    public class MyPagetAdapter extends FragmentPagerAdapter{
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
+        }
+
+        public MyPagetAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
     }
 }
