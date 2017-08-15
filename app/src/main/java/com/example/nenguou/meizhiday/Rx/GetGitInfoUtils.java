@@ -3,14 +3,18 @@ package com.example.nenguou.meizhiday.Rx;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
 import com.example.nenguou.meizhiday.Bean.GitUserBean;
+import com.example.nenguou.meizhiday.Bean.MyEventsBean;
 import com.example.nenguou.meizhiday.Bean.TokenBean;
 import com.example.nenguou.meizhiday.Bean.WatchEventBean;
+import com.example.nenguou.meizhiday.Fragments.WatchEventsFragment;
 import com.example.nenguou.meizhiday.Services.GithubService;
 import com.example.nenguou.meizhiday.Utils.CallTokenBack;
 import com.example.nenguou.meizhiday.Utils.CallWatchEventsBack;
+import com.example.nenguou.meizhiday.adapter.WatchEventAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -19,6 +23,7 @@ import com.google.gson.JsonParser;
 import org.reactivestreams.Subscription;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.BackpressureStrategy;
@@ -30,6 +35,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import okhttp3.ResponseBody;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Scheduler;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
 
@@ -50,6 +56,11 @@ public class GetGitInfoUtils {
     private String testToken = "06bcd841454480acbd71b3c48e147aa58fd6f255";
     private String User_avater_url;
 
+    private WatchEventAdapter watchEventAdapter;
+    private List<WatchEventBean> watchEventBeans = new ArrayList<>();
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private WatchEventsFragment watchEventsFragment;
+
     public void setCallBack(@Nullable CallTokenBack callTokenBack,@Nullable CallWatchEventsBack callWatchEventsBack){
         this.callTokenBack = callTokenBack;
         this.callWatchEventsBack = callWatchEventsBack;
@@ -57,13 +68,21 @@ public class GetGitInfoUtils {
     //public void setCallBackUser(CallUserBack callUserBack){
      //   this.callUserBack = callUserBack;
     //}
-    public GetGitInfoUtils(){}
+    public GetGitInfoUtils(WatchEventsFragment watchEventsFragment,WatchEventAdapter watchEventAdapter,List<WatchEventBean> watchEventBeans,SwipeRefreshLayout swipeRefreshLayout){
+        this.watchEventsFragment = watchEventsFragment;
+        this.watchEventAdapter = watchEventAdapter;
+        //this.watchEventBeans = watchEventBeans;
+        this.swipeRefreshLayout = swipeRefreshLayout;
+    }
     public GetGitInfoUtils(Context context){
         this.context = context;
     }
     public GetGitInfoUtils(Context context,String code){
         this.context = context;
         this.code = code;
+    }
+    public GetGitInfoUtils(){
+
     }
 
     Gson gson = new GsonBuilder()
@@ -146,7 +165,6 @@ public class GetGitInfoUtils {
 
                     }
                 });
-
     }
 
     public void getGitUser(String token){
@@ -209,8 +227,8 @@ public class GetGitInfoUtils {
         });
     }
 
-    public void getGitWatchEvent(String name){
-        service.getWatchEvent(name)
+    public void getGitWatchEvent(String name,int page){
+        service.getWatchEvent(name,page)
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<List<WatchEventBean>>() {
                     @Override
@@ -220,21 +238,51 @@ public class GetGitInfoUtils {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("WatchEventsTag",e.toString());
+                        Log.d("WatchEventsTagError",e.toString());
                     }
 
                     @Override
                     public void onNext(List<WatchEventBean> watchEvents) {
-                        Log.d("WatchEventsTag",watchEvents.get(0).getType());
-                        Log.d("WatchEventsTag",watchEvents.get(1).getType());
-                        Log.d("WatchEventsTag", String.valueOf(watchEvents.get(1).getActor().getId()));
-                        try {
+                        //Log.d("WatchEventsTag",watchEvents.get(0).getType());
+                        //Log.d("WatchEventsTag",watchEvents.get(1).getType());
+                        //Log.d("WatchEventsTag", String.valueOf(watchEvents.get(1).getActor().getId()));
+                        /*try {
                             Log.d("WatchEventsTag", String.valueOf(watchEvents.get(0).getPayload().getForkee().getOwner().getId()));
                         } catch (Exception e){
                             Log.d("WatchEventsTag",e.toString());
-                        }
-                        callWatchEventsBack.callBackWatchEvents(watchEvents);
+                        }*/
+                        //Log.d("ahsdnjasds","aaa");
+                        //callWatchEventsBack.callBackWatchEvents(watchEvents);
+                        //Log.d("ahsdnjasds","bbb");
+                        //watchEventAdapter.setBeans(watchEvents);
+                        //Log.d("ahsdnjasds","ccc");
+                        watchEventsFragment.watchEventBeans.addAll(watchEvents);
+                        //Log.d("ahsdnjasds","ddd");
+                        watchEventAdapter.notifyItemInserted(watchEventsFragment.watchEventBeans.size());
+                        swipeRefreshLayout.setRefreshing(false);
+                        //Log.d("ahsdnjasds","eee");
 
+                    }
+                });
+    }
+
+    public void getGitMyEvent(String name){
+        service.getMyEvent(name)
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<List<MyEventsBean>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("EventBenananana",e.toString());
+                    }
+
+                    @Override
+                    public void onNext(List<MyEventsBean> myEventsBeans) {
+                        //dddLog.d("EventBenananana",myEventsBeans.get(2).getPayload().getCommits().ge);
                     }
                 });
     }

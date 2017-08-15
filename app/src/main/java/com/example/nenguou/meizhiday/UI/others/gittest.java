@@ -22,7 +22,7 @@ import java.util.List;
 
 public class gittest extends AppCompatActivity {
 
-    private Button getgithubinfo,GetCode,GetGitInfoBtn,SetGitUser,testWatchEvent;
+    private Button getgithubinfo,GetCode,GetGitInfoBtn,SetGitUser,testWatchEvent,getGitMyEvent;
     private GetGitInfoUtils getGitInfoUtils = null;
     private TextView github_code,github_token,GitUserInfo;
     public String code,mytoken;
@@ -64,6 +64,7 @@ public class gittest extends AppCompatActivity {
     }
 
     private void initId() {
+        getGitMyEvent = (Button) findViewById(R.id.getGitMyEvent);
         testWatchEvent = (Button) findViewById(R.id.testWatchEvent);
         SetGitUser = (Button) findViewById(R.id.SetGitUser);
         GitUserInfo = (TextView) findViewById(R.id.GitUserInfo);
@@ -75,6 +76,16 @@ public class gittest extends AppCompatActivity {
     }
 
     private void setListener(){
+        getGitMyEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getGitInfoUtils = new GetGitInfoUtils(gittest.this);
+                getGitInfoUtils.getGitMyEvent("Nenguou");
+            }
+        });
+
+
+
         getgithubinfo.setOnClickListener(view -> {
             getGitInfoUtils = new GetGitInfoUtils(gittest.this);
             getGitInfoUtils.getGitInfo();
@@ -154,7 +165,7 @@ public class gittest extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 getGitInfoUtils = new GetGitInfoUtils(gittest.this);
-                getGitInfoUtils.getGitWatchEvent("Nenguou");
+                getGitInfoUtils.getGitWatchEvent("Nenguou",2);
                 getGitInfoUtils.setCallBack(null, new CallWatchEventsBack() {
                     @Override
                     public void callBackWatchEvents(List<WatchEventBean> watchEventBeans) {

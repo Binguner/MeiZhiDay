@@ -2,14 +2,14 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/watch_events_card_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginTop="10dp"
     android:foreground="?attr/selectableItemBackground"
-    android:elevation="8dp"
+    android:elevation="1dp"
     app:cardCornerRadius="5dp"
-    app:cardElevation="8dp"
     >
 
     <android.support.constraint.ConstraintLayout

@@ -1,5 +1,6 @@
 package com.example.nenguou.meizhiday.adapter;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.example.nenguou.meizhiday.Bean.WatchEventBean;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.Rx.GetGitInfoUtils;
 import com.example.nenguou.meizhiday.Utils.CallWatchEventsBack;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +27,12 @@ public class WatchEventAdapter extends BaseQuickAdapter<WatchEventBean,WatchEven
 
     private GetGitInfoUtils getGitInfoUtils = new GetGitInfoUtils();
     private List<WatchEventBean> watchEventBeans = null;
+    private Context context;
 
-    public WatchEventAdapter(int layoutResId, @Nullable List<WatchEventBean> data) {
+    public WatchEventAdapter(int layoutResId, @Nullable List<WatchEventBean> data,Context context) {
         super(R.layout.card_layout_watch_events, data);
+        this.context = context;
+        /*Log.d("myTag","构造方法1");
         getGitInfoUtils.setCallBack(null, new CallWatchEventsBack() {
             @Override
             public void callBackWatchEvents(List<WatchEventBean> watchEventBeans) {
@@ -35,12 +40,39 @@ public class WatchEventAdapter extends BaseQuickAdapter<WatchEventBean,WatchEven
                 Log.d("myTag",watchEventBeans.get(0).getId());
             }
         });
+        Log.d("myTag","构造方法2");*/
+    }
+
+    public void setBeans(List<WatchEventBean> watchEventBeans){
+        this.watchEventBeans.addAll(watchEventBeans);
+        Log.d("myTag1",watchEventBeans.get(0).getCreated_at());
     }
 
     @Override
     protected void convert(MyViewHolder helper, WatchEventBean item) {
         int position = helper.getLayoutPosition();
-            //helper.setText(R.id.card_layout_watch_events_who);
+        Log.d("myTag1","before");
+        Log.d("myTag3",item.getType().toString());
+        if(item/*.get(position)*/.getType().endsWith("WatchEvent")){
+            Log.d("myTag2","inwatch");
+            helper.setText(R.id.card_layout_watch_events_who,item/*.get(position)*/.getActor().getLogin())
+                    .setText(R.id.card_layout_watch_events_action,"Starred")
+                    .setText(R.id.card_layout_watch_events_actioin_name,item.getRepo().getName())
+                    .setText(R.id.card_layout_watch_events_time,item/*.get(position)*/.getCreated_at());
+        }else if(item/*.get(position)*/.getType().endsWith("ForkEvent")){
+            Log.d("myTag2","infork");
+            helper.setText(R.id.card_layout_watch_events_who,item/*.get(position)*/.getActor().getLogin())
+                    .setText(R.id.card_layout_watch_events_action,"Forked")
+                    .setText(R.id.card_layout_watch_events_actioin_name,item.getRepo().getName())
+                    .setText(R.id.card_layout_watch_events_time,item/*.get(position)*/.getCreated_at());
+        }
+        Log.d("myTag1","after");
+        try{
+            Picasso.with(context).load(item.getActor().getAvatar_url()).centerCrop().placeholder(R.mipmap.gitcat).error(R.mipmap.gitcat).resize(60,60).into(helper.card_layout_watch_events_circleimageview);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        helper.addOnClickListener(R.id.watch_events_card_layout);
     }
 
     public class MyViewHolder extends BaseViewHolder{

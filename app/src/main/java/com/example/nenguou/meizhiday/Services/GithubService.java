@@ -1,6 +1,7 @@
 package com.example.nenguou.meizhiday.Services;
 
 import com.example.nenguou.meizhiday.Bean.GitUserBean;
+import com.example.nenguou.meizhiday.Bean.MyEventsBean;
 import com.example.nenguou.meizhiday.Bean.WatchEventBean;
 
 import java.util.List;
@@ -37,6 +38,10 @@ public interface GithubService {
     Observable<GitUserBean> getUser(@Query("access_token") String token);
 
     //https://api.github.com/users/Nenguou/received_events
-    @GET("https://api.github.com/users/{name}/received_events")
-    Observable<List<WatchEventBean>> getWatchEvent(@Path("name") String name);
+    @GET("https://api.github.com/users/{name}/received_events?page=")
+    Observable<List<WatchEventBean>> getWatchEvent(@Path("name") String name,@Query("page") int page);
+
+    //https://api.github.com/users/Nenguou/events
+    @GET("https://api.github.com/users/{name}/events")
+    Observable<List<MyEventsBean>> getMyEvent(@Path("name") String name);
 }

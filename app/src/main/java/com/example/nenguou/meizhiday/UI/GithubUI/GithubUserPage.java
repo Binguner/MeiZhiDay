@@ -1,5 +1,6 @@
 package com.example.nenguou.meizhiday.UI.GithubUI;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -30,6 +31,7 @@ import com.example.nenguou.meizhiday.Rx.SetUserUtils;
 import com.example.nenguou.meizhiday.Utils.AppBarStateChangeListener;
 import com.example.nenguou.meizhiday.Utils.CallTokenBack;
 import com.example.nenguou.meizhiday.Utils.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -43,7 +45,7 @@ public class GithubUserPage extends AppCompatActivity {
     private GetGitInfoUtils getGitInfoUtils;
     private GitUserBean gitUserBean;
     private String userBean_avatar_url;
-    private ImageView circleImage1,circleImage2;
+    private ImageView circleImage1,circleImage2,github_page_back;
 
     private TabLayout github_tablelayout1;
     private AppBarLayout github_page_appbarlayout1;
@@ -67,6 +69,12 @@ public class GithubUserPage extends AppCompatActivity {
     }
 
     private void setListener() {
+        github_page_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         github_page_appbarlayout1.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
@@ -95,22 +103,27 @@ public class GithubUserPage extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what){
-                /*case 0:
+                case 0:
                     try{
-                        ImageLoader.with(GithubUserPage.this,userBean_avatar_url,gitPage_portrait);
+                        Log.d("ururur",userBean_avatar_url);
+                        Picasso.with(GithubUserPage.this).load(userBean_avatar_url).placeholder(R.mipmap.gitcat)
+                                .error(R.mipmap.gitcat).resize(80,80)
+                                .into(github_circleImageView1);
                     }catch (Exception e){
                         e.printStackTrace();
-                    }*/
+                    }
             }
         }
     };
 
     private void initViews() {
+
         fragments.add(WatchEventsFragment.newInstance());
         fragments.add(MyEventsFragment.newInstance());
         fragments.add(ReposFragment.newInstance());
@@ -133,12 +146,12 @@ public class GithubUserPage extends AppCompatActivity {
             }
         },null);
 
-        /*SharedPreferences sharedPreferences = getSharedPreferences("UseerBean", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("UseerBean", Context.MODE_PRIVATE);
         userBean_avatar_url = sharedPreferences.getString("userBean_avatar_url",null);
-        //Log.d("itsatest",userBean_avatar_url);
+        Log.d("itsatest",userBean_avatar_url.toString());
         Message message = Message.obtain();
         message.what = 0;
-        handler.sendMessage(message);*/
+        handler.sendMessage(message);
 
         //修改UI界面
         //设置 Tablayout
@@ -149,6 +162,7 @@ public class GithubUserPage extends AppCompatActivity {
     }
 
     private void initId() {
+        github_page_back = (ImageView) findViewById(R.id.github_page_back);
         github_viewpager1 = (ViewPager) findViewById(R.id.github_viewpager1);
         github_desc = (TextView) findViewById(R.id.github_desc);
         github_circleImageView1 = (CircleImageView) findViewById(R.id.github_circleImageView1);
