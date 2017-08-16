@@ -86,7 +86,7 @@ public class GithubUserPage extends AppCompatActivity {
                     circleIVFlag = 1;
                 }else if(state == State.COLLAPSED){
                     //折叠状态
-                    github_circleImageView1.setVisibility(View.INVISIBLE);
+                    github_circleImageView1.setVisibility(View.GONE);
                     circleIVFlag = 0;
                 }else {
                     //中间状态

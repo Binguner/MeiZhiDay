@@ -19,6 +19,7 @@
         android:paddingTop="10dp"
         android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
+
             android:id="@+id/card_layout_watch_events_circleimageview"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="Starred"
             android:textAllCaps="false"
-            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintVertical_bias="0.4"
             android:textStyle="italic"
             android:textColor="@color/colorBlack"
             app:layout_constraintLeft_toRightOf="@+id/card_layout_watch_events_circleimageview"
@@ -48,15 +49,16 @@
         <TextView
             android:id="@+id/card_layout_watch_events_actioin_name"
             android:layout_marginLeft="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/watch_events_costraintlayout"
             app:layout_constraintLeft_toRightOf="@+id/card_layout_watch_events_action"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:singleLine="true"
+            android:singleLine="false"
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@+id/watch_events_costraintlayout"
             app:layout_constraintBottom_toBottomOf="@+id/watch_events_costraintlayout"
-            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintVertical_bias="0.4"
             android:text="Nenguou/MeiZhiAndGIt"/>
         <TextView
             android:id="@+id/card_layout_watch_events_time"
@@ -64,9 +66,9 @@
             android:layout_height="wrap_content"
             android:text="2017年 8月 8日 18:88"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="0dp"
             app:layout_constraintEnd_toEndOf="@+id/watch_events_costraintlayout"
-            app:layout_constraintBottom_toBottomOf="@+id/watch_events_costraintlayout"/>
+            app:layout_constraintTop_toTopOf="@+id/watch_events_costraintlayout"/>
 
 
 

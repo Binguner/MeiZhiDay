@@ -2,6 +2,7 @@ package com.example.nenguou.meizhiday.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,14 +35,21 @@ public class WatchEventsFragment extends Fragment {
     private WatchEventAdapter watchEventAdapter;
     public List<WatchEventBean> watchEventBeans = new ArrayList<>();
     private GetGitInfoUtils getGitInfoUtils = null;
+    private String userName;
     private int lastViewItem;
     private int page = 1;
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initId();
+        getSharedPreferences();
         initViews();
 
+    }
+
+    private void getSharedPreferences() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UseerBean",Context.MODE_PRIVATE);
+        userName = sharedPreferences.getString("login_name",null);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -59,7 +67,7 @@ public class WatchEventsFragment extends Fragment {
         getGitInfoUtils = new GetGitInfoUtils(WatchEventsFragment.this,watchEventAdapter,watchEventBeans,watch_events_swiperefreshlayout);
 
         //第一次加载数据
-        getGitInfoUtils.getGitWatchEvent("Nenguou",page);
+        getGitInfoUtils.getGitWatchEvent(userName,page);
 
         //item 点击事件
         watchEventAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -83,7 +91,8 @@ public class WatchEventsFragment extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if(newState == RecyclerView.SCROLL_STATE_IDLE && lastViewItem+2 >= linearLayoutManager.getItemCount()){
-                    getGitInfoUtils.getGitWatchEvent("Nenguou",++page);
+                    watch_events_swiperefreshlayout.setRefreshing(true);
+                    getGitInfoUtils.getGitWatchEvent(userName,++page);
                 }
             }
 

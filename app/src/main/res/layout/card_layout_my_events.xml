@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/my_event_card_layout"
     android:layout_marginLeft="10dp"
@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="10dp"
+        android:id="@+id/my_event_constraintlayout"
         android:paddingTop="10dp">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/card_layout_my_event_circleimageView"
@@ -29,6 +30,52 @@
             android:textColor="@color/colorBlack"
             app:layout_constraintTop_toBottomOf="@+id/card_layout_my_event_circleimageView"/>
 
+        <TextView
+            android:id="@+id/card_layout_my_event_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forked"
+            android:textAllCaps="false"
+            app:layout_constraintLeft_toRightOf="@+id/card_layout_my_event_circleimageView"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintVertical_bias="0.4"
+            android:textStyle="italic"
+            app:layout_constraintTop_toTopOf="@+id/my_event_constraintlayout"
+            app:layout_constraintBottom_toBottomOf="@+id/my_event_constraintlayout"/>
+
+        <TextView
+            app:layout_constraintStart_toEndOf="@+id/card_layout_my_event_action"
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintEnd_toEndOf="@+id/my_event_constraintlayout"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintTop_toTopOf="@+id/my_event_constraintlayout"
+            app:layout_constraintBottom_toBottomOf="@+id/my_event_constraintlayout"
+            android:id="@+id/card_layout_my_event_forked_stared_action"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:singleLine="false"
+            android:textStyle="bold"
+
+            android:text="daimajia/AndroidViewHolderffffffFFFfffffffffFFF"/>
+        <TextView
+            app:layout_constraintTop_toTopOf="@+id/my_event_constraintlayout"
+            app:layout_constraintRight_toRightOf="@+id/my_event_constraintlayout"
+            android:layout_marginEnd="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2017年 8月 8日 18:88"
+            android:id="@+id/card_layout_my_event_time"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_marginLeft="10dp"
+            android:text="add funcs"
+
+            android:id="@+id/card_layout_my_event_push_what"
+            app:layout_constraintTop_toBottomOf="@+id/card_layout_my_event_circleimageView"
+            app:layout_constraintLeft_toRightOf="@+id/card_layout_my_event_who"/>
 
     </android.support.constraint.ConstraintLayout>
 

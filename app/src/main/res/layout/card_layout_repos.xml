@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="5dp"
+    android:id="@+id/repos_card_layout"
+    android:elevation="10dp"
+    android:layout_height="wrap_content">
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/card_layout_repos_constraintlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline1"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@+id/card_layout_repos_constraintlayout"
+            app:layout_constraintGuide_begin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="20dp"
+            android:id="@+id/card_layout_repos_reponame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:textColor="@color/colorBlue"
+            android:text="droidRerse"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"/>
+        <TextView
+            android:id="@+id/card_layout_repos_fored_from_where"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            android:text="Forked from leeduo/droideverse"
+            app:layout_constraintTop_toBottomOf="@+id/card_layout_repos_reponame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/card_layout_repos_des"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/card_layout_repos_fored_from_where"
+            android:text="reverse engineering tools or Android(Android 逆向工程工具集)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.85"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/card_layout_repos_language_icon"
+            app:layout_constraintTop_toBottomOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            android:layout_width="16dp"
+            android:src="@mipmap/language_black_24"
+            android:layout_height="16dp" />
+        <TextView
+            android:layout_marginLeft="2dp"
+            app:layout_constraintStart_toEndOf="@+id/card_layout_repos_language_icon"
+            app:layout_constraintTop_toBottomOf="@+id/guideline2"
+            android:id="@+id/card_layout_repos_language"
+            android:text="Java"
+            android:textColor="@color/colorBlack"
+            android:textSize="12dp"
+            android:textAllCaps="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_marginStart="10dp"
+            android:id="@+id/card_layout_repos_fork_icon"
+            app:layout_constraintStart_toEndOf="@id/card_layout_repos_language"
+            app:layout_constraintTop_toBottomOf="@id/guideline2"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@mipmap/fork_24_black"/>
+        <TextView
+            android:textSize="12dp"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/card_layout_repos_fork_numbwe"
+            app:layout_constraintStart_toEndOf="@id/card_layout_repos_fork_icon"
+            app:layout_constraintTop_toBottomOf="@id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="406"/>
+        <ImageView
+            android:layout_marginStart="10dp"
+            android:id="@+id/card_layout_repos_star_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@mipmap/star_black_24"
+            app:layout_constraintTop_toBottomOf="@id/guideline2"
+            app:layout_constraintStart_toEndOf="@id/card_layout_repos_fork_numbwe"/>
+        <TextView
+            app:layout_constraintStart_toEndOf="@id/card_layout_repos_star_icon"
+            app:layout_constraintTop_toBottomOf="@id/guideline2"
+            android:id="@+id/card_layout_repos_star_number"
+            android:text="23443"
+            android:textColor="@color/colorBlack"
+            android:textSize="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>

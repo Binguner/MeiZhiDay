@@ -80,7 +80,7 @@ public class gittest extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 getGitInfoUtils = new GetGitInfoUtils(gittest.this);
-                getGitInfoUtils.getGitMyEvent("Nenguou");
+                getGitInfoUtils.getGitMyEvent("Nenguou",1);
             }
         });
 
@@ -142,7 +142,7 @@ public class gittest extends AppCompatActivity {
                         SharedPreferences sharedPreferences = getSharedPreferences("UseerBean",Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("userBean_avatar_url",gitUserBean.getAvatar_url());
-
+                        editor.putString("login_name",gitUserBean.getLogin());
                         editor.commit();
                         //Log.d("ggggg",gittest.this.gitUserBean.getEmail());
                     }

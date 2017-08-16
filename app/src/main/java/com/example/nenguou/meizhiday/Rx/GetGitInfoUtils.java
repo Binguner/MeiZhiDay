@@ -6,14 +6,17 @@ import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.nenguou.meizhiday.Bean.GitUserBean;
 import com.example.nenguou.meizhiday.Bean.MyEventsBean;
 import com.example.nenguou.meizhiday.Bean.TokenBean;
 import com.example.nenguou.meizhiday.Bean.WatchEventBean;
+import com.example.nenguou.meizhiday.Fragments.MyEventsFragment;
 import com.example.nenguou.meizhiday.Fragments.WatchEventsFragment;
 import com.example.nenguou.meizhiday.Services.GithubService;
 import com.example.nenguou.meizhiday.Utils.CallTokenBack;
 import com.example.nenguou.meizhiday.Utils.CallWatchEventsBack;
+import com.example.nenguou.meizhiday.adapter.MyEventAdapter;
 import com.example.nenguou.meizhiday.adapter.WatchEventAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -37,6 +40,7 @@ import okhttp3.ResponseBody;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Scheduler;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -56,10 +60,12 @@ public class GetGitInfoUtils {
     private String testToken = "06bcd841454480acbd71b3c48e147aa58fd6f255";
     private String User_avater_url;
 
-    private WatchEventAdapter watchEventAdapter;
-    private List<WatchEventBean> watchEventBeans = new ArrayList<>();
+    private BaseQuickAdapter baseQuickAdapter;
+    private BaseQuickAdapter baseQuickAdapter1;
+    //private List<WatchEventBean> watchEventBeans = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
     private WatchEventsFragment watchEventsFragment;
+    private MyEventsFragment myEventsFragment;
 
     public void setCallBack(@Nullable CallTokenBack callTokenBack,@Nullable CallWatchEventsBack callWatchEventsBack){
         this.callTokenBack = callTokenBack;
@@ -68,10 +74,15 @@ public class GetGitInfoUtils {
     //public void setCallBackUser(CallUserBack callUserBack){
      //   this.callUserBack = callUserBack;
     //}
-    public GetGitInfoUtils(WatchEventsFragment watchEventsFragment,WatchEventAdapter watchEventAdapter,List<WatchEventBean> watchEventBeans,SwipeRefreshLayout swipeRefreshLayout){
+    public GetGitInfoUtils(WatchEventsFragment watchEventsFragment, BaseQuickAdapter baseQuickAdapter, List<WatchEventBean> watchEventBeans, SwipeRefreshLayout swipeRefreshLayout){
         this.watchEventsFragment = watchEventsFragment;
-        this.watchEventAdapter = watchEventAdapter;
-        //this.watchEventBeans = watchEventBeans;
+        this.baseQuickAdapter = baseQuickAdapter;
+
+        this.swipeRefreshLayout = swipeRefreshLayout;
+    }
+    public GetGitInfoUtils(MyEventsFragment myEventsFragment,BaseQuickAdapter baseQuickAdapter,SwipeRefreshLayout swipeRefreshLayout){
+        this.myEventsFragment = myEventsFragment;
+        this.baseQuickAdapter1 = baseQuickAdapter;
         this.swipeRefreshLayout = swipeRefreshLayout;
     }
     public GetGitInfoUtils(Context context){
@@ -230,14 +241,17 @@ public class GetGitInfoUtils {
     public void getGitWatchEvent(String name,int page){
         service.getWatchEvent(name,page)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<WatchEventBean>>() {
                     @Override
                     public void onCompleted() {
+                        swipeRefreshLayout.setRefreshing(false);
                         Log.d("WatchEventsTag","Completed");
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        swipeRefreshLayout.setRefreshing(false);
                         Log.d("WatchEventsTagError",e.toString());
                     }
 
@@ -258,7 +272,7 @@ public class GetGitInfoUtils {
                         //Log.d("ahsdnjasds","ccc");
                         watchEventsFragment.watchEventBeans.addAll(watchEvents);
                         //Log.d("ahsdnjasds","ddd");
-                        watchEventAdapter.notifyItemInserted(watchEventsFragment.watchEventBeans.size());
+                        baseQuickAdapter.notifyItemInserted(watchEventsFragment.watchEventBeans.size());
                         swipeRefreshLayout.setRefreshing(false);
                         //Log.d("ahsdnjasds","eee");
 
@@ -266,23 +280,30 @@ public class GetGitInfoUtils {
                 });
     }
 
-    public void getGitMyEvent(String name){
-        service.getMyEvent(name)
+    public void getGitMyEvent(String name,int page){
+        service.getMyEvent(name,page)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<MyEventsBean>>() {
                     @Override
                     public void onCompleted() {
-
+                        swipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("EventBenananana",e.toString());
+                        swipeRefreshLayout.setRefreshing(false);
+                        Log.d("MyEventTag",e.toString());
                     }
 
                     @Override
                     public void onNext(List<MyEventsBean> myEventsBeans) {
-                        //dddLog.d("EventBenananana",myEventsBeans.get(2).getPayload().getCommits().ge);
+                        //Log.d("MyEventTag",myEventsBeans.get(0).getPayload().getCommits().get(0).getSha());
+                        //Log.d("MyEventTag",myEventsBeans.get(1).getPayload().getForkee().getOwner().getId()+"");
+                        myEventsFragment.myEventsBeans.addAll(myEventsBeans);
+                        baseQuickAdapter1.notifyItemInserted(myEventsFragment.myEventsBeans.size());
+                        swipeRefreshLayout.setRefreshing(false);
+
                     }
                 });
     }

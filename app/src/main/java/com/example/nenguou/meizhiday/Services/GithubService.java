@@ -42,6 +42,6 @@ public interface GithubService {
     Observable<List<WatchEventBean>> getWatchEvent(@Path("name") String name,@Query("page") int page);
 
     //https://api.github.com/users/Nenguou/events
-    @GET("https://api.github.com/users/{name}/events")
-    Observable<List<MyEventsBean>> getMyEvent(@Path("name") String name);
+    @GET("https://api.github.com/users/{name}/events?page=")
+    Observable<List<MyEventsBean>> getMyEvent(@Path("name") String name,@Query("page") int page);
 }
