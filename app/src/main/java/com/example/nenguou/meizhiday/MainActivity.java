@@ -25,7 +25,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.nenguou.meizhiday.Bean.MeiZHI;
+import com.example.nenguou.meizhiday.Entity.MeiZHI;
 import com.example.nenguou.meizhiday.UI.others.About;
 import com.example.nenguou.meizhiday.UI.GithubUI.GithubUserPage;
 import com.example.nenguou.meizhiday.UI.others.gittest;
@@ -90,6 +90,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getGitInfo() {
+        String path = this.getCacheDir().toString();
+        Log.d("cachePAth",path);
+        SharedPreferences sharedPreferences = getSharedPreferences("cachePath",MODE_PRIVATE);
+        SharedPreferences.Editor editor1 = sharedPreferences.edit();
+        editor1.putString("mCachePath",path);
+        editor1.commit();
 
         try{
             Intent i_getValue = getIntent();
@@ -99,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
                 if(uri != null){
                     String code = uri.getQueryParameter("code");
 
-                    SharedPreferences sharedPreferences = getSharedPreferences("gitCode", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    SharedPreferences sharedPreferences1 = getSharedPreferences("gitCode", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences1.edit();
                     editor.putString("code",code);
                     editor.commit();
             }

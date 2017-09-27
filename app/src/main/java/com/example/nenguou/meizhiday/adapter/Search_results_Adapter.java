@@ -3,14 +3,13 @@ package com.example.nenguou.meizhiday.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.example.nenguou.meizhiday.Bean.SearchBean;
+import com.example.nenguou.meizhiday.Entity.SearchBean;
 import com.example.nenguou.meizhiday.R;
 
 import java.util.ArrayList;

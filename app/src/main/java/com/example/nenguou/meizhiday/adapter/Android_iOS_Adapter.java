@@ -3,14 +3,13 @@ package com.example.nenguou.meizhiday.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.example.nenguou.meizhiday.Bean.Gank;
+import com.example.nenguou.meizhiday.Entity.Gank;
 import com.example.nenguou.meizhiday.R;
 import com.squareup.picasso.Picasso;
 

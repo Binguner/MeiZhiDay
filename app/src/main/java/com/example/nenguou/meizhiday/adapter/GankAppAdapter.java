@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.nenguou.meizhiday.Bean.Gank;
+import com.example.nenguou.meizhiday.Entity.Gank;
 import com.example.nenguou.meizhiday.R;
 import com.squareup.picasso.Picasso;
 

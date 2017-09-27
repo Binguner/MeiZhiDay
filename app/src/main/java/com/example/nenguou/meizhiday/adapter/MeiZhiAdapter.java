@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.nenguou.meizhiday.Bean.MeiZHI;
+import com.example.nenguou.meizhiday.Entity.MeiZHI;
 import com.example.nenguou.meizhiday.R;
 import com.squareup.picasso.Picasso;
 

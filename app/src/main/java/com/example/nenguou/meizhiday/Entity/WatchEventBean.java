@@ -1,4 +1,4 @@
-package com.example.nenguou.meizhiday.Bean;
+package com.example.nenguou.meizhiday.Entity;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -11,8 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.nenguou.meizhiday.Bean.GitUserBean;
-import com.example.nenguou.meizhiday.Bean.WatchEventBean;
+import com.example.nenguou.meizhiday.Entity.GitUserBean;
+import com.example.nenguou.meizhiday.Entity.WatchEventBean;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.Rx.GetGitInfoUtils;
 import com.example.nenguou.meizhiday.Utils.CallTokenBack;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class gittest extends AppCompatActivity {
 
-    private Button getgithubinfo,GetCode,GetGitInfoBtn,SetGitUser,testWatchEvent,getGitMyEvent;
+    private Button getgithubinfo,GetCode,GetGitInfoBtn,SetGitUser,testWatchEvent,getGitMyEvent,getGitReposBtn,getReadme;
     private GetGitInfoUtils getGitInfoUtils = null;
     private TextView github_code,github_token,GitUserInfo;
     public String code,mytoken;
@@ -64,6 +64,8 @@ public class gittest extends AppCompatActivity {
     }
 
     private void initId() {
+        getReadme = (Button) findViewById(R.id.getReadme);
+        getGitReposBtn = (Button) findViewById(R.id.getGitReposBtn);
         getGitMyEvent = (Button) findViewById(R.id.getGitMyEvent);
         testWatchEvent = (Button) findViewById(R.id.testWatchEvent);
         SetGitUser = (Button) findViewById(R.id.SetGitUser);
@@ -76,6 +78,16 @@ public class gittest extends AppCompatActivity {
     }
 
     private void setListener(){
+
+        getReadme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getGitInfoUtils = new GetGitInfoUtils(gittest.this);
+                getGitInfoUtils.GetGitCode("stormzhang","9GAG","");
+            //    getGitInfoUtils.getGitMarkdown(cstormzhang/9GAG/master/README.md");
+            }
+        });
+
         getGitMyEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,6 +184,14 @@ public class gittest extends AppCompatActivity {
                         Log.d("NewWatchEvent",watchEventBeans.get(0).getId());
                     }
                 });
+            }
+        });
+
+        getGitReposBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getGitInfoUtils = new GetGitInfoUtils(gittest.this);
+                getGitInfoUtils.GetGitRepos("Nenguou");
             }
         });
     }

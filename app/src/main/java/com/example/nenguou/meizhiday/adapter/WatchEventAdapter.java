@@ -8,13 +8,11 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.example.nenguou.meizhiday.Bean.WatchEventBean;
+import com.example.nenguou.meizhiday.Entity.WatchEventBean;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.Rx.GetGitInfoUtils;
-import com.example.nenguou.meizhiday.Utils.CallWatchEventsBack;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;

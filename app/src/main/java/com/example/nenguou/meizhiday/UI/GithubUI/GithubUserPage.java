@@ -18,26 +18,21 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
-import com.example.nenguou.meizhiday.Bean.GitUserBean;
+import com.example.nenguou.meizhiday.Entity.GitUserBean;
 import com.example.nenguou.meizhiday.Fragments.MyEventsFragment;
 import com.example.nenguou.meizhiday.Fragments.ReposFragment;
 import com.example.nenguou.meizhiday.Fragments.WatchEventsFragment;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.Rx.GetGitInfoUtils;
-import com.example.nenguou.meizhiday.Rx.SetUserUtils;
 import com.example.nenguou.meizhiday.Utils.AppBarStateChangeListener;
 import com.example.nenguou.meizhiday.Utils.CallTokenBack;
-import com.example.nenguou.meizhiday.Utils.ImageLoader;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import okhttp3.ResponseBody;
-import retrofit2.http.GET;
 
 public class GithubUserPage extends AppCompatActivity {
 
@@ -55,7 +50,7 @@ public class GithubUserPage extends AppCompatActivity {
     private ViewPager github_viewpager1;
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private MyPagetAdapter myPagetAdapter;
-    private String[] titles = {"WatchEventBean","MyEvents","Repos"};
+    private String[] titles = {"WatchEvent","MyEvents","Repos"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +143,7 @@ public class GithubUserPage extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("UseerBean", Context.MODE_PRIVATE);
         userBean_avatar_url = sharedPreferences.getString("userBean_avatar_url",null);
-        Log.d("itsatest",userBean_avatar_url.toString());
+       // Log.d("itsatest",userBean_avatar_url.toString());
         Message message = Message.obtain();
         message.what = 0;
         handler.sendMessage(message);

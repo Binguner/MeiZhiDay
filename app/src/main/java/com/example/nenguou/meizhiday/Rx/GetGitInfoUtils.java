@@ -7,17 +7,18 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.nenguou.meizhiday.Bean.GitUserBean;
-import com.example.nenguou.meizhiday.Bean.MyEventsBean;
-import com.example.nenguou.meizhiday.Bean.TokenBean;
-import com.example.nenguou.meizhiday.Bean.WatchEventBean;
+import com.example.nenguou.meizhiday.Entity.CodeBean;
+import com.example.nenguou.meizhiday.Entity.GitUserBean;
+import com.example.nenguou.meizhiday.Entity.MyEventsBean;
+import com.example.nenguou.meizhiday.Entity.RepoBean;
+import com.example.nenguou.meizhiday.Entity.TokenBean;
+import com.example.nenguou.meizhiday.Entity.WatchEventBean;
 import com.example.nenguou.meizhiday.Fragments.MyEventsFragment;
+import com.example.nenguou.meizhiday.Fragments.ReposFragment;
 import com.example.nenguou.meizhiday.Fragments.WatchEventsFragment;
 import com.example.nenguou.meizhiday.Services.GithubService;
 import com.example.nenguou.meizhiday.Utils.CallTokenBack;
 import com.example.nenguou.meizhiday.Utils.CallWatchEventsBack;
-import com.example.nenguou.meizhiday.adapter.MyEventAdapter;
-import com.example.nenguou.meizhiday.adapter.WatchEventAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -26,7 +27,6 @@ import com.google.gson.JsonParser;
 import org.reactivestreams.Subscription;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.BackpressureStrategy;
@@ -38,7 +38,6 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import okhttp3.ResponseBody;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -62,10 +61,12 @@ public class GetGitInfoUtils {
 
     private BaseQuickAdapter baseQuickAdapter;
     private BaseQuickAdapter baseQuickAdapter1;
+    private BaseQuickAdapter baseQuickAdapter2;
     //private List<WatchEventBean> watchEventBeans = new ArrayList<>();
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout,swipeRefreshLayout1;
     private WatchEventsFragment watchEventsFragment;
     private MyEventsFragment myEventsFragment;
+    private ReposFragment myReposFragment;
 
     public void setCallBack(@Nullable CallTokenBack callTokenBack,@Nullable CallWatchEventsBack callWatchEventsBack){
         this.callTokenBack = callTokenBack;
@@ -94,6 +95,11 @@ public class GetGitInfoUtils {
     }
     public GetGitInfoUtils(){
 
+    }
+    public GetGitInfoUtils(ReposFragment myReposFragment,BaseQuickAdapter  baseQuickAdapter,SwipeRefreshLayout swipeRefreshLayout){
+        this.myReposFragment = myReposFragment;
+        this.baseQuickAdapter2 = baseQuickAdapter;
+        this.swipeRefreshLayout1 = swipeRefreshLayout;
     }
 
     Gson gson = new GsonBuilder()
@@ -293,7 +299,7 @@ public class GetGitInfoUtils {
                     @Override
                     public void onError(Throwable e) {
                         swipeRefreshLayout.setRefreshing(false);
-                        Log.d("MyEventTag",e.toString());
+                        //Log.d("MyEventTag",e.toString());
                     }
 
                     @Override
@@ -304,6 +310,92 @@ public class GetGitInfoUtils {
                         baseQuickAdapter1.notifyItemInserted(myEventsFragment.myEventsBeans.size());
                         swipeRefreshLayout.setRefreshing(false);
 
+                    }
+                });
+    }
+
+    public void GetGitRepos(String name){
+        service.getRepos(name)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<RepoBean>>() {
+                    @Override
+                    public void onCompleted() {
+                        swipeRefreshLayout1.setRefreshing(false);
+                        Log.d("ReposTag","Completed");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        swipeRefreshLayout1.setRefreshing(false);
+                        Log.d("ReposTag",e.toString());
+                    }
+
+                    @Override
+                    public void onNext(List<RepoBean> repoBeans) {
+                        //Log.d("ReposTag",repoBeans.get(0).getSize()+"");
+                        Log.d("countcount",repoBeans.get(0).getForks_count()+"  "+repoBeans.get(0).getWatchers_count());
+                        myReposFragment.repoBeans.addAll(repoBeans);
+                        baseQuickAdapter2.notifyItemInserted(myReposFragment.repoBeans.size());
+                        swipeRefreshLayout1.setRefreshing(false);
+
+                    }
+                });
+    }
+
+    public void GetGitCode(String username,String reponame,@Nullable String path){
+        service.getCode(username,reponame,path)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<CodeBean>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("CodTag","Completed");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("CodTag","Error : "+ e.toString());
+                    }
+
+                    @Override
+                    public void onNext(List<CodeBean> codeBeans) {
+                        try {
+                            Log.d("CodTag",codeBeans.get(1).getDownload_url());
+                            if(codeBeans.get(1).getType().endsWith("file")){
+                                getGitMarkdown(username,reponame,codeBeans.get(1).getPath());
+                            }
+                        }catch (Exception e){
+                            Log.d("CodTag",e.toString());
+                        }
+                    }
+                });
+
+    }
+
+    public void getGitMarkdown(String username,String reponame,@Nullable String path){
+        service.getMarkdown(username,reponame,path)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("MarkdownTag","Completed");
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("MarkdownTag","Error ; " + e.toString());
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        try {
+                            Log.d("MarkdownTag",responseBody.string().toString());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }

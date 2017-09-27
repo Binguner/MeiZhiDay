@@ -33,7 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.nenguou.meizhiday.Bean.SearchBean;
+import com.example.nenguou.meizhiday.Entity.SearchBean;
 import com.example.nenguou.meizhiday.Fragments.AndroidFragment;
 import com.example.nenguou.meizhiday.Fragments.IOSFragment;
 import com.example.nenguou.meizhiday.Fragments.VideoFragment;
@@ -166,7 +166,7 @@ public class GankAty extends AppCompatActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if(newState == RecyclerView.SCROLL_STATE_IDLE && lastViewItem +3 >= linearLayoutManager.getItemCount()){
-                    inputMethodManager.hideSoftInputFromWindow(gank_title.getWindowToken(),0);
+                    inputMethodManager.hideSoftInputFromWindow(gank_title.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
                     //getSearchUtils.GetSearchReasults(++page);
                     try {
                         Search();

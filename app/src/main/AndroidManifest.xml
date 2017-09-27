@@ -34,7 +34,8 @@
         <activity android:name=".UI.others.GithubPageActivity" />
         <activity android:name=".UI.others.About" />
         <activity android:name=".UI.others.gittest" />
-        <activity android:name=".UI.GithubUI.GithubUserPage"></activity>
+        <activity android:name=".UI.GithubUI.GithubUserPage" />
+        <activity android:name=".UI.GithubUI.RepoActivity"></activity>
     </application>
 
 </manifest>

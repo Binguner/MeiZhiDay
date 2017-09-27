@@ -64,5 +64,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="getGitMyEvents"/>
+    <Button
+        android:id="@+id/getGitReposBtn"
+        android:text="GetGitRepos"
+        app:layout_constraintTop_toBottomOf="@id/getGitMyEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="getReadMe"
+        app:layout_constraintTop_toBottomOf="@id/getGitReposBtn"
+        android:id="@+id/getReadme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </android.support.constraint.ConstraintLayout>

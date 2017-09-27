@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.example.nenguou.meizhiday.Bean.MyEventsBean;
+import com.example.nenguou.meizhiday.Entity.MyEventsBean;
 import com.example.nenguou.meizhiday.R;
 import com.squareup.picasso.Picasso;
 

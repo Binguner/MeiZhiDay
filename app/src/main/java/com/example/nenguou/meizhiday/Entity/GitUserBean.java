@@ -1,4 +1,4 @@
-package com.example.nenguou.meizhiday.Bean;
+package com.example.nenguou.meizhiday.Entity;
 
 /**
  * Created by b3 on 2017/8/6.

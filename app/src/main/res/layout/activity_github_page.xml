@@ -45,7 +45,7 @@
                         android:marqueeRepeatLimit="marquee_forever"
                         android:scrollbars="vertical"
                         android:singleLine="true"
-                        android:text="This is Titleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+                        android:text="This is Titleeeeeeeeeeeeeeeeeeeeeeee"
                         android:textColor="@color/colorWhite"
                         android:textSize="20dp" />
                 </RelativeLayout>

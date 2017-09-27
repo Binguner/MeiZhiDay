@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.nenguou.meizhiday.Bean.WatchEventBean;
+import com.example.nenguou.meizhiday.Entity.WatchEventBean;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.Rx.GetGitInfoUtils;
 import com.example.nenguou.meizhiday.adapter.WatchEventAdapter;

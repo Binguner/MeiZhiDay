@@ -1,11 +1,14 @@
 package com.example.nenguou.meizhiday.Services;
 
-import com.example.nenguou.meizhiday.Bean.GitUserBean;
-import com.example.nenguou.meizhiday.Bean.MyEventsBean;
-import com.example.nenguou.meizhiday.Bean.WatchEventBean;
+import com.example.nenguou.meizhiday.Entity.CodeBean;
+import com.example.nenguou.meizhiday.Entity.GitUserBean;
+import com.example.nenguou.meizhiday.Entity.MyEventsBean;
+import com.example.nenguou.meizhiday.Entity.RepoBean;
+import com.example.nenguou.meizhiday.Entity.WatchEventBean;
 
 import java.util.List;
 
+import io.reactivex.annotations.Nullable;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -37,11 +40,29 @@ public interface GithubService {
     @GET("https://api.github.com/user?access_token=")
     Observable<GitUserBean> getUser(@Query("access_token") String token);
 
+    //watchEvents
     //https://api.github.com/users/Nenguou/received_events
     @GET("https://api.github.com/users/{name}/received_events?page=")
     Observable<List<WatchEventBean>> getWatchEvent(@Path("name") String name,@Query("page") int page);
 
+    //myEvents
     //https://api.github.com/users/Nenguou/events
     @GET("https://api.github.com/users/{name}/events?page=")
     Observable<List<MyEventsBean>> getMyEvent(@Path("name") String name,@Query("page") int page);
+
+    //repos
+    //https://api.github.com/users/Nenguou/repos
+    @GET("https://api.github.com/users/{name}/repos")
+    Observable<List<RepoBean>> getRepos(@Path("name") String name);
+
+    //README
+    //getCode
+    @GET("https://api.github.com/repos/{username}/{repoName}/contents/{path}")
+    Observable<List<CodeBean>> getCode(@Path("username") String username,@Path("repoName") String repoName,@Path("path") @Nullable String path);
+
+    //https://api.github.com/repos/stormzhang/9GAG/contents/app/src/main/java/me/storm/ninegag/App.java?ref=master
+    //getMardDown
+    @GET("https://raw.githubusercontent.com/{username}/{repoName}/master/{path}")
+    Observable<ResponseBody> getMarkdown(@Path("username") String username,@Path("repoName") String repoName,@Path("path") @Nullable String path);
+
 }

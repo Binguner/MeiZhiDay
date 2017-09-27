@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import com.example.nenguou.meizhiday.Bean.Gank;
+import com.example.nenguou.meizhiday.Entity.Gank;
 
 import java.util.List;
 

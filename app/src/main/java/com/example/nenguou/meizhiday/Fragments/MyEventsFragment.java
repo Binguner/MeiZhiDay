@@ -16,12 +16,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.nenguou.meizhiday.Bean.MyEventsBean;
+import com.example.nenguou.meizhiday.Entity.MyEventsBean;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.Rx.GetGitInfoUtils;
 import com.example.nenguou.meizhiday.adapter.MyEventAdapter;
 
-import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +65,7 @@ public class MyEventsFragment extends Fragment {
         my_event_recyclerview.setLayoutManager(linearLayoutManager);
         my_event_recyclerview.setHasFixedSize(true);
         my_event_swiperefreshlayout.setColorSchemeColors(R.color.colorPrimary, R.color.colorYello, R.color.colorAccent, R.color.colorTablayout);
-
+        //myEventAdapter.addFooterView()
         myEventAdapter = new MyEventAdapter(R.layout.card_layout_my_events,myEventsBeans,getContext());
         my_event_recyclerview.setAdapter(myEventAdapter);
         myEventAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);

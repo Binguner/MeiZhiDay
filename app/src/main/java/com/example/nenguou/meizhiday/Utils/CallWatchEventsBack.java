@@ -1,6 +1,6 @@
 package com.example.nenguou.meizhiday.Utils;
 
-import com.example.nenguou.meizhiday.Bean.WatchEventBean;
+import com.example.nenguou.meizhiday.Entity.WatchEventBean;
 
 import java.util.List;
 

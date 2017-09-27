@@ -4,10 +4,8 @@ import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
-import com.example.nenguou.meizhiday.Bean.Gank;
-import com.example.nenguou.meizhiday.Bean.SearchBean;
+import com.example.nenguou.meizhiday.Entity.SearchBean;
 import com.example.nenguou.meizhiday.GankAty;
-import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.Services.SearchService;
 import com.example.nenguou.meizhiday.adapter.Search_results_Adapter;
 import com.google.gson.Gson;
@@ -15,9 +13,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -29,11 +24,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Scheduler;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.internal.schedulers.SchedulerWhen;
 import rx.schedulers.Schedulers;
 
 /**

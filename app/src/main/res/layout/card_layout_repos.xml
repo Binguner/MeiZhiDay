@@ -9,11 +9,11 @@
     app:cardCornerRadius="5dp"
     android:id="@+id/repos_card_layout"
     android:elevation="10dp"
-    android:layout_height="wrap_content">
+    android:layout_height="100dp">
     <android.support.constraint.ConstraintLayout
         android:id="@+id/card_layout_repos_constraintlayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:paddingBottom="10dp"
         android:paddingTop="10dp">
         <android.support.constraint.Guideline
@@ -36,24 +36,26 @@
         <TextView
             android:id="@+id/card_layout_repos_fored_from_where"
             android:textColor="@color/colorBlack"
-            app:layout_constraintStart_toStartOf="@+id/guideline1"
-            android:text="Forked from leeduo/droideverse"
-            app:layout_constraintTop_toBottomOf="@+id/card_layout_repos_reponame"
+            android:text="Forked  "
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/card_layout_repos_des"
+            app:layout_constraintEnd_toEndOf="@id/card_layout_repos_constraintlayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/card_layout_repos_des"
             android:textColor="@color/colorBlack"
             app:layout_constraintStart_toStartOf="@+id/guideline1"
-            app:layout_constraintTop_toBottomOf="@+id/card_layout_repos_fored_from_where"
-            android:text="reverse engineering tools or Android(Android 逆向工程工具集)"
-            android:layout_width="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/card_layout_repos_reponame"
+            android:singleLine="false"
+            android:text="Null"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline2"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.85"
+            app:layout_constraintGuide_percent="0.8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -69,7 +71,7 @@
             app:layout_constraintStart_toEndOf="@+id/card_layout_repos_language_icon"
             app:layout_constraintTop_toBottomOf="@+id/guideline2"
             android:id="@+id/card_layout_repos_language"
-            android:text="Java"
+            android:text="Null"
             android:textColor="@color/colorBlack"
             android:textSize="12dp"
             android:textAllCaps="false"
@@ -101,7 +103,7 @@
             app:layout_constraintTop_toBottomOf="@id/guideline2"
             app:layout_constraintStart_toEndOf="@id/card_layout_repos_fork_numbwe"/>
         <TextView
-            app:layout_constraintStart_toEndOf="@id/card_layout_repos_star_icon"
+            app:layout_constraintStart_toEndOf="@+id/card_layout_repos_star_icon"
             app:layout_constraintTop_toBottomOf="@id/guideline2"
             android:id="@+id/card_layout_repos_star_number"
             android:text="23443"

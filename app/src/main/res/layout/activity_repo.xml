@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/repo_constrainlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.nenguou.meizhiday.UI.GithubUI.RepoActivity">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/repo_coordinatorlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.design.widget.AppBarLayout
+            android:fitsSystemWindows="true"
+            android:id="@+id/repo_appbarlayout"
+            android:layout_width="match_parent"
+            android:layout_height="226dp">
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/repo_collapsingtoolbarlayout"
+                android:fitsSystemWindows="true"
+                app:contentScrim="@color/colorYello"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/gituserbg1"
+                    android:scaleType="centerCrop"/>
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/repo_toolbar"
+                    app:layout_collapseMode="pin"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dp"
+                    android:gravity="top">
+                    <RelativeLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/repo_setting_point"
+                            android:layout_marginEnd="10dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/point_white_24"/>
+                        <ImageView
+                            android:id="@+id/repo_fork"
+                            android:layout_toLeftOf="@+id/repo_setting_point"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/fork_white_24"/>
+                        <ImageView
+                            android:layout_marginEnd="10dp"
+                            android:layout_toLeftOf="@+id/repo_fork"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/star_white_24"/>
+                    </RelativeLayout>
+
+                </android.support.v7.widget.Toolbar>
+
+                <android.support.design.widget.TabLayout
+                    android:layout_gravity="bottom"
+                    android:layout_width="match_parent"
+                    app:tabTextColor="@color/colorWhite"
+                    app:tabIndicatorColor="@color/colorWhite"
+                    android:layout_height="wrap_content">
+
+
+                    <android.support.design.widget.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ReadMe"/>
+                    <android.support.design.widget.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Code"/>
+                    <android.support.design.widget.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Commits"/>
+
+                </android.support.design.widget.TabLayout>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.constraint.ConstraintLayout>

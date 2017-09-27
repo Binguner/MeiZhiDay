@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.nenguou.meizhiday.Bean.Gank;
+import com.example.nenguou.meizhiday.Entity.Gank;
 import com.example.nenguou.meizhiday.GetDatas.GankOkhttp;
 import com.example.nenguou.meizhiday.GetDatas.GetGankDatas;
 import com.example.nenguou.meizhiday.UI.others.GithubPageActivity;
