@@ -96,7 +96,8 @@ public class GetSearchUtils {
                             JsonObject jsonObject = jsonParser.parse(response).getAsJsonObject();
                             String jsonDatas = jsonObject.get("results").toString();
                             searchBeans = gson.fromJson(jsonDatas, type);
-                            /*Log.d("shit", searchBeans.get(0).getType());
+                            Log.d("shit", searchBeans.get(0).getType());
+                            Log.d("shit", searchBeans.get(0).getDesc());
                             Log.d("shit", searchBeans.get(1).getType());
                             Log.d("shit", searchBeans.get(2).getType());
                             Log.d("shit", searchBeans.get(3).getType());
@@ -106,7 +107,7 @@ public class GetSearchUtils {
                             Log.d("shit", searchBeans.get(7).getType());
                             Log.d("shit", searchBeans.get(8).getType());
                             Log.d("shit", searchBeans.get(9).getType());
-                            Log.d("shit", Thread.currentThread().getName().toString());*/
+                            Log.d("shit", Thread.currentThread().getName().toString());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

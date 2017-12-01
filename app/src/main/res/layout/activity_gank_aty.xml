@@ -33,8 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@color/colorWhite"
+            android:background="@drawable/search_edittext_style"
             android:hint="搜索干货"
+            android:textCursorDrawable="@color/colorGray"
             android:imeOptions="actionSend"
             android:lines="1"
             android:focusable="true"
@@ -79,6 +80,7 @@
     <LinearLayout
         android:visibility="gone"
         android:layout_margin="6dp"
+        android:background="@color/colorTransparent"
         android:id="@+id/chooseTypeLinnearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,8 +90,9 @@
         <Button
             android:id="@+id/search_all"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:layout_marginRight="3dp"
+            android:textColor="@color/colorGray"
             android:layout_weight="1"
             android:background="@drawable/search_choose_type_btn_bg"
             android:text="所有" />
@@ -97,8 +100,9 @@
         <Button
             android:id="@+id/search_android"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:layout_marginLeft="3dp"
+            android:textColor="@color/colorGray"
             android:layout_marginRight="3dp"
             android:layout_weight="1"
             android:background="@drawable/search_choose_type_btn_bg"
@@ -108,10 +112,11 @@
         <Button
             android:id="@+id/search_iOS"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:layout_weight="1"
+            android:textColor="@color/colorGray"
             android:background="@drawable/search_choose_type_btn_bg"
             android:text="iOS"
             android:textAllCaps="false" />
@@ -119,7 +124,8 @@
         <Button
             android:id="@+id/search_front"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
+            android:textColor="@color/colorGray"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:layout_weight="1"
@@ -128,8 +134,9 @@
 
         <Button
             android:id="@+id/search_app"
+            android:textColor="@color/colorGray"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:layout_below="@+id/chooseTypeLinnearLayout"
             android:layout_marginLeft="3dp"
             android:layout_weight="1"

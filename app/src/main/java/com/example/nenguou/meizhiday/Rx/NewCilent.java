@@ -22,7 +22,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class NewCilent {
     private static Context context;
     public NewCilent(Context context){
-        this.context = context
+        this.context = context;
     }
     public static OkHttpClient getNewCilent() {
         SharedPreferences sharedPreferences = context.getSharedPreferences("cachePath",Context.MODE_PRIVATE);

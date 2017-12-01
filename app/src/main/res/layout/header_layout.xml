@@ -8,6 +8,7 @@
         android:scaleType="centerCrop"
         android:src="@mipmap/bg3"/>
     <ImageView
+        android:visibility="invisible"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@mipmap/gitcat"

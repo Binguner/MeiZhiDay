@@ -274,6 +274,7 @@ public class GankAty extends AppCompatActivity {
     }
 
     private void chooseBtn(Button button) {
+        button.setTextColor(R.color.colorToolbar);
         int btnId = button.getId();
         if (btnId == search_all.getId()) {
             search_all.setSelected(true);
@@ -343,6 +344,7 @@ public class GankAty extends AppCompatActivity {
         //1 是关闭
         int BtnId = 0;
         Button button = null;
+        chooseBtn(search_all);
         if (flag == 1) {
             page = 0;
             //chooseBtn(search_all);
@@ -363,12 +365,14 @@ public class GankAty extends AppCompatActivity {
 
 
             flag = 1;
+
         }
         try {
              Search();
         } catch (IOException e) {
              e.printStackTrace();
         }
+        inputMethodManager.hideSoftInputFromInputMethod(gankToolbar.getWindowToken(),0);
         search_swipeRefreshlayout.setRefreshing(false);
         return super.onOptionsItemSelected(item);
     }
@@ -386,7 +390,7 @@ public class GankAty extends AppCompatActivity {
                 handler.sendMessage(message);
 
                 getSearchUtils.GetSearchReasults(++page);
-                //Log.d("informatioinn", "第" + page + "页，" + "搜索" + searchingwhat);
+                Log.d("informatioinn", "All 第" + page + "页，" + "搜索" + searchingwhat);
 
             }
             if (search_android.isSelected() == true) {
@@ -397,6 +401,7 @@ public class GankAty extends AppCompatActivity {
                 handler.sendMessage(message);
 
                 getSearchUtils.GetSearchReasults(++page);
+                Log.d("informatioinn", "Android 第" + page + "页，" + "搜索" + searchingwhat);
                 //Toast.makeText(this, "Android", Toast.LENGTH_SHORT).show();
             }
             if (search_iOS.isSelected() == true) {
@@ -437,7 +442,8 @@ public class GankAty extends AppCompatActivity {
         //隐藏键盘
         //InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         //inputMethodManager.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
-        inputMethodManager.hideSoftInputFromInputMethod(gankToolbar.getWindowToken(),0);
+        //inputMethodManager.hideSoftInputFromInputMethod(gankToolbar.getWindowToken(),0);
+        inputMethodManager.hideSoftInputFromWindow(gankToolbar.getWindowToken(),0);
     }
 
     private void initViews() {

@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.example.nenguou.meizhiday.Entity.MeiZHI;
 import com.example.nenguou.meizhiday.UI.others.About;
 import com.example.nenguou.meizhiday.UI.GithubUI.GithubUserPage;
+import com.example.nenguou.meizhiday.UI.others.GithubPageActivity;
 import com.example.nenguou.meizhiday.UI.others.gittest;
 import com.example.nenguou.meizhiday.adapter.MeiZhiAdapter;
 import com.example.nenguou.meizhiday.network.Utils;
@@ -172,6 +173,18 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.gitcat:
                         Log.d("doahfiluhnasofna;s","osdmsdno");
                         break;
+
+                    case R.id.exit_app:
+                        finish();
+                        break;
+                    case R.id.login_github:
+                        Intent gitIntent = new Intent(MainActivity.this, GithubPageActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("title","GitHub - Build software better, together.");
+                        bundle.putString("url","https://github.com/login?return_to=%2Fjoin%3Fsource%3Dbutton-home");
+                        gitIntent.putExtras(bundle);
+                        startActivity(gitIntent);
+                        break;
                     default:
                         break;
                 }
@@ -201,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
         mydrawerlayout = (DrawerLayout) findViewById(R.id.mydrawerlayout);
         View LeftView = getLayoutInflater().inflate(R.layout.header_layout,null);
         navigationView_test.addHeaderView(LeftView);
+        navigationView_test.setItemIconTintList(null);
         View headerView = navigationView_test.getHeaderView(0);
         gitcat = (ImageView) headerView.findViewById(R.id.gitcat);
 
