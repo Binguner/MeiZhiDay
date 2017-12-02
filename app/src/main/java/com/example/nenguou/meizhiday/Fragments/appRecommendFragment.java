@@ -21,9 +21,11 @@ import android.widget.Toast;
 import com.example.nenguou.meizhiday.Entity.Gank;
 import com.example.nenguou.meizhiday.GetDatas.GankOkhttp;
 import com.example.nenguou.meizhiday.GetDatas.GetGankDatas;
+import com.example.nenguou.meizhiday.MainActivity;
 import com.example.nenguou.meizhiday.UI.others.GithubPageActivity;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.adapter.GankAppAdapter;
+import com.example.nenguou.meizhiday.network.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -68,8 +70,16 @@ public class appRecommendFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initId();
         initViews();
-        FirstLoadDatas();
-        setRefreshListener();
+        if (!Utils.isNetworkAvailable(getContext()))
+        {
+            Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
+        }else {
+            //firstLoad();
+            FirstLoadDatas();
+            setRefreshListener();
+        }
+        //FirstLoadDatas();
+        //setRefreshListener();
 
     }
 

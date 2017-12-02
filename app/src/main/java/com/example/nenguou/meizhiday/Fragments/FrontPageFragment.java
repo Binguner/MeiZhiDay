@@ -22,6 +22,7 @@ import com.example.nenguou.meizhiday.GetDatas.GankOkhttp;
 import com.example.nenguou.meizhiday.UI.others.GithubPageActivity;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.adapter.Android_iOS_Adapter;
+import com.example.nenguou.meizhiday.network.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -36,12 +37,12 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link VideoFragment.OnFragmentInteractionListener} interface
+ * {@link FrontPageFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link VideoFragment#newInstance} factory method to
+ * Use the {@link FrontPageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VideoFragment extends Fragment {
+public class FrontPageFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private SwipeRefreshLayout qianduan_swipe_refresh_layout;
@@ -57,8 +58,16 @@ public class VideoFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         inidId();
         inidViews();
-        FirstLoadDatas();
-        setRefreshListener();
+        if (!Utils.isNetworkAvailable(getContext()))
+        {
+            Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
+        }else {
+            //firstLoad();
+            FirstLoadDatas();
+            setRefreshListener();
+        }
+        //FirstLoadDatas();
+        //setRefreshListener();
     }
 
     private void setRefreshListener() {
@@ -171,14 +180,14 @@ public class VideoFragment extends Fragment {
         }
     }
 
-    public VideoFragment() {
+    public FrontPageFragment() {
         // Required empty public constructor
     }
 
 
     // TODO: Rename and change types and number of parameters
-    public static VideoFragment newInstance() {
-        VideoFragment fragment = new VideoFragment();
+    public static FrontPageFragment newInstance() {
+        FrontPageFragment fragment = new FrontPageFragment();
         return fragment;
     }
 

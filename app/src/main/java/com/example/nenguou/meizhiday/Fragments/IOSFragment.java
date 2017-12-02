@@ -22,6 +22,7 @@ import com.example.nenguou.meizhiday.GetDatas.GankOkhttp;
 import com.example.nenguou.meizhiday.UI.others.GithubPageActivity;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.adapter.Android_iOS_Adapter;
+import com.example.nenguou.meizhiday.network.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -57,8 +58,16 @@ public class IOSFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initId();
         inidViews();
-        FirstLoadDatas();
-        setRefreshListener();
+        if (!Utils.isNetworkAvailable(getContext()))
+        {
+            Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
+        }else {
+            //firstLoad();
+            FirstLoadDatas();
+            setRefreshListener();
+        }
+        //wFirstLoadDatas();
+        //setRefreshListener();
     }
 
     private void setRefreshListener() {

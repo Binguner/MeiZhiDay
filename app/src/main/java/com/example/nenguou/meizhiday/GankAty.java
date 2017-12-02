@@ -36,7 +36,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.nenguou.meizhiday.Entity.SearchBean;
 import com.example.nenguou.meizhiday.Fragments.AndroidFragment;
 import com.example.nenguou.meizhiday.Fragments.IOSFragment;
-import com.example.nenguou.meizhiday.Fragments.VideoFragment;
+import com.example.nenguou.meizhiday.Fragments.FrontPageFragment;
 import com.example.nenguou.meizhiday.Fragments.appRecommendFragment;
 import com.example.nenguou.meizhiday.Rx.GetSearchUtils;
 import com.example.nenguou.meizhiday.UI.others.GithubPageActivity;
@@ -450,7 +450,7 @@ public class GankAty extends AppCompatActivity {
         fragments.add(AndroidFragment.newInstance());
         fragments.add(IOSFragment.newInstance());
         fragments.add(appRecommendFragment.newInstance());
-        fragments.add(VideoFragment.newInstance());
+        fragments.add(FrontPageFragment.newInstance());
         myPageAdapter = new MyPageAdapter(getSupportFragmentManager());
         view_pager.setAdapter(myPageAdapter);
         view_pager.setOffscreenPageLimit(4);

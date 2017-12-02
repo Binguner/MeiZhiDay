@@ -74,7 +74,7 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorYello"
+        android:background="#1f3042"
         app:layout_constraintTop_toBottomOf="@+id/gankTab" />
 
     <LinearLayout

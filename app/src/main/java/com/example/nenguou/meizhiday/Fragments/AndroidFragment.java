@@ -20,9 +20,11 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.nenguou.meizhiday.Entity.Gank;
 import com.example.nenguou.meizhiday.GetDatas.GankOkhttp;
+import com.example.nenguou.meizhiday.MainActivity;
 import com.example.nenguou.meizhiday.UI.others.GithubPageActivity;
 import com.example.nenguou.meizhiday.R;
 import com.example.nenguou.meizhiday.adapter.Android_iOS_Adapter;
+import com.example.nenguou.meizhiday.network.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -56,10 +58,19 @@ public class AndroidFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         initId();
         initViews();
-        FirstLoadDatas();
-        setRefreshListener();
+        if (!Utils.isNetworkAvailable(getContext()))
+        {
+            Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
+        }else {
+            //firstLoad();
+            FirstLoadDatas();
+            setRefreshListener();
+        }
+        //FirstLoadDatas();
+        //setRefreshListener();
     }
 
     private void setRefreshListener() {

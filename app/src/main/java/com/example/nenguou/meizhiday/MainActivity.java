@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -30,6 +31,7 @@ import com.example.nenguou.meizhiday.UI.others.About;
 import com.example.nenguou.meizhiday.UI.GithubUI.GithubUserPage;
 import com.example.nenguou.meizhiday.UI.others.GithubPageActivity;
 import com.example.nenguou.meizhiday.UI.others.gittest;
+import com.example.nenguou.meizhiday.Utils.AppBarStateChangeListener;
 import com.example.nenguou.meizhiday.adapter.MeiZhiAdapter;
 import com.example.nenguou.meizhiday.network.Utils;
 import com.google.gson.Gson;
@@ -43,6 +45,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -64,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
     private MeiZhiAdapter meiZhiAdapter;
     private ImageButton imageButtonhaha;
     private ImageView menu_24, gitcat;
-
+    @BindView(R.id.amsdomdas)
+    AppBarLayout amsdomdas;
     //private int FLAGSS = 0;
 
     @Override
@@ -73,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         //FreelineCore.init(MainActivity.this);
         setTheme(R.style.AppTheme_main);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         getGitInfo();
         askPermission();
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -194,6 +200,16 @@ public class MainActivity extends AppCompatActivity {
                 mydrawerlayout.closeDrawer(Gravity.LEFT);
 
                 return true;
+            }
+        });
+        amsdomdas.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                Log.d("STATE",state.name());
+
+                if (state == State.EXPANDED){
+                    collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorTransparent));
+                }
             }
         });
     }

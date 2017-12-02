@@ -32,8 +32,10 @@
         <item name="android:windowTranslucentStatus">false</item>
 
 
-
     </style>
+
+    <!--启动页面-->
+    <style name="Appwelcome" parent="android:Theme.Translucent.NoTitleBar.Fullscreen"/>
 
     <style name="toolbar_style" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="android:actionMenuTextColor">@color/colorWhite</item>
