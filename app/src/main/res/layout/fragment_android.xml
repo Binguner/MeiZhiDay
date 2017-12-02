@@ -6,10 +6,12 @@
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.v4.widget.SwipeRefreshLayout
+        android:fillViewport="true"
         android:layout_width="match_parent"
         android:id="@+id/android_ios_swipe_refresh_layout"
         android:layout_height="match_parent">
 
+        
         <android.support.v7.widget.RecyclerView
 
             android:layout_width="match_parent"
@@ -17,6 +19,8 @@
             android:id="@+id/android_ios_recyclerview">
 
         </android.support.v7.widget.RecyclerView>
+        
+
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

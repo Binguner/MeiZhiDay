@@ -1,8 +1,10 @@
 package com.example.nenguou.meizhiday;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -274,6 +277,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initId() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            Toast.makeText(this,"为了部分功能的正常使用，请打开「存储」权限",Toast.LENGTH_LONG).show();
+        }
         navigationView_test = (NavigationView) findViewById(R.id.navigationView_test);
         imageButtonhaha = (ImageButton) findViewById(R.id.menu_24);
         my_recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);

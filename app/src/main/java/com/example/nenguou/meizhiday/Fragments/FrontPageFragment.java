@@ -52,16 +52,16 @@ public class FrontPageFragment extends Fragment {
     private ArrayList<Gank> main_ganks = new ArrayList<>();
     private int lastVisibleItem;
     private int count = 1;
+    private GetQianDuanDatas getQianDuanDatas = null;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         inidId();
         inidViews();
-        if (!Utils.isNetworkAvailable(getContext()))
-        {
-            Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
-        }else {
+        if (!Utils.isNetworkAvailable(getContext())) {
+            Toast.makeText(getContext(), "请检查网络", Toast.LENGTH_SHORT).show();
+        } else {
             //firstLoad();
             FirstLoadDatas();
             setRefreshListener();
@@ -74,15 +74,19 @@ public class FrontPageFragment extends Fragment {
         qianduan_swipe_refresh_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new GetQianDuanDatas("http://gank.io/api/data/%E5%89%8D%E7%AB%AF/10/1",1).execute();
+                getQianDuanDatas =
+                new GetQianDuanDatas("http://gank.io/api/data/%E5%89%8D%E7%AB%AF/10/1", 1);
+                getQianDuanDatas.execute();
             }
         });
         qianduan_recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem +3 >= linearLayoutManager.getItemCount()){
-                    new GetQianDuanDatas("http://gank.io/api/data/%E5%89%8D%E7%AB%AF/20/"+(++count),0).execute();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 3 >= linearLayoutManager.getItemCount()) {
+                    getQianDuanDatas =
+                    new GetQianDuanDatas("http://gank.io/api/data/%E5%89%8D%E7%AB%AF/20/" + (++count), 0);
+                    getQianDuanDatas.execute();
                 }
             }
 
@@ -95,7 +99,9 @@ public class FrontPageFragment extends Fragment {
     }
 
     private void FirstLoadDatas() {
-        new GetQianDuanDatas("http://gank.io/api/data/%E5%89%8D%E7%AB%AF/10/1",0).execute();
+        getQianDuanDatas =
+        new GetQianDuanDatas("http://gank.io/api/data/%E5%89%8D%E7%AB%AF/10/1", 0);
+        getQianDuanDatas.execute();
     }
 
     private void inidViews() {
@@ -103,26 +109,27 @@ public class FrontPageFragment extends Fragment {
         qianduan_recyclerview.setLayoutManager(linearLayoutManager);
         qianduan_recyclerview.hasFixedSize();
         qianduan_swipe_refresh_layout.setColorSchemeResources(R.color.colorPrimary, R.color.colorYello, R.color.colorAccent, R.color.colorTablayout);
-        qianduan_adapter = new Android_iOS_Adapter(R.layout.card_layout_android_ios,main_ganks,getContext());
+        qianduan_adapter = new Android_iOS_Adapter(R.layout.card_layout_android_ios, main_ganks, getContext());
         qianduan_recyclerview.setAdapter(qianduan_adapter);
         qianduan_adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         qianduan_adapter.isFirstOnly(true);
     }
 
     private void inidId() {
-      qianduan_swipe_refresh_layout = (SwipeRefreshLayout) getView().findViewById(R.id.qianduan_swipe_refresh_layout);
-      qianduan_recyclerview = (RecyclerView) getView().findViewById(R.id.qianduan_recyclerview);
+        qianduan_swipe_refresh_layout = (SwipeRefreshLayout) getView().findViewById(R.id.qianduan_swipe_refresh_layout);
+        qianduan_recyclerview = (RecyclerView) getView().findViewById(R.id.qianduan_recyclerview);
     }
 
-    public class GetQianDuanDatas extends AsyncTask<String,Void,String>{
+    public class GetQianDuanDatas extends AsyncTask<String, Void, String> {
 
         private List<Gank> ganks;
         private String url;
         private String datas;
         private String JSONDatas;
         private int flag;
+        private boolean isLoading = true;
 
-        public GetQianDuanDatas(String url,int flag){
+        public GetQianDuanDatas(String url, int flag) {
             this.url = url;
             this.flag = flag;
         }
@@ -135,10 +142,14 @@ public class FrontPageFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... strings) {
-            try {
-                datas = GankOkhttp.getDatas(url);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (isLoading) {
+                try {
+                    datas = GankOkhttp.getDatas(url);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                isLoading = false;
             }
             return datas;
         }
@@ -146,21 +157,27 @@ public class FrontPageFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if(flag == 0){
+            if (flag == 0) {
                 Gson gson = new Gson();
                 try {
                     JSONObject jsonObject = new JSONObject(datas);
                     JSONDatas = jsonObject.getString("results");
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Type type = new TypeToken<ArrayList<Gank>>(){}.getType();
-                ganks = gson.fromJson(JSONDatas,type);
-                main_ganks.addAll(ganks);
+                Type type = new TypeToken<ArrayList<Gank>>() {
+                }.getType();
+                ganks = gson.fromJson(JSONDatas, type);
+                try{
+                    main_ganks.addAll(ganks);
+                }catch (Exception e){
+
+                }
                 qianduan_adapter.notifyItemInserted(main_ganks.size());
                 qianduan_swipe_refresh_layout.setRefreshing(false);
-            }else if(flag == 1){
-                Toast.makeText(getContext(),"No more datas",Toast.LENGTH_SHORT).show();
+                isLoading = true;
+            } else if (flag == 1) {
+                Toast.makeText(getContext(), "No more datas", Toast.LENGTH_SHORT).show();
                 qianduan_swipe_refresh_layout.setRefreshing(false);
             }
 
@@ -170,14 +187,20 @@ public class FrontPageFragment extends Fragment {
                     Intent intent = new Intent(getContext(), GithubPageActivity.class);
                     Bundle bundle = new Bundle();
 
-                    bundle.putString("url",main_ganks.get(i).url);
-                    bundle.putString("title",main_ganks.get(i).desc);
+                    bundle.putString("url", main_ganks.get(i).url);
+                    bundle.putString("title", main_ganks.get(i).desc);
                     intent.putExtras(bundle);
-                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view,(int)view.getWidth()/2,(int)view.getHeight()/2,0,0);
-                    ActivityCompat.startActivity(getContext(),intent,compat.toBundle());
+                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, (int) view.getWidth() / 2, (int) view.getHeight() / 2, 0, 0);
+                    ActivityCompat.startActivity(getContext(), intent, compat.toBundle());
                 }
             });
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getQianDuanDatas.cancel(true);
     }
 
     public FrontPageFragment() {

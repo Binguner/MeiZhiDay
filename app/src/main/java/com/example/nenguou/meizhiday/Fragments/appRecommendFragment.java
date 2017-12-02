@@ -60,6 +60,7 @@ public class appRecommendFragment extends Fragment {
     private int flags = 0;
     private int count = 1;
     private int lastVisibleItem;
+    private GetAppDates getAppDates = null;
 
     public appRecommendFragment() {
         // Required empty public constructor
@@ -84,7 +85,9 @@ public class appRecommendFragment extends Fragment {
     }
 
     private void FirstLoadDatas() {
-        new GetAppDates("http://gank.io/api/data/App/6/1",flags).execute();
+        getAppDates =
+        new GetAppDates("http://gank.io/api/data/App/6/1",flags);
+        getAppDates.execute();
     }
 
 
@@ -107,7 +110,9 @@ public class appRecommendFragment extends Fragment {
         AllSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new GetAppDates("http://gank.io/api/data/App/6/1",1).execute();
+                getAppDates =
+                new GetAppDates("http://gank.io/api/data/App/6/1",1);
+                getAppDates.execute();
             }
         });
 
@@ -117,7 +122,9 @@ public class appRecommendFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
                 if(newState == RecyclerView.SCROLL_STATE_IDLE
                         && lastVisibleItem +3 >= linearLayoutManager.getItemCount()){
-                 new GetAppDates("http://gank.io/api/data/App/6/"+(++count),0).execute();
+                    getAppDates =
+                 new GetAppDates("http://gank.io/api/data/App/6/"+(++count),0);
+                    getAppDates.execute();
                     Log.i("findLastVisiblfeftion",""+linearLayoutManager.getItemCount());
                 }
             }
@@ -140,7 +147,7 @@ public class appRecommendFragment extends Fragment {
         private String datas;
         private String JSONdatas;
         private int flag;
-
+        private boolean isLoading = true;
         public GetAppDates(String url,int flag) {
             this.url = url;
             this.flag = flag;
@@ -155,12 +162,16 @@ public class appRecommendFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             /*if(flag == 0){*/
+            if(isLoading) {
                 try {//这是 String
                     datas = GankOkhttp.getDatas(url);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return datas;
+
+                isLoading = false;
+            }
+            return datas;
          /*   }else {
                 return null;
             }*/
@@ -175,16 +186,19 @@ public class appRecommendFragment extends Fragment {
                 try {
                     JSONObject jsonObject = new JSONObject(datas);
                     JSONdatas = jsonObject.getString("results");
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Type type = new TypeToken<ArrayList<Gank>>(){}.getType();
                 ganks = gson.fromJson(JSONdatas,type);
           //      Log.i("asdasdasd",ganks.get(0).images[0].toString());
 
-                main_ganks.addAll(ganks);
+                try{main_ganks.addAll(ganks);}catch (Exception e){
+
+                }
                 gankAppAdapter.notifyItemInserted(main_ganks.size());
                 AllSwipeRefreshLayout.setRefreshing(false);
+                isLoading = true;
             }else {
                 Toast.makeText(getContext(),"No more datas",Toast.LENGTH_SHORT).show();
                 AllSwipeRefreshLayout.setRefreshing(false);
@@ -200,13 +214,19 @@ public class appRecommendFragment extends Fragment {
                 bundle.putString("url",main_ganks.get(position).url);
                 bundle.putString("title",main_ganks.get(position).desc);
                 intent.putExtras(bundle);
-                Toast.makeText(getContext(),"第"+position+"个",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"第"+position+"个",Toast.LENGTH_SHORT).show();
                 ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view,(int)view.getWidth()/2,(int)view.getHeight()/2,0,0);
                 ActivityCompat.startActivity(getContext(),intent,compat.toBundle());
             }
         });
         }
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getAppDates.cancel(true);
     }
 
     //初始化控件资源

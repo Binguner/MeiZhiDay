@@ -274,7 +274,7 @@ public class GankAty extends AppCompatActivity {
     }
 
     private void chooseBtn(Button button) {
-        button.setTextColor(R.color.colorToolbar);
+        button.setTextColor(getResources().getColor(R.color.colorToolbar));
         int btnId = button.getId();
         if (btnId == search_all.getId()) {
             search_all.setSelected(true);
@@ -312,6 +312,7 @@ public class GankAty extends AppCompatActivity {
             search_app.setSelected(true);
         }
     }
+
 
     private void clearAndSearch(){
         page = 0;
@@ -453,7 +454,7 @@ public class GankAty extends AppCompatActivity {
         fragments.add(FrontPageFragment.newInstance());
         myPageAdapter = new MyPageAdapter(getSupportFragmentManager());
         view_pager.setAdapter(myPageAdapter);
-        view_pager.setOffscreenPageLimit(4);
+        view_pager.setOffscreenPageLimit(1);
         gankTab.setViewPager(view_pager);
 
         gankToolbar.setNavigationOnClickListener(new View.OnClickListener() {
