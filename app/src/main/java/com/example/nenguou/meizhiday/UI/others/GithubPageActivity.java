@@ -80,7 +80,7 @@ public class GithubPageActivity extends AppCompatActivity {
         gankgithubToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                onBackPressed();
             }
         });
     }

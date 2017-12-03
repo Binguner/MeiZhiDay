@@ -61,6 +61,7 @@ public class appRecommendFragment extends Fragment {
     private int count = 1;
     private int lastVisibleItem;
     private GetAppDates getAppDates = null;
+    private boolean appReIsLoading = true;
 
     public appRecommendFragment() {
         // Required empty public constructor
@@ -120,8 +121,9 @@ public class appRecommendFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(newState == RecyclerView.SCROLL_STATE_IDLE
+                if(newState == RecyclerView.SCROLL_STATE_IDLE && appReIsLoading
                         && lastVisibleItem +3 >= linearLayoutManager.getItemCount()){
+                    appReIsLoading = false;
                     getAppDates =
                  new GetAppDates("http://gank.io/api/data/App/6/"+(++count),0);
                     getAppDates.execute();
@@ -185,6 +187,7 @@ public class appRecommendFragment extends Fragment {
             super.onPostExecute(s);
             if (datas.toString() == ""){
                 AllSwipeRefreshLayout.setRefreshing(false);
+                appReIsLoading = true;
             }
             if(flag == 0 && datas.toString() != ""){
                 Gson gson = new Gson();
@@ -204,6 +207,7 @@ public class appRecommendFragment extends Fragment {
                 gankAppAdapter.notifyItemInserted(main_ganks.size());
                 AllSwipeRefreshLayout.setRefreshing(false);
                 isLoading = true;
+                appReIsLoading = true;
             }else {
                 Toast.makeText(getContext(),"No more datas",Toast.LENGTH_SHORT).show();
                 AllSwipeRefreshLayout.setRefreshing(false);

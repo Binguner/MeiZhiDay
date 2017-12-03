@@ -54,6 +54,7 @@ public class IOSFragment extends Fragment {
     private int count = 1;
     private int lastVisibleItem;
     private GetiOSDates getiOSDates = null;
+    private boolean iosIsLoading = true;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -84,7 +85,8 @@ public class IOSFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 3 >= linearLayoutManager.getItemCount()) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && iosIsLoading && lastVisibleItem + 3 >= linearLayoutManager.getItemCount()) {
+                    iosIsLoading = false;
                     getiOSDates =
                     new GetiOSDates("http://gank.io/api/data/iOS/20/" + (++count), 0);
                     getiOSDates.execute();
@@ -167,6 +169,7 @@ public class IOSFragment extends Fragment {
             if (datas.toString() == ""){
                 Log.d("adadfs","yyyyyy");
                 ios_swipe_refresh_layout.setRefreshing(false);
+                iosIsLoading = true;
             }
             if (falg == 0 && datas.toString() != "") {
                 Log.d("adadfs","ffffffff");
@@ -187,6 +190,7 @@ public class IOSFragment extends Fragment {
                 //Log.d("dndnndndndnd",main_ganks.size()+"");
                 ios_swipe_refresh_layout.setRefreshing(false);
                 isLoading = true;
+                iosIsLoading = true;
             } else if (falg == 1) {
                 Toast.makeText(getContext(), "No more datas", Toast.LENGTH_SHORT).show();
                 ios_swipe_refresh_layout.setRefreshing(false);

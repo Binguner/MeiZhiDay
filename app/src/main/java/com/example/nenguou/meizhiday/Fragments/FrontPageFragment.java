@@ -53,6 +53,7 @@ public class FrontPageFragment extends Fragment {
     private int lastVisibleItem;
     private int count = 1;
     private GetQianDuanDatas getQianDuanDatas = null;
+    private boolean frontIsLoading = true;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -83,7 +84,8 @@ public class FrontPageFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 3 >= linearLayoutManager.getItemCount()) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && frontIsLoading && lastVisibleItem + 3 >= linearLayoutManager.getItemCount()) {
+                    frontIsLoading = false;
                     getQianDuanDatas =
                     new GetQianDuanDatas("http://gank.io/api/data/%E5%89%8D%E7%AB%AF/20/" + (++count), 0);
                     getQianDuanDatas.execute();
@@ -161,8 +163,10 @@ public class FrontPageFragment extends Fragment {
             super.onPostExecute(s);
             if (datas.toString() == ""){
                 qianduan_swipe_refresh_layout.setRefreshing(false);
+                frontIsLoading = true;
             }
             if (flag == 0 && datas.toString() != "") {
+                frontIsLoading = true;
                 Gson gson = new Gson();
                 try {
                     JSONObject jsonObject = new JSONObject(datas);

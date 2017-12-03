@@ -53,7 +53,7 @@ public class About extends AppCompatActivity {
 
     @OnClick(R.id.aboutPage_back)
     void goBack(){
-        finish();
+        onBackPressed();
     }
     @OnClick(R.id.aboutPage_share)
     void shareApp(){
@@ -80,7 +80,7 @@ public class About extends AppCompatActivity {
     }
     @OnClick(R.id.aboutPage_findme)
     void findMe(View view){
-        openQQ(view,"");
+        openQQ(view,"819985138");
     }
 
 

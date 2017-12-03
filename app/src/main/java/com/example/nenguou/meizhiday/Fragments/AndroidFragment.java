@@ -54,6 +54,7 @@ public class AndroidFragment extends Fragment {
     private ArrayList<Gank> main_ganks = new ArrayList<>();
     private Android_iOS_Adapter android_iOS_adapter;
     GetAndroidDates getAndroidDates = null;
+    private boolean androidIsLoading = true;
 
     private int count = 1;
     private int lastVisibleItem;
@@ -88,8 +89,9 @@ public class AndroidFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE &&
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && androidIsLoading &&
                         lastVisibleItem + 3 >= linearLayoutManager.getItemCount()) {
+                    androidIsLoading = false;
                     getAndroidDates =
                     new GetAndroidDates("http://gank.io/api/data/Android/20/" + (++count), 0);
                     getAndroidDates.execute();
@@ -248,6 +250,7 @@ public class AndroidFragment extends Fragment {
                 try{main_ganks.addAll(ganks);}catch (Exception e){}
                 android_iOS_adapter.notifyItemInserted(main_ganks.size());
                 android_ios_swipe_refresh_layout.setRefreshing(false);
+                androidIsLoading = true;
                 if (isLoading == false){
                     isLoading = true;
                 }

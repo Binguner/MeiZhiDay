@@ -474,7 +474,7 @@ public class GankAty extends AppCompatActivity {
                     inputMethodManager.hideSoftInputFromWindow(gank_title.getWindowToken(),0);
                     flag = 1;
                 } else {
-                    finish();
+                    onBackPressed();
                 }
             }
         });

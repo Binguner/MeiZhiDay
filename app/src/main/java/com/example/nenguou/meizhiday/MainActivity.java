@@ -47,7 +47,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,12 +69,13 @@ public class MainActivity extends AppCompatActivity {
     private StaggeredGridLayoutManager my_staggeredGridLayoutManager;
     private RecyclerView my_recyclerView;
     private int count = 2;
-    private int lastVisibleItem ;
+    private int lastVisibleItem;
     private ArrayList<MeiZHI> main_meizhis = new ArrayList<>();
     private String content;
     private MeiZhiAdapter meiZhiAdapter;
     private ImageButton imageButtonhaha;
     private ImageView menu_24, gitcat;
+    private static boolean meizhiIsLoading = true;
     @BindView(R.id.amsdomdas)
     AppBarLayout amsdomdas;
     //private int FLAGSS = 0;
@@ -91,10 +95,9 @@ public class MainActivity extends AppCompatActivity {
         setToolbar();
         setClickListener();
 
-        if (!Utils.isNetworkAvailable(MainActivity.this))
-        {
-            Toast.makeText(MainActivity.this,"请检查网络",Toast.LENGTH_SHORT).show();
-        }else {
+        if (!Utils.isNetworkAvailable(MainActivity.this)) {
+            Toast.makeText(MainActivity.this, "请检查网络", Toast.LENGTH_SHORT).show();
+        } else {
             firstLoad();
             setRefreshListener();
         }
@@ -102,33 +105,33 @@ public class MainActivity extends AppCompatActivity {
 
     private void getGitInfo() {
         String path = this.getCacheDir().toString();
-        Log.d("cachePAth",path);
-        SharedPreferences sharedPreferences = getSharedPreferences("cachePath",MODE_PRIVATE);
+        Log.d("cachePAth", path);
+        SharedPreferences sharedPreferences = getSharedPreferences("cachePath", MODE_PRIVATE);
         SharedPreferences.Editor editor1 = sharedPreferences.edit();
-        editor1.putString("mCachePath",path);
+        editor1.putString("mCachePath", path);
         editor1.commit();
 
-        try{
+        try {
             Intent i_getValue = getIntent();
             String codeUrl = i_getValue.getAction();
-            if(Intent.ACTION_VIEW.equals(codeUrl)){
+            if (Intent.ACTION_VIEW.equals(codeUrl)) {
                 Uri uri = i_getValue.getData();
-                if(uri != null){
+                if (uri != null) {
                     String code = uri.getQueryParameter("code");
 
                     SharedPreferences sharedPreferences1 = getSharedPreferences("gitCode", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences1.edit();
-                    editor.putString("code",code);
+                    editor.putString("code", code);
                     editor.commit();
+                }
             }
-        }
-        }catch (Exception e){
-            Log.d("getGitInfoFaild","onError: "+e);
+        } catch (Exception e) {
+            Log.d("getGitInfoFaild", "onError: " + e);
         }
 
-        try{
+        try {
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -143,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         gitcat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,GithubUserPage.class);
+                Intent intent = new Intent(MainActivity.this, GithubUserPage.class);
                 startActivity(intent);
             }
         });
@@ -162,44 +165,45 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 String msg = "";
-                switch(menuItem.getItemId()){
+                switch (menuItem.getItemId()) {
                     case R.id.Android:
                         //msg +="Android";
-                        Intent intent = new Intent(MainActivity.this,GankAty.class);
+                        Intent intent = new Intent(MainActivity.this, GankAty.class);
                         startActivity(intent);
 
                         break;
                     case R.id.About:
                         //msg +="关于";
-                        Intent intent1 = new Intent(MainActivity.this,About.class);
+                        Intent intent1 = new Intent(MainActivity.this, About.class);
                         startActivity(intent1);
                         break;
 
                     case R.id.Github_menu:
-                        Intent intent2 = new Intent(MainActivity.this,gittest.class);
+                        Intent intent2 = new Intent(MainActivity.this, gittest.class);
                         startActivity(intent2);
                         break;
 
                     case R.id.gitcat:
-                        Log.d("doahfiluhnasofna;s","osdmsdno");
+                        Log.d("doahfiluhnasofna;s", "osdmsdno");
                         break;
 
                     case R.id.exit_app:
-                        finish();
+                        onBackPressed();
+                        //finish();
                         break;
                     case R.id.login_github:
                         Intent gitIntent = new Intent(MainActivity.this, GithubPageActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("title","GitHub - Build software better, together.");
-                        bundle.putString("url","https://github.com/login?return_to=%2Fjoin%3Fsource%3Dbutton-home");
+                        bundle.putString("title", "GitHub - Build software better, together.");
+                        bundle.putString("url", "https://github.com/login?return_to=%2Fjoin%3Fsource%3Dbutton-home");
                         gitIntent.putExtras(bundle);
                         startActivity(gitIntent);
                         break;
                     default:
                         break;
                 }
-                if(!"".equals(msg)){
-                    Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                if (!"".equals(msg)) {
+                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                 }
                 mydrawerlayout.closeDrawer(Gravity.LEFT);
 
@@ -209,9 +213,9 @@ public class MainActivity extends AppCompatActivity {
         amsdomdas.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                Log.d("STATE",state.name());
+                Log.d("STATE", state.name());
 
-                if (state == State.EXPANDED){
+                if (state == State.EXPANDED) {
                     collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorTransparent));
                 }
             }
@@ -220,19 +224,19 @@ public class MainActivity extends AppCompatActivity {
 
     //打开应用第一次加载数据
     private void firstLoad() {
-        try{
+        try {
             new getData(MainActivity.this, 0).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/20/1");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this,"请检查网络",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "请检查网络", Toast.LENGTH_SHORT).show();
         }
     }
 
     //初始化页面
     private void initViews() {
-       // my_staggeredGridLayoutManager = new GridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        // my_staggeredGridLayoutManager = new GridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         mydrawerlayout = (DrawerLayout) findViewById(R.id.mydrawerlayout);
-        View LeftView = getLayoutInflater().inflate(R.layout.header_layout,null);
+        View LeftView = getLayoutInflater().inflate(R.layout.header_layout, null);
         navigationView_test.addHeaderView(LeftView);
         navigationView_test.setItemIconTintList(null);
         View headerView = navigationView_test.getHeaderView(0);
@@ -241,10 +245,10 @@ public class MainActivity extends AppCompatActivity {
         menu_24 = (ImageView) findViewById(R.id.menu_24);
         myToolbar = (Toolbar) findViewById(R.id.myToolbar);
 
-        my_staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        my_staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 
         //my_staggeredGridLayoutManager.setGapStrategy(2);
-        meiZhiAdapter = new MeiZhiAdapter(this,main_meizhis);
+        meiZhiAdapter = new MeiZhiAdapter(this, main_meizhis);
         my_recyclerView.setAdapter(meiZhiAdapter);
         my_recyclerView.setHasFixedSize(true);
         //my_recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
@@ -254,8 +258,7 @@ public class MainActivity extends AppCompatActivity {
         my_recyclerView.addItemDecoration(spacesItemDecoration);
 
 
-
-        my_swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimary,R.color.colorWhite,R.color.colorYello,R.color.colorPrimary);
+        my_swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorWhite, R.color.colorYello, R.color.colorPrimary);
 
         //处理 item 乱动
         my_staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
@@ -268,7 +271,9 @@ public class MainActivity extends AppCompatActivity {
     private void setToolbar() {
         setSupportActionBar(myToolbar);
         collapsingToolbarLayout.setTitle("Meizhi");
-        collapsingToolbarLayout.setCollapsedTitleGravity(Gravity.LEFT);   //收缩后标题的位置
+        //collapsingToolbarLayout.i;
+        collapsingToolbarLayout.setCollapsedTitleGravity(Gravity.START);   //收缩后标题的位置
+        //collapsingToolbarLayout.setCollapsedTitleGravity(Gravity.TOP);
         //collapsingToolbarLayout.setExpandedTitleGravity(Gravity.LEFT);  //设置展开后标题的位置
         collapsingToolbarLayout.setExpandedTitleMarginBottom(40);
         collapsingToolbarLayout.setExpandedTitleMarginStart(80);
@@ -278,10 +283,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initId() {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             //Toast.makeText(this,"为了部分功能的正常使用，请打开「存储」权限",Toast.LENGTH_LONG).show();
             //Snackbar.make(my_recyclerView,"为了部分功能的正常使用，请打开「存储」权限",Snackbar.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
         navigationView_test = (NavigationView) findViewById(R.id.navigationView_test);
         imageButtonhaha = (ImageButton) findViewById(R.id.menu_24);
@@ -291,27 +296,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void Go_top(View view){
+    public void Go_top(View view) {
 
     }
+
     //private int times = 0;
     private void setRefreshListener() {
         my_swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 //if(times ==0) {
-                   // Log.i("timessss",times+"2");
-                  //  new getData(MainActivity.this, 0).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1");
-                   // times++;
-              //  }else {
-                  //  Log.i("timessss",times+"2");
+                // Log.i("timessss",times+"2");
+                //  new getData(MainActivity.this, 0).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1");
+                // times++;
+                //  }else {
+                //  Log.i("timessss",times+"2");
                 try {
                     new getData(MainActivity.this, 1).execute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1");
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(MainActivity.this,"请检查网络",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "请检查网络", Toast.LENGTH_SHORT).show();
                 }
-               // }
+                // }
             }
         });
 
@@ -320,14 +326,15 @@ public class MainActivity extends AppCompatActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 //my_staggeredGridLayoutManager.invalidateSpanAssignments();
                 super.onScrollStateChanged(recyclerView, newState);
-                Log.i("counttt",count+" ");
-                if (newState == RecyclerView.SCROLL_STATE_IDLE
-                        && lastVisibleItem +2>=my_staggeredGridLayoutManager.getItemCount()&&my_staggeredGridLayoutManager.getItemCount()>2) {
+                Log.i("counttt", count + " ");
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && meizhiIsLoading
+                        && lastVisibleItem + 2 >= my_staggeredGridLayoutManager.getItemCount() && my_staggeredGridLayoutManager.getItemCount() > 2) {
+                    meizhiIsLoading = false;
                     try {
-                        new getData(MainActivity.this,0).execute("http://gank.io/api/data/福利/20/"+(count++));
-                    }catch (Exception e){
+                        new getData(MainActivity.this, 0).execute("http://gank.io/api/data/福利/20/" + (count++));
+                    } catch (Exception e) {
                         e.printStackTrace();
-                        Toast.makeText(MainActivity.this,"请检查网络",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "请检查网络", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -337,8 +344,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int[] positions= my_staggeredGridLayoutManager.findLastVisibleItemPositions(null);
-                lastVisibleItem =Math.max(positions[0],positions[1]);//根据StaggeredGridLayoutManager设置的列数来定
+                int[] positions = my_staggeredGridLayoutManager.findLastVisibleItemPositions(null);
+                lastVisibleItem = Math.max(positions[0], positions[1]);//根据StaggeredGridLayoutManager设置的列数来定
                 //lastVisibleItem = my_staggeredGridLayoutManager.findLastVisibleItemPosition();
             }
         });
@@ -346,15 +353,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private class getData extends AsyncTask<String,Void,List<MeiZHI>>{
+    private class getData extends AsyncTask<String, Void, List<MeiZHI>> {
 
         private int Flags;
         private String content;
         List<MeiZHI> meizhis;
         String jsonData;
         private MainActivity context;
+        private boolean isLoading = true;
 
-        public getData(MainActivity context,int Flags){
+        public getData(MainActivity context, int Flags) {
             this.context = context;
             this.Flags = Flags;
         }
@@ -368,42 +376,171 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected List<MeiZHI> doInBackground(String... params) {
 
-            OkHttpClient okHttpClient = new OkHttpClient();
-            Request request = new Request
-                    .Builder()
-                    //.url("http://gank.io/api/data/福利/10/0x")
-                    .url(params[0])
-                    .build();
-            Response response = null;
-            try {
-                response = okHttpClient.newCall(request).execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if(response.isSuccessful()){
+            if (isLoading) {
+                isLoading = false;
+                OkHttpClient okHttpClient = new OkHttpClient();
+                Request request = new Request
+                        .Builder()
+                        //.url("http://gank.io/api/data/福利/10/0x")
+                        .url(params[0])
+                        .build();
+                Response response = null;
                 try {
-                    content = response.body().string();
-                } catch (IOException e) {
+                    response = okHttpClient.newCall(request).execute();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Gson gson = new Gson();
+                if (response != null && response.isSuccessful()) {
+                    try {
+                        content = response.body().string();
+                    } catch (Exception e) {
+                        //Toast.makeText(MainActivity.this, "当前网络状态不好，请稍后再试。", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                    Gson gson = new Gson();
 
-                try {
-                    JSONObject jsonObject = new JSONObject(content);
-                    jsonData = jsonObject.getString("results");
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    try {
+                        JSONObject jsonObject = new JSONObject(content);
+                        jsonData = jsonObject.getString("results");
+                    } catch (Exception e) {
+                        Toast.makeText(MainActivity.this, "当前网络状态不好，请稍后再试。", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+
+
+                    Type type = new TypeToken<ArrayList<MeiZHI>>() {
+                    }.getType();
+                    try {
+                        meizhis = gson.fromJson(jsonData, type);
+                    } catch (RuntimeException e) {
+                        e.printStackTrace();
+                        Toast.makeText(MainActivity.this,"当前网络状态不好，请稍后再试。",Toast.LENGTH_SHORT).show();
+                        meizhis = new List<MeiZHI>() {
+                            @Override
+                            public int size() {
+                                return 0;
+                            }
+
+                            @Override
+                            public boolean isEmpty() {
+                                return true;
+                            }
+
+                            @Override
+                            public boolean contains(Object o) {
+                                return false;
+                            }
+
+                            @NonNull
+                            @Override
+                            public Iterator<MeiZHI> iterator() {
+                                return null;
+                            }
+
+                            @NonNull
+                            @Override
+                            public Object[] toArray() {
+                                return new Object[0];
+                            }
+
+                            @NonNull
+                            @Override
+                            public <T> T[] toArray(@NonNull T[] ts) {
+                                return null;
+                            }
+
+                            @Override
+                            public boolean add(MeiZHI meiZHI) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean remove(Object o) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean containsAll(@NonNull Collection<?> collection) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean addAll(@NonNull Collection<? extends MeiZHI> collection) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean addAll(int i, @NonNull Collection<? extends MeiZHI> collection) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean removeAll(@NonNull Collection<?> collection) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean retainAll(@NonNull Collection<?> collection) {
+                                return false;
+                            }
+
+                            @Override
+                            public void clear() {
+
+                            }
+
+                            @Override
+                            public MeiZHI get(int i) {
+                                return null;
+                            }
+
+                            @Override
+                            public MeiZHI set(int i, MeiZHI meiZHI) {
+                                return null;
+                            }
+
+                            @Override
+                            public void add(int i, MeiZHI meiZHI) {
+
+                            }
+
+                            @Override
+                            public MeiZHI remove(int i) {
+                                return null;
+                            }
+
+                            @Override
+                            public int indexOf(Object o) {
+                                return 0;
+                            }
+
+                            @Override
+                            public int lastIndexOf(Object o) {
+                                return 0;
+                            }
+
+                            @NonNull
+                            @Override
+                            public ListIterator<MeiZHI> listIterator() {
+                                return null;
+                            }
+
+                            @NonNull
+                            @Override
+                            public ListIterator<MeiZHI> listIterator(int i) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @Override
+                            public List<MeiZHI> subList(int i, int i1) {
+                                return null;
+                            }
+                        };
+                    }
+                    //  Log.i("hahaha",meizhis.get(0).roString());
+
                 }
-
-
-                Type type = new TypeToken<ArrayList<MeiZHI>>(){
-                }.getType();
-                try {
-                    meizhis = gson.fromJson(jsonData,type);
-                } catch (RuntimeException e) {
-                    e.printStackTrace();
-                }
-                  //  Log.i("hahaha",meizhis.get(0).roString());
             }
 
             return meizhis;
@@ -412,34 +549,48 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<MeiZHI> meiZHIS) {
             super.onPostExecute(meiZHIS);
-            switch (Flags){
+            if (null == meiZHIS || main_meizhis.isEmpty()){
+                Log.d("NIuBe","Wrong");
+                if(Flags == 1 && main_meizhis.isEmpty() ) {
+                    Log.d("NIuBe","inWrong");
+                    firstLoad();
+                }
+                context.my_swipeRefreshLayout.setRefreshing(false);
+                meizhiIsLoading = true;
+            }
+            switch (Flags) {
                 case 0:
-                    main_meizhis.addAll(meizhis);
-                    //context.meiZhiAdapter.notifyDataSetChanged();
-                    context.meiZhiAdapter.notifyItemInserted(main_meizhis.size());
-                    context.my_swipeRefreshLayout.setRefreshing(false);
+                    if (null != meiZHIS) {
+                        Log.d("NIuBe","Right");
+                        main_meizhis.addAll(meiZHIS);
+                        //context.meiZhiAdapter.notifyDataSetChanged();
+                        context.meiZhiAdapter.notifyItemInserted(main_meizhis.size());
+                        context.my_swipeRefreshLayout.setRefreshing(false);
+                        isLoading = true;
+                        meizhiIsLoading = true;
+                    }
                     break;
                 case 1:
                   /*  main_meizhis.addAll(meiZHIS);
                     context.meiZhiAdapter.notifyDataSetChanged();*/
                     context.my_swipeRefreshLayout.setRefreshing(false);
-                    Toast.makeText(MainActivity.this,"No more datas",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "No more datas", Toast.LENGTH_SHORT).show();
                     break;
             }
             meiZhiAdapter.setOnItemClickListener(new MeiZhiAdapter.onItemClickListener() {
                 @Override
                 public void onItemClick(View view) {
                     int postion = my_recyclerView.getChildAdapterPosition(view);
-                    Intent intent = new Intent(MainActivity.this,Pics.class);
+                    Intent intent = new Intent(MainActivity.this, Pics.class);
                     Bundle bundle = new Bundle();
-                    Log.i("ueluel",main_meizhis.get(postion).roString());
-                    bundle.putString("url",main_meizhis.get(postion).roString());
-                    Log.i("fds",main_meizhis.get(postion).desc);
-                    bundle.putString("title",main_meizhis.get(postion).desc);
+                    Log.i("ueluel", main_meizhis.get(postion).roString());
+                    bundle.putString("url", main_meizhis.get(postion).roString());
+                    Log.i("fds", main_meizhis.get(postion).desc);
+                    bundle.putString("title", main_meizhis.get(postion).desc);
                     intent.putExtras(bundle);
                     //Toast.makeText(MainActivity.this,"第"+postion+"个",Toast.LENGTH_SHORT).show();
-                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view,(int)view.getWidth()/2,(int)view.getHeight()/2,0,0);
-                    ActivityCompat.startActivity(MainActivity.this,intent,compat.toBundle());
+                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, (int) view.getWidth() / 2, (int) view.getHeight() / 2, 0, 0);
+                    ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
                 }
             });
 
