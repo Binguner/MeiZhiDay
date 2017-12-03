@@ -1,7 +1,9 @@
 package com.example.nenguou.meizhiday;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -12,6 +14,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -147,6 +150,11 @@ public class Pics extends AppCompatActivity {
     }
 
     private void initId() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            //Toast.makeText(this,"为了部分功能的正常使用，请打开「存储」权限",Toast.LENGTH_LONG).show();
+            //Snackbar.make(my_recyclerView,"为了部分功能的正常使用，请打开「存储」权限",Snackbar.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        }
         meizhi_Pic = (PhotoView) findViewById(R.id.meizhi_Pic);
     }
 

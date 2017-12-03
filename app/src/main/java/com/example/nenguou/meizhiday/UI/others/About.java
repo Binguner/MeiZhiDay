@@ -7,8 +7,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,13 +31,24 @@ public class About extends AppCompatActivity {
     ImageView aboutPage_share;
     @BindView(R.id.aboutPage_findme)
     TextView aboutPage_findme;
-
+    @BindView(R.id.aboutPage_CollapsingToolbarLayout)
+    CollapsingToolbarLayout aboutPage_CollapsingToolbarLayout;
+    @BindView(R.id.aboutPage_Toolbar)
+    Toolbar aboutPage_Toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setTheme(R.style.AppTheme_github);
         setContentView(R.layout.activity_about);
         ButterKnife.bind(this);
+        initViews();
+    }
+
+    private void initViews() {
+        aboutPage_CollapsingToolbarLayout.setTitle("「啊」");
+        aboutPage_CollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorWhite));
+        aboutPage_CollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorTransparent));
     }
 
     @OnClick(R.id.aboutPage_back)

@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -152,10 +153,10 @@ public class IOSFragment extends Fragment {
                     datas = GankOkhttp.getDatas(url);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Toast.makeText(getContext(),"当前网络状态不好，请稍后再试。",Toast.LENGTH_SHORT).show();
+                    datas = "";
                 }
                 isLoading = false;
-
-
             }
             return datas;
         }
@@ -163,7 +164,12 @@ public class IOSFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (falg == 0) {
+            if (datas.toString() == ""){
+                Log.d("adadfs","yyyyyy");
+                ios_swipe_refresh_layout.setRefreshing(false);
+            }
+            if (falg == 0 && datas.toString() != "") {
+                Log.d("adadfs","ffffffff");
                 Gson gson = new Gson();
                 try {
                     JSONObject jsonObject = new JSONObject(datas);

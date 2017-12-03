@@ -216,11 +216,8 @@ public class AndroidFragment extends Fragment {
                     datas = GankOkhttp.getDatas(url);
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
-                if (datas != null) {
-
-                } else {
-                    return null;
+                    Toast.makeText(getContext(),"当前网络状态不好，请稍后再试。",Toast.LENGTH_SHORT).show();
+                    datas = "";
                 }
                 isLoading = false;
 
@@ -232,7 +229,10 @@ public class AndroidFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (falg == 0) {
+            if (datas.toString() == ""){
+                android_ios_swipe_refresh_layout.setRefreshing(false);
+            }
+            if (falg == 0 && datas.toString() != "") {
                 Gson gson = new Gson();
                 Log.d("isLoadingnow","isLoading");
                 try {

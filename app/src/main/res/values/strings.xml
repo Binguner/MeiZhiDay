@@ -3,5 +3,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="whatisay">每日分享 妹子图 和 技术干货\n\n这是我自己写的第一个 App，很多技术方面的东西做的还不到位，如果有什么 Bug 的话，欢迎各位在这个页面的下方私戳我\n\n我的简书地址：http://www.jianshu.com/u/7ac4634329c3\nGithub：https://github.com/Nenguou\n\n另外，本 App 的所有数据来源均来自 http://gank.io/ 感谢代码家提供的 Api。</string>
+    <string name="whatisay">每日分享 妹子图 和 技术干货\n\n这是我自己写来练手的一个 App，很多技术方面的东西做的还不到位，如果有什么 Bug 的话，欢迎各位在这个页面的下方私戳我\n\n我的简书地址：http://www.jianshu.com/u/7ac4634329c3\nGithub：https://github.com/Nenguou\n\n另外，本 App 的所有数据来源均来自 http://gank.io/\n感谢代码家提供的 Api。</string>
 </resources>

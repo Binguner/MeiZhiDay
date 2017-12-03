@@ -167,6 +167,8 @@ public class appRecommendFragment extends Fragment {
                     datas = GankOkhttp.getDatas(url);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Toast.makeText(getContext(),"当前网络状态不好，请稍后再试。",Toast.LENGTH_SHORT).show();
+                    datas = "";
                 }
 
                 isLoading = false;
@@ -181,7 +183,10 @@ public class appRecommendFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if(flag == 0){
+            if (datas.toString() == ""){
+                AllSwipeRefreshLayout.setRefreshing(false);
+            }
+            if(flag == 0 && datas.toString() != ""){
                 Gson gson = new Gson();
                 try {
                     JSONObject jsonObject = new JSONObject(datas);
