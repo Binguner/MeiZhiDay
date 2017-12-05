@@ -59,4 +59,8 @@ public enum TimeUnit {
     public void sleep(long timeout) throws InterruptedException {
         throw new RuntimeException("Stub!");
     }
+    public static String toNormal(String string){
+        String s = string.split("T")[0];
+        return s;
+    }
 }

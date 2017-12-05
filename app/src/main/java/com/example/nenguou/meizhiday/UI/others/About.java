@@ -46,7 +46,7 @@ public class About extends AppCompatActivity {
     }
 
     private void initViews() {
-        aboutPage_CollapsingToolbarLayout.setTitle("「啊」");
+        aboutPage_CollapsingToolbarLayout.setTitle("aGank");
         aboutPage_CollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorWhite));
         aboutPage_CollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorTransparent));
     }

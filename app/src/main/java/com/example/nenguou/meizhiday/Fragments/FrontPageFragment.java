@@ -115,6 +115,19 @@ public class FrontPageFragment extends Fragment {
         qianduan_recyclerview.setAdapter(qianduan_adapter);
         qianduan_adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         qianduan_adapter.isFirstOnly(true);
+        qianduan_adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                Intent intent = new Intent(getContext(), GithubPageActivity.class);
+                Bundle bundle = new Bundle();
+
+                bundle.putString("url", main_ganks.get(i).url);
+                bundle.putString("title", main_ganks.get(i).desc);
+                intent.putExtras(bundle);
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, (int) view.getWidth() / 2, (int) view.getHeight() / 2, 0, 0);
+                ActivityCompat.startActivity(getContext(), intent, compat.toBundle());
+            }
+        });
     }
 
     private void inidId() {
@@ -190,19 +203,19 @@ public class FrontPageFragment extends Fragment {
                 qianduan_swipe_refresh_layout.setRefreshing(false);
             }
 
-            qianduan_adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                    Intent intent = new Intent(getContext(), GithubPageActivity.class);
-                    Bundle bundle = new Bundle();
-
-                    bundle.putString("url", main_ganks.get(i).url);
-                    bundle.putString("title", main_ganks.get(i).desc);
-                    intent.putExtras(bundle);
-                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, (int) view.getWidth() / 2, (int) view.getHeight() / 2, 0, 0);
-                    ActivityCompat.startActivity(getContext(), intent, compat.toBundle());
-                }
-            });
+//            qianduan_adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+//                    Intent intent = new Intent(getContext(), GithubPageActivity.class);
+//                    Bundle bundle = new Bundle();
+//
+//                    bundle.putString("url", main_ganks.get(i).url);
+//                    bundle.putString("title", main_ganks.get(i).desc);
+//                    intent.putExtras(bundle);
+//                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, (int) view.getWidth() / 2, (int) view.getHeight() / 2, 0, 0);
+//                    ActivityCompat.startActivity(getContext(), intent, compat.toBundle());
+//                }
+//            });
         }
     }
 

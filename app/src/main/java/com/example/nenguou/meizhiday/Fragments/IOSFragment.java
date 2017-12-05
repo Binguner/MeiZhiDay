@@ -114,11 +114,25 @@ public class IOSFragment extends Fragment {
         ios_recyclerview.setAdapter(android_iOS_adapter);
         android_iOS_adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         android_iOS_adapter.isFirstOnly(true);
+        android_iOS_adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                //Toast.makeText(getContext(), "第" + i + "个", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), GithubPageActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("url", main_ganks.get(i).url);
+                bundle.putString("title", main_ganks.get(i).desc);
+                intent.putExtras(bundle);
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, (int) view.getWidth() / 2, (int) view.getHeight() / 2, 0, 0);
+                ActivityCompat.startActivity(getContext(), intent, compat.toBundle());
+            }
+        });
     }
 
     private void initId() {
         ios_swipe_refresh_layout = (SwipeRefreshLayout) getView().findViewById(R.id.ios_swipe_refresh_layout);
         ios_recyclerview = (RecyclerView) getView().findViewById(R.id.ios_recyclerview);
+
     }
 
     private void FirstLoadDatas() {
@@ -196,19 +210,19 @@ public class IOSFragment extends Fragment {
                 ios_swipe_refresh_layout.setRefreshing(false);
             }
 
-            android_iOS_adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                    //Toast.makeText(getContext(), "第" + i + "个", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getContext(), GithubPageActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("url", main_ganks.get(i).url);
-                    bundle.putString("title", main_ganks.get(i).desc);
-                    intent.putExtras(bundle);
-                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, (int) view.getWidth() / 2, (int) view.getHeight() / 2, 0, 0);
-                    ActivityCompat.startActivity(getContext(), intent, compat.toBundle());
-                }
-            });
+//            android_iOS_adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+//                    //Toast.makeText(getContext(), "第" + i + "个", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(getContext(), GithubPageActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("url", main_ganks.get(i).url);
+//                    bundle.putString("title", main_ganks.get(i).desc);
+//                    intent.putExtras(bundle);
+//                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, (int) view.getWidth() / 2, (int) view.getHeight() / 2, 0, 0);
+//                    ActivityCompat.startActivity(getContext(), intent, compat.toBundle());
+//                }
+//            });
         }
     }
 

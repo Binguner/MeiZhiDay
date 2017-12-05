@@ -72,10 +72,9 @@ public class appRecommendFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initId();
         initViews();
-        if (!Utils.isNetworkAvailable(getContext()))
-        {
-            Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
-        }else {
+        if (!Utils.isNetworkAvailable(getContext())) {
+            Toast.makeText(getContext(), "请检查网络", Toast.LENGTH_SHORT).show();
+        } else {
             //firstLoad();
             FirstLoadDatas();
             setRefreshListener();
@@ -87,7 +86,7 @@ public class appRecommendFragment extends Fragment {
 
     private void FirstLoadDatas() {
         getAppDates =
-        new GetAppDates("http://gank.io/api/data/App/6/1",flags);
+                new GetAppDates("http://gank.io/api/data/App/6/1", flags);
         getAppDates.execute();
     }
 
@@ -103,8 +102,23 @@ public class appRecommendFragment extends Fragment {
         AllRecyclerView.setLayoutManager(linearLayoutManager);
         AllRecyclerView.setHasFixedSize(true);
         AllSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorYello, R.color.colorAccent, R.color.colorTablayout);
-        gankAppAdapter = new GankAppAdapter(getContext(),main_ganks);
+        gankAppAdapter = new GankAppAdapter(getContext(), main_ganks);
         AllRecyclerView.setAdapter(gankAppAdapter);
+        gankAppAdapter.setOnItemClickListener(new GankAppAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(View view) {
+                int position = AllRecyclerView.getChildAdapterPosition(view);
+                Intent intent = new Intent(getContext(), GithubPageActivity.class);
+                Bundle bundle = new Bundle();
+                //Log.i("ueueue",main_ganks.get(position).url);
+                bundle.putString("url", main_ganks.get(position).url);
+                bundle.putString("title", main_ganks.get(position).desc);
+                intent.putExtras(bundle);
+                //Toast.makeText(getContext(),"第"+position+"个",Toast.LENGTH_SHORT).show();
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, (int) view.getWidth() / 2, (int) view.getHeight() / 2, 0, 0);
+                ActivityCompat.startActivity(getContext(), intent, compat.toBundle());
+            }
+        });
     }
 
     private void setRefreshListener() {
@@ -112,7 +126,7 @@ public class appRecommendFragment extends Fragment {
             @Override
             public void onRefresh() {
                 getAppDates =
-                new GetAppDates("http://gank.io/api/data/App/6/1",1);
+                        new GetAppDates("http://gank.io/api/data/App/6/1", 1);
                 getAppDates.execute();
             }
         });
@@ -121,13 +135,13 @@ public class appRecommendFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(newState == RecyclerView.SCROLL_STATE_IDLE && appReIsLoading
-                        && lastVisibleItem +3 >= linearLayoutManager.getItemCount()){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && appReIsLoading
+                        && lastVisibleItem + 3 >= linearLayoutManager.getItemCount()) {
                     appReIsLoading = false;
                     getAppDates =
-                 new GetAppDates("http://gank.io/api/data/App/6/"+(++count),0);
+                            new GetAppDates("http://gank.io/api/data/App/6/" + (++count), 0);
                     getAppDates.execute();
-                    Log.i("findLastVisiblfeftion",""+linearLayoutManager.getItemCount());
+                    Log.i("findLastVisiblfeftion", "" + linearLayoutManager.getItemCount());
                 }
             }
 
@@ -135,7 +149,7 @@ public class appRecommendFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                 Log.i("findLastVisibleftion",""+lastVisibleItem);
+                Log.i("findLastVisibleftion", "" + lastVisibleItem);
             }
         });
     }
@@ -150,7 +164,8 @@ public class appRecommendFragment extends Fragment {
         private String JSONdatas;
         private int flag;
         private boolean isLoading = true;
-        public GetAppDates(String url,int flag) {
+
+        public GetAppDates(String url, int flag) {
             this.url = url;
             this.flag = flag;
         }
@@ -164,12 +179,12 @@ public class appRecommendFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             /*if(flag == 0){*/
-            if(isLoading) {
+            if (isLoading) {
                 try {//这是 String
                     datas = GankOkhttp.getDatas(url);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(getContext(),"当前网络状态不好，请稍后再试。",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "当前网络状态不好，请稍后再试。", Toast.LENGTH_SHORT).show();
                     datas = "";
                 }
 
@@ -185,11 +200,11 @@ public class appRecommendFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (datas.toString() == ""){
+            if (datas.toString() == "") {
                 AllSwipeRefreshLayout.setRefreshing(false);
                 appReIsLoading = true;
             }
-            if(flag == 0 && datas.toString() != ""){
+            if (flag == 0 && datas.toString() != "") {
                 Gson gson = new Gson();
                 try {
                     JSONObject jsonObject = new JSONObject(datas);
@@ -197,37 +212,40 @@ public class appRecommendFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Type type = new TypeToken<ArrayList<Gank>>(){}.getType();
-                ganks = gson.fromJson(JSONdatas,type);
-          //      Log.i("asdasdasd",ganks.get(0).images[0].toString());
+                Type type = new TypeToken<ArrayList<Gank>>() {
+                }.getType();
+                ganks = gson.fromJson(JSONdatas, type);
+                //      Log.i("asdasdasd",ganks.get(0).images[0].toString());
 
-                try{main_ganks.addAll(ganks);}catch (Exception e){
+                try {
+                    main_ganks.addAll(ganks);
+                } catch (Exception e) {
 
                 }
                 gankAppAdapter.notifyItemInserted(main_ganks.size());
                 AllSwipeRefreshLayout.setRefreshing(false);
                 isLoading = true;
                 appReIsLoading = true;
-            }else {
-                Toast.makeText(getContext(),"No more datas",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "No more datas", Toast.LENGTH_SHORT).show();
                 AllSwipeRefreshLayout.setRefreshing(false);
             }
 
-        gankAppAdapter.setOnItemClickListener(new GankAppAdapter.onItemClickListener() {
-            @Override
-            public void onItemClick(View view) {
-                int position = AllRecyclerView.getChildAdapterPosition(view);
-                Intent intent = new Intent(getContext(), GithubPageActivity.class);
-                Bundle bundle = new Bundle();
-                //Log.i("ueueue",main_ganks.get(position).url);
-                bundle.putString("url",main_ganks.get(position).url);
-                bundle.putString("title",main_ganks.get(position).desc);
-                intent.putExtras(bundle);
-                //Toast.makeText(getContext(),"第"+position+"个",Toast.LENGTH_SHORT).show();
-                ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view,(int)view.getWidth()/2,(int)view.getHeight()/2,0,0);
-                ActivityCompat.startActivity(getContext(),intent,compat.toBundle());
-            }
-        });
+//            gankAppAdapter.setOnItemClickListener(new GankAppAdapter.onItemClickListener() {
+//                @Override
+//                public void onItemClick(View view) {
+//                    int position = AllRecyclerView.getChildAdapterPosition(view);
+//                    Intent intent = new Intent(getContext(), GithubPageActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    //Log.i("ueueue",main_ganks.get(position).url);
+//                    bundle.putString("url", main_ganks.get(position).url);
+//                    bundle.putString("title", main_ganks.get(position).desc);
+//                    intent.putExtras(bundle);
+//                    //Toast.makeText(getContext(),"第"+position+"个",Toast.LENGTH_SHORT).show();
+//                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, (int) view.getWidth() / 2, (int) view.getHeight() / 2, 0, 0);
+//                    ActivityCompat.startActivity(getContext(), intent, compat.toBundle());
+//                }
+//            });
         }
 
     }

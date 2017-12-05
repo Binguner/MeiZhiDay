@@ -272,9 +272,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         collapsingToolbarLayout.setTitle("Meizhi");
         //collapsingToolbarLayout.i;
-        collapsingToolbarLayout.setCollapsedTitleGravity(Gravity.START);   //收缩后标题的位置
+        //collapsingToolbarLayout.setCollapsedTitleGravity(Gravity.START);   //收缩后标题的位置
         //collapsingToolbarLayout.setCollapsedTitleGravity(Gravity.TOP);
-        //collapsingToolbarLayout.setExpandedTitleGravity(Gravity.LEFT);  //设置展开后标题的位置
+        collapsingToolbarLayout.setExpandedTitleGravity(Gravity.LEFT);  //设置展开后标题的位置
         collapsingToolbarLayout.setExpandedTitleMarginBottom(40);
         collapsingToolbarLayout.setExpandedTitleMarginStart(80);
         collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorWhite));

@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.nenguou.meizhiday.Entity.Gank;
 import com.example.nenguou.meizhiday.R;
+import com.example.nenguou.meizhiday.Utils.TimeUnit;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class Android_iOS_Adapter extends BaseQuickAdapter<Gank,Android_iOS_Adapt
             myViewHolder
                     .setText(R.id.android_ios_title,ganks.get(postion).desc)
                     .setText(R.id.android_ios_who,"via("+ganks.get(postion).who+")")
-                    .setText(R.id.android_ios_time,ganks.get(postion).publishedAt);
+                    .setText(R.id.android_ios_time, TimeUnit.toNormal(ganks.get(postion).publishedAt));
       try {
           Picasso.with(context).load(ganks.get(postion).images[0]).config(Bitmap.Config.RGB_565).fit().into(myViewHolder.android_ios_piscs);
          // Glide.with(context).load(ganks.get(postion).images[0]).into(myViewHolder.android_ios_piscs);
