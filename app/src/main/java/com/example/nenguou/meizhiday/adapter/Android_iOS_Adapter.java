@@ -40,7 +40,7 @@ public class Android_iOS_Adapter extends BaseQuickAdapter<Gank,Android_iOS_Adapt
       try {
           Picasso.with(context).load(ganks.get(postion).images[0]).config(Bitmap.Config.RGB_565).fit().into(myViewHolder.android_ios_piscs);
          // Glide.with(context).load(ganks.get(postion).images[0]).into(myViewHolder.android_ios_piscs);
-      }catch (NullPointerException e){
+      }catch (Exception e){
 
       }
     }
