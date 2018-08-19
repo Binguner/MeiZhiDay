@@ -98,9 +98,10 @@ public class Pics extends AppCompatActivity {
         new Thread(service).start();
     }
 
-    public void SharePics(View view) throws IOException {
+    public void SharePics(View view)  {
        // Toast.makeText(Pics.this,"Share",Toast.LENGTH_SHORT).show();
         //先保存图片到本地
+        try{
         DownLoadImageService service = new DownLoadImageService(getApplicationContext(), url,title,new DownLoadImageService.ImageDownLoadCallBack() {
             @Override
             public void onDownLoadSuccess(File file) {
@@ -118,7 +119,7 @@ public class Pics extends AppCompatActivity {
         });
         new Thread(service).start();
         //获取图片被保存的路径
-        String results = "file://"+Environment.getExternalStorageDirectory()+"/Pictures/MeiZhiPics/"+title+"meizi.jpeg";
+        String results = "content://"+Environment.getExternalStorageDirectory()+"/Pictures/MeiZhiPics/"+title+"meizi.jpeg";
         //将路径转换为 Uri    注意：results 中的地址前没有“file://”，Uri 的地址前有，有了“file://”才能分享到微信。。。。
         //Uri imageUri = Uri.fromFile(new File(results));
         Log.i("pathpath1",results);
@@ -126,6 +127,9 @@ public class Pics extends AppCompatActivity {
         picsIntent.setType("image/*");
         picsIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(results));
         startActivity(Intent.createChooser(picsIntent,"分享照片"));
+        }catch (Exception e){
+            Toast.makeText(this,e.toString(),Toast.LENGTH_SHORT).show();
+        }
     }
 
     private String getResourcesUri(@DrawableRes int id) {
